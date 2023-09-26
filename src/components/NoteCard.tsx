@@ -10,7 +10,7 @@ function NoteCard({ note }: { note: Note }) {
       <div>
         <h1 className="text-2xl font-bold">{note.title}</h1>
         <p>{note.content}</p>
-        <p>{new Date(note.createdAt).toLocaleDateString()}</p>
+        <p>{note.createdAt ? new Date(note.createdAt).toLocaleDateString() : ''}</p>
       </div>
       <div className="flex gap-x-2">
         <button
