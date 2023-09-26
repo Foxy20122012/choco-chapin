@@ -11,10 +11,11 @@ function NoteForm() {
 
   useEffect(() => {
     if (selectedNote) {
-      setTitle(selectedNote.title);
+      setTitle(selectedNote.title || ""); // Usar una cadena vacía si selectedNote.title es null
       setContent(selectedNote.content || "");
     }
   }, [selectedNote]);
+  
 
   return (
     <form
