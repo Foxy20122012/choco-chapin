@@ -1,4 +1,4 @@
-import '../styles/globals.css'
+import '../styles/globals.css' 
 const HomePage =()=>{
     return(
         <div className="text-center">
