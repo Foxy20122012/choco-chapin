@@ -14,3 +14,115 @@ model Note {
   createdAt DateTime? @default(now()) @db.DateTime(0)
   updatedAt DateTime? @db.DateTime(0)
 }
+
+model Clientes {
+  id                 Int       @id @default(autoincrement())
+  nombre             String?   @db.VarChar(255)
+  direccion          String?   @db.VarChar(255)
+  telefono           String?   @db.VarChar(15)
+  correo_electronico String?   @db.VarChar(100)
+  fecha_registro     DateTime? @db.Date
+  historial_compras  String?   @db.Text
+}
+
+model Facturas {
+  id             Int       @id @default(autoincrement())
+  venta_id       Int?
+  numero_factura String?   @db.VarChar(20)
+  fecha_emision  DateTime? @db.Date
+  subtotal       Decimal?  @db.Decimal(10, 2)
+  impuestos      Decimal?  @db.Decimal(10, 2)
+  total          Decimal?  @db.Decimal(10, 2)
+  descripcion    String?   @db.Text
+}
+
+model MateriasPrimas {
+  id                Int       @id @default(autoincrement())
+  nombre            String?   @db.VarChar(255)
+  cantidad_inicial  Decimal?  @db.Decimal(10, 2)
+  proveedor_id      Int?
+  fecha_recepcion   DateTime? @db.Date
+  codigo_unidad     String?   @db.VarChar(10)
+  precio_unitario   Decimal?  @db.Decimal(10, 2)
+  fecha_vencimiento DateTime? @db.Date
+  ubicacion_almacen String?   @db.VarChar(100)
+  descripcion       String?   @db.Text
+}
+
+model Pedidos {
+  id              Int       @id @default(autoincrement())
+  cliente_id      Int?
+  fecha_pedido    DateTime? @db.Date
+  fecha_entrega   DateTime? @db.Date
+  estado_pedido   String?   @db.VarChar(50)
+  detalles_pedido String?   @db.Text
+}
+
+model Permisos {
+  id          Int     @id @default(autoincrement())
+  modulo      String? @db.VarChar(100)
+  rol_id      Int?
+  descripcion String? @db.Text
+}
+
+model ProductosTerminados {
+  id                 Int       @id @default(autoincrement())
+  nombre             String?   @db.VarChar(255)
+  tipo_dulce         String?   @db.VarChar(100)
+  cantidad_producida Int?
+  fecha_produccion   DateTime? @db.Date
+  precio_venta       Decimal?  @db.Decimal(10, 2)
+  descripcion        String?   @db.Text
+}
+
+model Proveedores {
+  id                 Int     @id @default(autoincrement())
+  nombre             String? @db.VarChar(255)
+  direccion          String? @db.VarChar(255)
+  telefono           String? @db.VarChar(15)
+  correo_electronico String? @db.VarChar(100)
+  sitio_web          String? @db.VarChar(255)
+}
+
+model Roles {
+  id          Int     @id @default(autoincrement())
+  nombre_rol  String? @db.VarChar(50)
+  descripcion String? @db.Text
+}
+
+model SalidasMateriasPrimas {
+  id                 Int       @id @default(autoincrement())
+  materia_prima_id   Int?
+  cantidad           Decimal?  @db.Decimal(10, 2)
+  fecha_salida       DateTime? @db.Date
+  destino            String?   @db.VarChar(100)
+  responsable_salida String?   @db.VarChar(255)
+  descripcion        String?   @db.Text
+}
+
+model TransaccionesFinancieras {
+  id                Int       @id @default(autoincrement())
+  tipo              String?   @db.VarChar(20)
+  monto             Decimal?  @db.Decimal(10, 2)
+  fecha_transaccion DateTime? @db.DateTime(0)
+  descripcion       String?   @db.Text
+}
+
+model Usuarios {
+  id                 Int     @id @default(autoincrement())
+  nombre_usuario     String? @db.VarChar(50)
+  contrasena         String? @db.VarChar(255)
+  nombre_completo    String? @db.VarChar(255)
+  correo_electronico String? @db.VarChar(100)
+  rol_id             Int?
+}
+
+model Ventas {
+  id            Int       @id @default(autoincrement())
+  cliente_id    Int?
+  monto_total   Decimal?  @db.Decimal(10, 2)
+  fecha_venta   DateTime? @db.Date
+  metodo_pago   String?   @db.VarChar(100)
+  estado_pedido String?   @db.VarChar(50)
+  descripcion   String?   @db.Text
+}
