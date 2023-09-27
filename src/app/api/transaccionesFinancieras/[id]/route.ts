@@ -9,19 +9,19 @@ interface Params {
 export async function GET(request: Request, { params }: Params) {
   console.log(params.id);
   try {
-    const pedidos = await prisma.pedidos.findFirst({
+    const transaccionesFinancieras = await prisma.transaccionesFinancieras.findFirst({
       where: {
         id: Number(params.id),
       },
     });
 
-    if (!pedidos)
-      return NextResponse.json({ message: "Order material not found" }, { status: 404 });
+    if (!transaccionesFinancieras)
+      return NextResponse.json({ message: "Financial transaction not found" }, { status: 404 });
 
-    return NextResponse.json(pedidos);
+    return NextResponse.json(transaccionesFinancieras);
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json(
+      return NextResponse.json( 
         {
           message: error.message,
         },
@@ -35,22 +35,22 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
   try {
-    const deletedpedidos = await prisma.pedidos.delete({
+    const deletedtransaccionesFinancieras = await prisma.transaccionesFinancieras.delete({
       where: {
         id: Number(params.id),
       },
     });
-    if (!deletedpedidos)
-      return NextResponse.json({ message: "Order material not found" }, { status: 404 });
+    if (!deletedtransaccionesFinancieras)
+      return NextResponse.json({ message: "Financial transaction not found" }, { status: 404 });
 
-    return NextResponse.json(deletedpedidos);
+    return NextResponse.json(deletedtransaccionesFinancieras);
   } catch (error) {
     console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Order not found",
+            message: "Financial transaction not found",
           },
           {
             status: 404,
@@ -73,35 +73,33 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PUT(request: Request, { params }: Params) {
   try {
     const {   
-        id,     
-        cliente_id,    
-        fecha_pedido, 
-        fecha_entrega,  
-        estado_pedido,
-        detalles_pedido,
+        id,
+        tipo,
+        monto, 
+        fecha_transaccion,
+        descripcion,
      } = await request.json();
 
-    const updatedpedidos = await prisma.pedidos.update({
+    const updatedtransaccionesFinancieras = await prisma.transaccionesFinancieras.update({
       where: {
         id: Number(params.id),
       },
       data: {
-        id,     
-        cliente_id,    
-        fecha_pedido, 
-        fecha_entrega,  
-        estado_pedido,
-        detalles_pedido,
+        id,
+        tipo,
+        monto, 
+        fecha_transaccion,
+        descripcion,
       },
     });
 
-    return NextResponse.json(updatedpedidos);
+    return NextResponse.json(updatedtransaccionesFinancieras);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Order material not found",
+            message: "Financial transaction not found",
           },
           {
             status: 404,

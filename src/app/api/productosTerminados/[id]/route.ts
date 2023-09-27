@@ -9,16 +9,16 @@ interface Params {
 export async function GET(request: Request, { params }: Params) {
   console.log(params.id);
   try {
-    const pedidos = await prisma.pedidos.findFirst({
+    const productosTerminados = await prisma.productosTerminados.findFirst({
       where: {
         id: Number(params.id),
       },
     });
 
-    if (!pedidos)
-      return NextResponse.json({ message: "Order material not found" }, { status: 404 });
+    if (!productosTerminados)
+      return NextResponse.json({ message: "Product not found" }, { status: 404 });
 
-    return NextResponse.json(pedidos);
+    return NextResponse.json(productosTerminados);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -35,22 +35,22 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
   try {
-    const deletedpedidos = await prisma.pedidos.delete({
+    const deletedproductosTerminados = await prisma.productosTerminados.delete({
       where: {
         id: Number(params.id),
       },
     });
-    if (!deletedpedidos)
-      return NextResponse.json({ message: "Order material not found" }, { status: 404 });
+    if (!deletedproductosTerminados)
+      return NextResponse.json({ message: "Product not found" }, { status: 404 });
 
-    return NextResponse.json(deletedpedidos);
+    return NextResponse.json(deletedproductosTerminados);
   } catch (error) {
     console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Order not found",
+            message: "Product not found",
           },
           {
             status: 404,
@@ -73,35 +73,37 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PUT(request: Request, { params }: Params) {
   try {
     const {   
-        id,     
-        cliente_id,    
-        fecha_pedido, 
-        fecha_entrega,  
-        estado_pedido,
-        detalles_pedido,
+        id,
+        nombre,   
+        tipo_dulce, 
+        cantidad_producida,
+        fecha_produccion,
+        precio_venta,
+        descripcion,
      } = await request.json();
 
-    const updatedpedidos = await prisma.pedidos.update({
+    const updatedproductosTerminados = await prisma.productosTerminados.update({
       where: {
         id: Number(params.id),
       },
       data: {
-        id,     
-        cliente_id,    
-        fecha_pedido, 
-        fecha_entrega,  
-        estado_pedido,
-        detalles_pedido,
+        id,
+        nombre,   
+        tipo_dulce, 
+        cantidad_producida,
+        fecha_produccion,
+        precio_venta,
+        descripcion,
       },
     });
 
-    return NextResponse.json(updatedpedidos);
+    return NextResponse.json(updatedproductosTerminados);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Order material not found",
+            message: "Product material not found",
           },
           {
             status: 404,
