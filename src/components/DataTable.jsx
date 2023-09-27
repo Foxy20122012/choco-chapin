@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
 
-
-
-const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25, 50, 75, 100, 200, 500, 1000], onEdit, onDelete }) => {
+const DataTable = ({
+  data,
+  title,
+  columns,
+  itemsPerPageOptions = [5, 10, 20, 25, 50, 75, 100, 200, 500, 1000],
+  onEdit,
+  onDelete,
+  onNew,
+}) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
+  const [searchTerm, setSearchTerm] = useState("");
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
   const handleItemsPerPageChange = (e) => {
@@ -26,13 +33,29 @@ const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25,
     }
   };
 
+  const handleSearchChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   useEffect(() => {
     setCurrentPage(1);
   }, [data]);
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visibleData = data.slice(startIndex, endIndex);
+
+  // Filtrar datos por término de búsqueda
+  const filteredData = data.filter((row) =>
+    columns.some((column) => {
+      const cellValue = row[column.key];
+      if (typeof cellValue === "string") {
+        return cellValue.toLowerCase().includes(searchTerm.toLowerCase());
+      }
+      return false;
+    })
+  );
+
+  const visibleData = filteredData.slice(startIndex, endIndex);
 
   return (
     <div className="p-8">
@@ -41,7 +64,25 @@ const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25,
           {title}
         </h2>
         <div className="p-4">
-          <div style={{ overflowX: "auto" }}> {/* Contenedor con desplazamiento horizontal */}
+          <div className="flex justify-between items-center mb-4 ">
+            
+            <div className="flex items-center space-x-96 ml-12">
+              <input
+                type="text"
+                value={searchTerm}
+                onChange={handleSearchChange}
+                placeholder="Buscar..."
+                className="px-96 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black"
+              />
+              <button
+                onClick={onNew}
+                className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
+              >
+                Nuevo
+              </button>
+            </div>
+          </div>
+          <div style={{ overflowX: "auto" }}>
             <table className="min-w-full divide-y divide-gray-300">
               <thead className="bg-gray-300">
                 <tr>
@@ -54,7 +95,10 @@ const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25,
                       {column.label}
                     </th>
                   ))}
-                  <th scope="col" className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  <th
+                    scope="col"
+                    className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider"
+                  >
                     Acciones
                   </th>
                 </tr>
@@ -72,13 +116,13 @@ const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25,
                     ))}
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
                       <button
-                        onClick={() => onEdit(row)} // Llama a la función onEdit con la fila como argumento
+                        onClick={() => onEdit(row)}
                         className="text-indigo-600 hover:text-indigo-900 font-medium"
                       >
                         <PencilIcon className="w-6 h-6" />
                       </button>
                       <button
-                        onClick={() => onDelete(row)} // Llama a la función onDelete con la fila como argumento
+                        onClick={() => onDelete(row)}
                         className="text-red-600 hover:text-red-900 font-medium ml-2"
                       >
                         <TrashIcon className="w-6 h-6" />
