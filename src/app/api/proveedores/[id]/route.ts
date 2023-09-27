@@ -21,7 +21,7 @@ export async function GET(request: Request, { params }: Params) {
     return NextResponse.json(proveedores);
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json(
+      return NextResponse.json( 
         {
           message: error.message,
         },
