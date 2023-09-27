@@ -1,6 +1,14 @@
-import React from "react";
+import React, { FC } from "react";
 
-const Modal = ({ isOpen, title, message, onConfirm, onCancel }) => {
+interface ModalProps {
+  isOpen: boolean;
+  title: string;
+  message: string;
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+const Modal: FC<ModalProps> = ({ isOpen, title, message, onConfirm, onCancel }) => {
   if (!isOpen) return null;
 
   return (

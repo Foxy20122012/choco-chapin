@@ -1,11 +1,13 @@
 "use client";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Clientes } from "@prisma/client";
 import DataTable from "@/components/DataTable";
 import { useClientes } from "@/context/ClientesContext";
 import { clientesColumns } from "@/models/clientesModel";
-import Modal from "@/components/Modal"; // Asegúrate de importar el componente Modal
-import DeleteSuccessModal from "@/components/DeleteSuccessModal"; // Asegúrate de importar el componente DeleteSuccessModal
+import Modal from "@/components/Modal"; 
+import DeleteSuccessModal from "@/components/DeleteSuccessModal"; 
+import { transformClientesToRows,Row } from "@/models/clientesModel";
+
 
 
 const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
@@ -13,18 +15,19 @@ const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
 );
 
 function HomePage() {
+
   const { clientes, loadClientes, updateCliente, deleteCliente } = useClientes(); // Asegúrate de usar el contexto correcto
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
-const [clientToDelete, setClientToDelete] = useState(null); // Guarda el cliente que se eliminará
-const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
-
-
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+  const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null); // Guarda el cliente que se eliminará
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
+  //Se transforman los datos a la manera correcta en que debe recibir el clientes el DataTable
+  const rowsClientes = transformClientesToRows(clientes);
 
   useEffect(() => {
     loadClientes(); // Carga los clientes desde la base de datos cuando el componente se monta
   }, []);
 
-  const openDeleteModal = (client) => {
+  const openDeleteModal = (client: Clientes) => {
     setClientToDelete(client);
     setIsDeleteModalOpen(true);
   };
@@ -34,20 +37,27 @@ const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
     setIsDeleteModalOpen(false);
   };
 
-  const handleDelete = (row) => {
-    openDeleteModal(row);
+  
+
+  
+  const handleDelete = (cliente: Clientes) => {
+    openDeleteModal(cliente);
   };
+  
 
   return (
     <div>
-    <DataTable
+      <DataTable
         title={"Clientes"}
-        data={clientes}
+        data={rowsClientes}
         columns={columns}
         onEdit={(row) => {
           console.log("Editar fila:", row);
         }}
         onDelete={handleDelete}
+        onNew={(row) => {
+          console.log("Nuevo:", row)
+        }}
       />
       <Modal
         isOpen={isDeleteModalOpen}
@@ -55,10 +65,12 @@ const [isDeleteSuccess, setIsDeleteSuccess] = useState(false);
         message={`¿Estás seguro de que deseas eliminar al cliente ${clientToDelete?.nombre}?`}
         onConfirm={async () => {
           try {
-            await deleteCliente(clientToDelete.id);
-            closeDeleteModal();
-            setIsDeleteSuccess(true);
-            loadClientes();
+            if (clientToDelete) {
+              await deleteCliente(clientToDelete.id);
+              closeDeleteModal();
+              setIsDeleteSuccess(true);
+              loadClientes();
+            }
           } catch (error) {
             console.error("Error al eliminar el cliente:", error);
           }

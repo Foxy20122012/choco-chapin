@@ -1,7 +1,15 @@
-import React from "react";
+import React, { FC } from "react";
 
-const DeleteSuccessModal = ({ isOpen, onClose, message, buttonText }) => {
-  return (
+interface DeleteSuccessModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  message: string;
+  buttonText: string;
+}
+
+const DeleteSuccessModal: FC<DeleteSuccessModalProps> = ({ isOpen, onClose, message, buttonText }) => {
+
+return (
     <div className={`fixed inset-0 flex items-center justify-center z-50 ${isOpen ? "" : "hidden"}`}>
       <div className="modal-overlay absolute w-full h-full bg-gray-900 opacity-50" onClick={onClose}></div>
 
