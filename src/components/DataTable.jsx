@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 
-const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50, 75, 100, 200, 500, 1000] }) => {
+const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25, 50, 75, 100, 200, 500, 1000], onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(itemsPerPageOptions[0]);
   const totalPages = Math.ceil(data.length / itemsPerPage);
@@ -34,22 +34,25 @@ const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50
   return (
     <div className="p-8">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <h2 className="text-2xl font-semibold p-4 bg-indigo-500 text-white ">
+        <h2 className="text-2xl font-semibold p-4 bg-indigo-500 text-white">
           {title}
         </h2>
         <div className="p-4">
           <table className="min-w-full divide-y divide-gray-300">
-            <thead className="bg-gray-300 ">
+            <thead className="bg-gray-300">
               <tr>
                 {columns.map((column, index) => (
                   <th
                     key={index}
                     scope="col"
-                    className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider "
+                    className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider"
                   >
                     {column.label}
                   </th>
                 ))}
+                <th scope="col" className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                  Acciones
+                </th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-300">
@@ -63,6 +66,20 @@ const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50
                       {row[column.key]}
                     </td>
                   ))}
+                  <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
+                    <button
+                      onClick={() => onEdit(row)} // Llama a la función onEdit con la fila como argumento
+                      className="text-indigo-600 hover:text-indigo-900 font-medium"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => onDelete(row)} // Llama a la función onDelete con la fila como argumento
+                      className="text-red-600 hover:text-red-900 font-medium ml-2"
+                    >
+                      Eliminar
+                    </button>
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -70,7 +87,7 @@ const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50
         </div>
         <div className="flex justify-between items-center p-4 bg-gray-100">
           <div className="flex items-center space-x-2">
-            <label className="text-gray-700">Show:</label>
+            <label className="text-gray-700">Mostrar:</label>
             <select
               value={itemsPerPage}
               onChange={handleItemsPerPageChange}
@@ -92,9 +109,9 @@ const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-indigo-500 hover:bg-indigo-600 text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
-              aria-label="Previous"
+              aria-label="Anterior"
             >
-              Previous
+              Anterior
             </button>
             <button
               onClick={handleNextPage}
@@ -104,9 +121,9 @@ const DataTable = ({ data,title, columns, itemsPerPageOptions = [5, 10, 20,25,50
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
                   : "bg-indigo-500 hover:bg-indigo-600 text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
-              aria-label="Next"
+              aria-label="Siguiente"
             >
-              Next
+              Siguiente
             </button>
           </div>
         </div>

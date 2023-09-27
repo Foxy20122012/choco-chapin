@@ -18,7 +18,7 @@ function HomePage() {
   }, []);
   return (
     <div>
-      <DataTable data={clientes} columns={columns} />
+      <DataTable title={"About"} data={clientes} columns={columns} />
     </div>
   );
 }
