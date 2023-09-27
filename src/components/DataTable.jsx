@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
+
+
 
 const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25, 50, 75, 100, 200, 500, 1000], onEdit, onDelete }) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,52 +41,54 @@ const DataTable = ({ data, title, columns, itemsPerPageOptions = [5, 10, 20, 25,
           {title}
         </h2>
         <div className="p-4">
-          <table className="min-w-full divide-y divide-gray-300">
-            <thead className="bg-gray-300">
-              <tr>
-                {columns.map((column, index) => (
-                  <th
-                    key={index}
-                    scope="col"
-                    className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider"
-                  >
-                    {column.label}
-                  </th>
-                ))}
-                <th scope="col" className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider">
-                  Acciones
-                </th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-300">
-              {visibleData.map((row, rowIndex) => (
-                <tr key={rowIndex}>
-                  {columns.map((column, columnIndex) => (
-                    <td
-                      key={columnIndex}
-                      className="px-6 py-4 whitespace-nowrap text-center justify-center"
+          <div style={{ overflowX: "auto" }}> {/* Contenedor con desplazamiento horizontal */}
+            <table className="min-w-full divide-y divide-gray-300">
+              <thead className="bg-gray-300">
+                <tr>
+                  {columns.map((column, index) => (
+                    <th
+                      key={index}
+                      scope="col"
+                      className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider"
                     >
-                      {row[column.key]}
-                    </td>
+                      {column.label}
+                    </th>
                   ))}
-                  <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
-                    <button
-                      onClick={() => onEdit(row)} // Llama a la función onEdit con la fila como argumento
-                      className="text-indigo-600 hover:text-indigo-900 font-medium"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => onDelete(row)} // Llama a la función onDelete con la fila como argumento
-                      className="text-red-600 hover:text-red-900 font-medium ml-2"
-                    >
-                      Eliminar
-                    </button>
-                  </td>
+                  <th scope="col" className="px-6 py-5 text-sm font-semibold text-gray-700 uppercase tracking-wider">
+                    Acciones
+                  </th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-300">
+                {visibleData.map((row, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {columns.map((column, columnIndex) => (
+                      <td
+                        key={columnIndex}
+                        className="px-6 py-4 whitespace-nowrap text-center justify-center"
+                      >
+                        {row[column.key]}
+                      </td>
+                    ))}
+                    <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
+                      <button
+                        onClick={() => onEdit(row)} // Llama a la función onEdit con la fila como argumento
+                        className="text-indigo-600 hover:text-indigo-900 font-medium"
+                      >
+                        <PencilIcon className="w-6 h-6" />
+                      </button>
+                      <button
+                        onClick={() => onDelete(row)} // Llama a la función onDelete con la fila como argumento
+                        className="text-red-600 hover:text-red-900 font-medium ml-2"
+                      >
+                        <TrashIcon className="w-6 h-6" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
         <div className="flex justify-between items-center p-4 bg-gray-100">
           <div className="flex items-center space-x-2">
