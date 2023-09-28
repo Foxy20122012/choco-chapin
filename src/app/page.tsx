@@ -4,9 +4,9 @@ import { Clientes } from "@prisma/client";
 import DataTable from "@/components/DataTable";
 import { useClientes } from "@/context/ClientesContext";
 import { clientesColumns } from "@/models/clientesModel";
-import Modal from "@/components/Modal"; 
-import DeleteSuccessModal from "@/components/DeleteSuccessModal"; 
-import { transformClientesToRows,Row } from "@/models/clientesModel";
+import Modal from "@/components/Modal";
+import DeleteSuccessModal from "@/components/DeleteSuccessModal";
+import { transformClientesToRows, Row } from "@/models/clientesModel";
 import DynamicForm from "@/components/DynamicForm"; // Importa el componente DynamicForm
 import clientesProps from "@/models/clientesProps"; // Importa tus props de clientes
 
@@ -15,7 +15,13 @@ const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
 );
 
 function HomePage() {
-  const { clientes, createCliente, loadClientes, updateCliente, deleteCliente } = useClientes();
+  const {
+    clientes,
+    createCliente,
+    loadClientes,
+    updateCliente,
+    deleteCliente,
+  } = useClientes();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
@@ -103,7 +109,12 @@ function HomePage() {
         showUpdateButton={false} // Ocultar el botón Actualizar
         onConfirm={handleCreateCliente}
       >
-        <DynamicForm formProps={clientesProps} onSubmit={handleCreateCliente} />
+        <DynamicForm
+          formProps={clientesProps}
+          onSubmit={handleCreateCliente}
+          showCreateButton={true} // Muestra el botón "Crear"
+          showUpdateButton={false} // No muestra el botón "Actualizar"
+        />
       </Modal>
     </div>
   );

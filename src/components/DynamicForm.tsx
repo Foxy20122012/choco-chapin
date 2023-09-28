@@ -3,9 +3,12 @@ import React, { useState } from "react";
 interface DynamicFormProps {
   formProps: any[]; // Puedes definir un tipo más específico si lo deseas
   onSubmit: (data: any) => void; // Agrega un tipo para la función de envío
+  showCreateButton: boolean; // Propiedad para controlar la visibilidad del botón "Crear"
+  showUpdateButton: boolean; // Propiedad para controlar la visibilidad del botón "Actualizar"
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit }) => {
+
+const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreateButton, showUpdateButton }) => {
   const [formData, setFormData] = useState<any>({});
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,32 +23,42 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit }) => {
 
   return (
     <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
-      {formProps.map((field) => (
-        <div key={field.name} className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2">
-            {field.label}
-          </label>
-          <input
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            type={field.type}
-            name={field.name}
-            required={field.required}
-            onChange={handleChange}
-            value={formData[field.name] || ""}
-            readOnly={field.readOnly}
-            maxLength={field.maxLength}
-            minLength={field.minLength}
-            // Agrega más atributos según tus necesidades
-          />
-        </div>
-      ))}
+    {formProps.map((field) => (
+      <div key={field.name} className="mb-4">
+        <label className="block text-gray-700 text-sm font-bold mb-2">
+          {field.label}
+        </label>
+        <input
+          className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          type={field.type}
+          name={field.name}
+          required={field.required}
+          onChange={handleChange}
+          value={formData[field.name] || ""}
+          readOnly={field.readOnly}
+          maxLength={field.maxLength}
+          minLength={field.minLength}
+          // Agrega más atributos según tus necesidades
+        />
+      </div>
+    ))}
+    {showCreateButton && (
       <button
         className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
         type="submit"
       >
         Crear
       </button>
-    </form>
+    )}
+    {showUpdateButton && (
+      <button
+        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="button"
+      >
+        Actualizar
+      </button>
+    )}
+  </form>
   );
 };
 
