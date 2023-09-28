@@ -7,6 +7,9 @@ interface DynamicFormProps {
   showUpdateButton: boolean; // Propiedad para controlar la visibilidad del botón "Actualizar"
   initialFormData?: any;
   onUpdateClick?: () => void; // Nuevo prop para el evento de actualización
+  columns?: number; // Propiedad para definir el número de columnas (valor predeterminado 1)
+  decimalPlaces?: number; // Propiedad para definir la cantidad de decimales (valor predeterminado 2)
+
 }
 
 const DynamicForm: React.FC<DynamicFormProps> = ({
@@ -16,6 +19,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   showUpdateButton,
   initialFormData,
   onUpdateClick, // Nuevo prop para el evento de actualización
+  columns = 1,
+  decimalPlaces = 2,
 }) => {
   const [formData, setFormData] = useState<any>({});
 
@@ -37,14 +42,16 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   };
 
   return (
-    <form className="max-w-md mx-auto" onSubmit={handleSubmit} >
+    
+    <form className={`max-w-md mx-auto grid grid-cols-${columns}`} onSubmit={handleSubmit} >
       {formProps.map((field) => (
-        <div key={field.name} className="mb-4">
+        <div key={field.name} className="mb-4 ">
           <label className="block text-gray-700 text-sm font-bold mb-2">
             {field.label}
           </label>
+          <div className="mx-2">
           <input
-            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            className=" border  rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
             type={field.type}
             name={field.name}
             required={field.required}
@@ -53,13 +60,15 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
             readOnly={field.readOnly}
             maxLength={field.maxLength}
             minLength={field.minLength}
+            decimalPlaces={field.decimalPlaces}
             // Agrega más atributos según tus necesidades
           />
         </div>
+      </div>
       ))}
       {showCreateButton && (
         <button
-          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
         >
           Crear
@@ -67,7 +76,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
       )}
       {showUpdateButton && (
         <button
-          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
           type="submit"
           onClick={onUpdateClick} // Llama al evento onUpdateClick cuando se hace clic en el botón "Actualizar"
         >

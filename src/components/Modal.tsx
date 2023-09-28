@@ -9,6 +9,7 @@ interface ModalProps {
   showCancelButton?: boolean;
   showConfirmButton?: boolean;
   showUpdateButton?: boolean; // Propiedad opcional para mostrar u ocultar el botón de Actualizar
+  message: string; // Agregar la propiedad message aquí
 }
 
 const Modal: FC<ModalProps> = ({

@@ -120,7 +120,10 @@ function HomePage() {
           }
         }}
         onCancel={closeDeleteModal}
+        onUpdate={handleUpdateClick}
         showUpdateButton={false}
+        showConfirmButton={true} // Configura según tus necesidades
+        
       />
       <SuccessModal
         isOpen={isDeleteSuccess}
@@ -148,6 +151,7 @@ function HomePage() {
   showUpdateButton={!!selectedCliente}
   initialFormData={selectedCliente}
   onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
+  columns={1}
 />
       </Modal>
     </div>
