@@ -8,8 +8,6 @@ interface DynamicFormProps {
   initialFormData?: any;
   onUpdateClick?: () => void; // Nuevo prop para el evento de actualización
   columns?: number; // Propiedad para definir el número de columnas (valor predeterminado 1)
-  decimalPlaces?: number; // Propiedad para definir la cantidad de decimales (valor predeterminado 2)
-
 }
 
 const DynamicForm: React.FC<DynamicFormProps> = ({
@@ -20,7 +18,6 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   initialFormData,
   onUpdateClick, // Nuevo prop para el evento de actualización
   columns = 1,
-  decimalPlaces = 2,
 }) => {
   const [formData, setFormData] = useState<any>({});
 
@@ -60,7 +57,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
             readOnly={field.readOnly}
             maxLength={field.maxLength}
             minLength={field.minLength}
-            decimalPlaces={field.decimalPlaces}
+            
             // Agrega más atributos según tus necesidades
           />
         </div>

@@ -100,7 +100,7 @@ const DataTable: FC<DataTableProps> = ({
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="Buscar..."
-                className="px-96 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black"
+                className="px-80 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black"
               />
               <button
                 onClick={onNew}

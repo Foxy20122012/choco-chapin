@@ -15,7 +15,7 @@ export type Row = {
 export const transformClientesToRows = (clientes: Clientes[]): Row[] => {
   return clientes.map((cliente) => ({
     id: cliente.id,
-    nombre: cliente.nombre || "", // Asegúrate de proporcionar un valor predeterminado en caso de ser null
+    nombre: cliente.nombre || "", // Proporciona un valor predeterminado en caso de ser null
     direccion: cliente.direccion || "",
     telefono: cliente.telefono || "",
     correo_electronico: cliente.correo_electronico || "",
