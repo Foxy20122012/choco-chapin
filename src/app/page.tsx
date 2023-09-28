@@ -5,7 +5,7 @@ import DataTable from "@/components/DataTable";
 import { useClientes } from "@/context/ClientesContext";
 import { clientesColumns } from "@/models/clientesModel";
 import Modal from "@/components/Modal";
-import DeleteSuccessModal from "@/components/DeleteSuccessModal";
+import SuccessModal from "@/components/SuccessModal";
 import { transformClientesToRows } from "@/models/clientesModel";
 import DynamicForm from "@/components/DynamicForm";
 import clientesProps from "@/models/clientesProps";
@@ -75,7 +75,23 @@ function HomePage() {
     }
   };
 
+  const handleUpdateClick = async () => {
+    try {
+      if (selectedCliente) {
+        // Estás editando un cliente existente
+        await updateCliente(selectedCliente.id, formData); // Envía los datos actualizados al servidor
+      }
+      setIsFormVisible(false);
+      setSelectedCliente(null);
+      loadClientes();
+    } catch (error) {
+      console.error("Error al actualizar el cliente:", error);
+    }
+  };
+
   const rowsClientes = transformClientesToRows(clientes);
+
+  
 
   return (
     <div>
@@ -104,8 +120,9 @@ function HomePage() {
           }
         }}
         onCancel={closeDeleteModal}
+        showUpdateButton={false}
       />
-      <DeleteSuccessModal
+      <SuccessModal
         isOpen={isDeleteSuccess}
         onClose={() => setIsDeleteSuccess(false)}
         message="El cliente se ha eliminado correctamente."
@@ -117,20 +134,21 @@ function HomePage() {
         title={selectedCliente ? "Editar Cliente" : "Nuevo Cliente"}
         onCancel={() => {
           setIsFormVisible(false);
-          setSelectedCliente(null);
+          setSelectedCliente(null); 
         }}
         showCancelButton={true}
         showConfirmButton={false}
-        showUpdateButton={!!selectedCliente}
+        showUpdateButton={false}
         onConfirm={handleCreateOrUpdateCliente}
       >
-        <DynamicForm
-          formProps={clientesProps}
-          onSubmit={handleCreateOrUpdateCliente}
-          showCreateButton={!selectedCliente}
-          showUpdateButton={!!selectedCliente}
-          initialFormData={selectedCliente} // Pasa los datos del cliente seleccionado
-        />
+ <DynamicForm
+  formProps={clientesProps}
+  onSubmit={handleCreateOrUpdateCliente}
+  showCreateButton={!selectedCliente}
+  showUpdateButton={!!selectedCliente}
+  initialFormData={selectedCliente}
+  onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
+/>
       </Modal>
     </div>
   );

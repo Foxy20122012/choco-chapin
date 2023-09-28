@@ -1,13 +1,13 @@
 import React, { FC } from "react";
 
-interface DeleteSuccessModalProps {
+interface SuccessModalProps {
   isOpen: boolean;
   onClose: () => void;
   message: string;
   buttonText: string;
 }
 
-const DeleteSuccessModal: FC<DeleteSuccessModalProps> = ({ isOpen, onClose, message, buttonText }) => {
+const SuccessModal: FC<SuccessModalProps> = ({ isOpen, onClose, message, buttonText }) => {
 
 return (
     <div className={`fixed inset-0 flex items-center justify-center z-50 ${isOpen ? "" : "hidden"}`}>
@@ -33,4 +33,4 @@ return (
   );
 };
 
-export default DeleteSuccessModal;
+export default SuccessModal;

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface DynamicFormProps {
   formProps: any[]; // Puedes definir un tipo más específico si lo deseas
@@ -6,10 +6,17 @@ interface DynamicFormProps {
   showCreateButton: boolean; // Propiedad para controlar la visibilidad del botón "Crear"
   showUpdateButton: boolean; // Propiedad para controlar la visibilidad del botón "Actualizar"
   initialFormData?: any;
+  onUpdateClick?: () => void; // Nuevo prop para el evento de actualización
 }
 
-
-const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreateButton, showUpdateButton, initialFormData }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({
+  formProps,
+  onSubmit,
+  showCreateButton,
+  showUpdateButton,
+  initialFormData,
+  onUpdateClick, // Nuevo prop para el evento de actualización
+}) => {
   const [formData, setFormData] = useState<any>({});
 
   useEffect(() => {
@@ -18,7 +25,6 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreat
       setFormData(initialFormData);
     }
   }, [initialFormData]);
-
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -31,43 +37,44 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreat
   };
 
   return (
-    <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
-    {formProps.map((field) => (
-      <div key={field.name} className="mb-4">
-        <label className="block text-gray-700 text-sm font-bold mb-2">
-          {field.label}
-        </label>
-        <input
-          className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-          type={field.type}
-          name={field.name}
-          required={field.required}
-          onChange={handleChange}
-          value={formData[field.name] || ""}
-          readOnly={field.readOnly}
-          maxLength={field.maxLength}
-          minLength={field.minLength}
-          // Agrega más atributos según tus necesidades
-        />
-      </div>
-    ))}
-    {showCreateButton && (
-      <button
-        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="submit"
-      >
-        Crear
-      </button>
-    )}
-    {showUpdateButton && (
-      <button
-        className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-        type="button"
-      >
-        Actualizar
-      </button>
-    )}
-  </form>
+    <form className="max-w-md mx-auto" onSubmit={handleSubmit} >
+      {formProps.map((field) => (
+        <div key={field.name} className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            {field.label}
+          </label>
+          <input
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type={field.type}
+            name={field.name}
+            required={field.required}
+            onChange={handleChange}
+            value={formData[field.name] || ""}
+            readOnly={field.readOnly}
+            maxLength={field.maxLength}
+            minLength={field.minLength}
+            // Agrega más atributos según tus necesidades
+          />
+        </div>
+      ))}
+      {showCreateButton && (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+        >
+          Crear
+        </button>
+      )}
+      {showUpdateButton && (
+        <button
+          className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          type="submit"
+          onClick={onUpdateClick} // Llama al evento onUpdateClick cuando se hace clic en el botón "Actualizar"
+        >
+          Actualizar
+        </button>
+      )}
+    </form>
   );
 };
 
