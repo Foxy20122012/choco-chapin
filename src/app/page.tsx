@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import React, { useEffect, useState } from "react";
 import { Clientes } from "@prisma/client";
 import DataTable from "@/components/DataTable";
@@ -6,9 +6,9 @@ import { useClientes } from "@/context/ClientesContext";
 import { clientesColumns } from "@/models/clientesModel";
 import Modal from "@/components/Modal";
 import DeleteSuccessModal from "@/components/DeleteSuccessModal";
-import { transformClientesToRows, Row } from "@/models/clientesModel";
-import DynamicForm from "@/components/DynamicForm"; // Importa el componente DynamicForm
-import clientesProps from "@/models/clientesProps"; // Importa tus props de clientes
+import { transformClientesToRows } from "@/models/clientesModel";
+import DynamicForm from "@/components/DynamicForm";
+import clientesProps from "@/models/clientesProps";
 
 const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
   (key) => ({ key, label: clientesColumns[key] })
@@ -19,16 +19,16 @@ function HomePage() {
     clientes,
     createCliente,
     loadClientes,
-    updateCliente,
     deleteCliente,
+    selectedCliente,
+    setSelectedCliente,
+    updateCliente,
   } = useClientes();
+
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
-  const [isFormVisible, setIsFormVisible] = useState(false); // Estado para controlar la visibilidad del formulario
-
-  // Se transforman los datos a la manera correcta en que debe recibir el DataTable
-  const rowsClientes = transformClientesToRows(clientes);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   useEffect(() => {
     loadClientes();
@@ -44,14 +44,9 @@ function HomePage() {
     setIsDeleteModalOpen(false);
   };
 
-  const handleCreateCliente = async (data: any) => {
-    try {
-      await createCliente(data);
-      setIsFormVisible(false);
-      loadClientes();
-    } catch (error) {
-      console.error("Error al crear el cliente:", error);
-    }
+  const handleEditCliente = (client: Clientes) => {
+    setSelectedCliente(client);
+    setIsFormVisible(true);
   };
 
   const handleDelete = (cliente: Clientes) => {
@@ -59,8 +54,28 @@ function HomePage() {
   };
 
   const handleNewClick = () => {
+    setSelectedCliente(null);
     setIsFormVisible(true);
   };
+
+  const handleCreateOrUpdateCliente = async (formData: any) => {
+    try {
+      if (selectedCliente) {
+        // Estás editando un cliente existente
+        await updateCliente(selectedCliente.id, formData);
+      } else {
+        // Estás creando un nuevo cliente
+        await createCliente(formData);
+      }
+      setIsFormVisible(false);
+      setSelectedCliente(null);
+      loadClientes();
+    } catch (error) {
+      console.error("Error al crear o actualizar el cliente:", error);
+    }
+  };
+
+  const rowsClientes = transformClientesToRows(clientes);
 
   return (
     <div>
@@ -68,11 +83,9 @@ function HomePage() {
         title={"Clientes"}
         data={rowsClientes}
         columns={columns}
-        onEdit={(row) => {
-          console.log("Editar fila:", row);
-        }}
+        onEdit={handleEditCliente}
         onDelete={handleDelete}
-        onNew={handleNewClick} // Manejador para mostrar el formulario
+        onNew={handleNewClick}
       />
       <Modal
         isOpen={isDeleteModalOpen}
@@ -99,21 +112,24 @@ function HomePage() {
         buttonText="Aceptar"
       />
 
-      {/* Renderiza el formulario dinámico dentro del modal */}
-      <Modal
+<Modal
         isOpen={isFormVisible}
-        title="Nuevo Cliente" // Título del modal
-        onCancel={() => setIsFormVisible(false)} // Manejador para cerrar el modal
-        showCancelButton={true} // Mostrar el botón Cancelar
+        title={selectedCliente ? "Editar Cliente" : "Nuevo Cliente"}
+        onCancel={() => {
+          setIsFormVisible(false);
+          setSelectedCliente(null);
+        }}
+        showCancelButton={true}
         showConfirmButton={false}
-        showUpdateButton={false} // Ocultar el botón Actualizar
-        onConfirm={handleCreateCliente}
+        showUpdateButton={!!selectedCliente}
+        onConfirm={handleCreateOrUpdateCliente}
       >
         <DynamicForm
           formProps={clientesProps}
-          onSubmit={handleCreateCliente}
-          showCreateButton={true} // Muestra el botón "Crear"
-          showUpdateButton={false} // No muestra el botón "Actualizar"
+          onSubmit={handleCreateOrUpdateCliente}
+          showCreateButton={!selectedCliente}
+          showUpdateButton={!!selectedCliente}
+          initialFormData={selectedCliente} // Pasa los datos del cliente seleccionado
         />
       </Modal>
     </div>

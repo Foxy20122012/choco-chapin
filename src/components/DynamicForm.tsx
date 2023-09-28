@@ -1,15 +1,24 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 
 interface DynamicFormProps {
   formProps: any[]; // Puedes definir un tipo más específico si lo deseas
   onSubmit: (data: any) => void; // Agrega un tipo para la función de envío
   showCreateButton: boolean; // Propiedad para controlar la visibilidad del botón "Crear"
   showUpdateButton: boolean; // Propiedad para controlar la visibilidad del botón "Actualizar"
+  initialFormData?: any;
 }
 
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreateButton, showUpdateButton }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit,showCreateButton, showUpdateButton, initialFormData }) => {
   const [formData, setFormData] = useState<any>({});
+
+  useEffect(() => {
+    // Actualiza el formData cuando initialFormData cambie
+    if (initialFormData) {
+      setFormData(initialFormData);
+    }
+  }, [initialFormData]);
+
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
