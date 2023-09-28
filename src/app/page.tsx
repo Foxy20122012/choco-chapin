@@ -7,6 +7,8 @@ import { clientesColumns } from "@/models/clientesModel";
 import Modal from "@/components/Modal"; 
 import DeleteSuccessModal from "@/components/DeleteSuccessModal"; 
 import { transformClientesToRows,Row } from "@/models/clientesModel";
+import DynamicForm from "@/components/DynamicForm"; // Importa el componente DynamicForm
+import clientesProps from "@/models/clientesProps"; // Importa tus props de clientes
 
 
 
@@ -16,7 +18,7 @@ const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
 
 function HomePage() {
 
-  const { clientes, loadClientes, updateCliente, deleteCliente } = useClientes(); // Asegúrate de usar el contexto correcto
+  const { clientes,createCliente, loadClientes, updateCliente, deleteCliente } = useClientes(); // Asegúrate de usar el contexto correcto
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
   const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null); // Guarda el cliente que se eliminará
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
@@ -38,10 +40,34 @@ function HomePage() {
   };
 
   
+  // const handleCreateCliente = (data: any) => {
+  //   // Implementa la lógica para crear un nuevo cliente aquí
+  //   // data contendrá los valores del formulario
+  //   // Puedes usar la función createCliente para enviar los datos al servidor
+  // };
 
+  const handleCreateCliente = async (data: any) => {
+    // Implementa la lógica para crear un nuevo cliente aquí
+    try {
+      await createCliente(data); // Llama a la función createCliente con los datos del formulario
+      setIsFormVisible(false); // Oculta el formulario después de crear el cliente
+      loadClientes(); // Vuelve a cargar los clientes para mostrar el nuevo cliente
+    } catch (error) {
+      console.error("Error al crear el cliente:", error);
+    }
+  };
   
   const handleDelete = (cliente: Clientes) => {
     openDeleteModal(cliente);
+  };
+
+  const [isFormVisible, setIsFormVisible] = useState(false); // Agrega este estado
+
+  // ...
+
+  const handleNewClick = () => {
+    // Cuando se haga clic en "Nuevo", muestra el formulario
+    setIsFormVisible(true);
   };
   
 
@@ -59,7 +85,7 @@ function HomePage() {
           console.log("Nuevo:", row)
         }}
       />
-      <Modal
+    <Modal
         isOpen={isDeleteModalOpen}
         title="Confirmar Eliminación"
         message={`¿Estás seguro de que deseas eliminar al cliente ${clientToDelete?.nombre}?`}
@@ -80,9 +106,12 @@ function HomePage() {
       <DeleteSuccessModal
         isOpen={isDeleteSuccess}
         onClose={() => setIsDeleteSuccess(false)}
-        message="El cliente se ha eliminado correctamente." 
+        message="El cliente se ha eliminado correctamente."
         buttonText="Aceptar"
       />
+
+      {/* Renderiza el formulario dinámico */}
+      <DynamicForm formProps={clientesProps} onSubmit={handleCreateCliente} />
     </div>
   );
 }

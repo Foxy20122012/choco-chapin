@@ -1,28 +1,48 @@
-// DynamicForm.tsx
-import React from "react";
+import React, { useState } from "react";
 
 interface DynamicFormProps {
   formProps: any[]; // Puedes definir un tipo más específico si lo deseas
+  onSubmit: (data: any) => void; // Agrega un tipo para la función de envío
 }
 
-const DynamicForm: React.FC<DynamicFormProps> = ({ formProps }) => {
+const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit }) => {
+  const [formData, setFormData] = useState<any>({});
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(formData); // Llama a la función onSubmit con los datos del formulario
+  };
+
   return (
-    <form>
+    <form className="max-w-md mx-auto" onSubmit={handleSubmit}>
       {formProps.map((field) => (
-        <div key={field.name}>
-          <label>{field.label}</label>
-          {field.type === "text" && (
-            <input
-              type="text"
-              name={field.name}
-              required={field.required}
-              // Agrega más atributos según tus necesidades
-            />
-          )}
-          {/* Agrega más tipos de campos según tus necesidades */}
+        <div key={field.name} className="mb-4">
+          <label className="block text-gray-700 text-sm font-bold mb-2">
+            {field.label}
+          </label>
+          <input
+            className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            type={field.type}
+            name={field.name}
+            required={field.required}
+            onChange={handleChange}
+            value={formData[field.name] || ""}
+            readOnly={field.readOnly}
+            // Agrega más atributos según tus necesidades
+          />
         </div>
       ))}
-      <button type="submit">Enviar</button>
+      <button
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+        type="submit"
+      >
+        Enviar
+      </button>
     </form>
   );
 };
