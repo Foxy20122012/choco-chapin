@@ -33,7 +33,7 @@ const clientesProps = [
     label: "Fecha de Registro",
     name: "fecha_registro",
     type: "date", // Utiliza el tipo "date" para fechas
-    // required: false,
+    // required: true,
     readOnly: true, 
   },
   {

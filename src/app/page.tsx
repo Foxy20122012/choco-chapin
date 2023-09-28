@@ -10,23 +10,22 @@ import { transformClientesToRows,Row } from "@/models/clientesModel";
 import DynamicForm from "@/components/DynamicForm"; // Importa el componente DynamicForm
 import clientesProps from "@/models/clientesProps"; // Importa tus props de clientes
 
-
-
 const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
   (key) => ({ key, label: clientesColumns[key] })
 );
 
 function HomePage() {
-
-  const { clientes,createCliente, loadClientes, updateCliente, deleteCliente } = useClientes(); // Asegúrate de usar el contexto correcto
+  const { clientes, createCliente, loadClientes, updateCliente, deleteCliente } = useClientes();
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null); // Guarda el cliente que se eliminará
+  const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
-  //Se transforman los datos a la manera correcta en que debe recibir el clientes el DataTable
+  const [isFormVisible, setIsFormVisible] = useState(false); // Estado para controlar la visibilidad del formulario
+
+  // Se transforman los datos a la manera correcta en que debe recibir el DataTable
   const rowsClientes = transformClientesToRows(clientes);
 
   useEffect(() => {
-    loadClientes(); // Carga los clientes desde la base de datos cuando el componente se monta
+    loadClientes();
   }, []);
 
   const openDeleteModal = (client: Clientes) => {
@@ -39,37 +38,23 @@ function HomePage() {
     setIsDeleteModalOpen(false);
   };
 
-  
-  // const handleCreateCliente = (data: any) => {
-  //   // Implementa la lógica para crear un nuevo cliente aquí
-  //   // data contendrá los valores del formulario
-  //   // Puedes usar la función createCliente para enviar los datos al servidor
-  // };
-
   const handleCreateCliente = async (data: any) => {
-    // Implementa la lógica para crear un nuevo cliente aquí
     try {
-      await createCliente(data); // Llama a la función createCliente con los datos del formulario
-      setIsFormVisible(false); // Oculta el formulario después de crear el cliente
-      loadClientes(); // Vuelve a cargar los clientes para mostrar el nuevo cliente
+      await createCliente(data);
+      setIsFormVisible(false);
+      loadClientes();
     } catch (error) {
       console.error("Error al crear el cliente:", error);
     }
   };
-  
+
   const handleDelete = (cliente: Clientes) => {
     openDeleteModal(cliente);
   };
 
-  const [isFormVisible, setIsFormVisible] = useState(false); // Agrega este estado
-
-  // ...
-
   const handleNewClick = () => {
-    // Cuando se haga clic en "Nuevo", muestra el formulario
     setIsFormVisible(true);
   };
-  
 
   return (
     <div>
@@ -81,11 +66,9 @@ function HomePage() {
           console.log("Editar fila:", row);
         }}
         onDelete={handleDelete}
-        onNew={(row) => {
-          console.log("Nuevo:", row)
-        }}
+        onNew={handleNewClick} // Manejador para mostrar el formulario
       />
-    <Modal
+      <Modal
         isOpen={isDeleteModalOpen}
         title="Confirmar Eliminación"
         message={`¿Estás seguro de que deseas eliminar al cliente ${clientToDelete?.nombre}?`}
@@ -110,8 +93,18 @@ function HomePage() {
         buttonText="Aceptar"
       />
 
-      {/* Renderiza el formulario dinámico */}
-      <DynamicForm formProps={clientesProps} onSubmit={handleCreateCliente} />
+      {/* Renderiza el formulario dinámico dentro del modal */}
+      <Modal
+        isOpen={isFormVisible}
+        title="Nuevo Cliente" // Título del modal
+        onCancel={() => setIsFormVisible(false)} // Manejador para cerrar el modal
+        showCancelButton={true} // Mostrar el botón Cancelar
+        showConfirmButton={true}
+        showUpdateButton={true} // Ocultar el botón Actualizar
+        onConfirm={handleCreateCliente}
+      >
+        <DynamicForm formProps={clientesProps} onSubmit={handleCreateCliente} />
+      </Modal>
     </div>
   );
 }

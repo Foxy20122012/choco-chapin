@@ -147,20 +147,6 @@ const DataTable: FC<DataTableProps> = ({
                         onClick={() => onEdit(row)}
                         className="text-indigo-600 hover:text-indigo-900 font-medium"
                       >
-                      {/* <button
-                        onClick={() =>
-                          onEdit({
-                            id: row.id,
-                            nombre: row.nombre || "", // Proporciona un valor predeterminado en caso de ser null
-                            direccion: row.direccion || "", // Proporciona un valor predeterminado en caso de ser null
-                            telefono: row.telefono || "", // Proporciona un valor predeterminado en caso de ser null
-                            correo_electronico: row.correo_electronico || "", // Proporciona un valor predeterminado en caso de ser null
-                            fecha_registro: row.fecha_registro || new Date(0), // Valor predeterminado en caso de ser null
-                            historial_compras: row.historial_compras || "", // Proporciona un valor predeterminado en caso de ser null
-                          })
-                        }
-                        className="text-indigo-600 hover:text-indigo-900 font-medium"
-                      > */}
                         <BiEdit className="w-6 h-6" />
                       </button>
                       <button
