@@ -10,6 +10,8 @@ const clientesProps = [
     name: "nombre",
     type: "text",
     required: true,
+    maxLength: 50, // Agrega una longitud máxima
+    minLength: 3, // Agrega una longitud mínima
   },
   {
     label: "Dirección",
@@ -22,6 +24,8 @@ const clientesProps = [
     name: "telefono",
     type: "tel", // Utiliza el tipo "tel" para números de teléfono
     required: true,
+    maxLength: 12,
+    minLength: 8,
   },
   {
     label: "Correo Electrónico",

@@ -33,6 +33,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({ formProps, onSubmit }) => {
             onChange={handleChange}
             value={formData[field.name] || ""}
             readOnly={field.readOnly}
+            maxLength={field.maxLength}
+            minLength={field.minLength}
             // Agrega más atributos según tus necesidades
           />
         </div>

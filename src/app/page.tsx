@@ -99,8 +99,8 @@ function HomePage() {
         title="Nuevo Cliente" // Título del modal
         onCancel={() => setIsFormVisible(false)} // Manejador para cerrar el modal
         showCancelButton={true} // Mostrar el botón Cancelar
-        showConfirmButton={true}
-        showUpdateButton={true} // Ocultar el botón Actualizar
+        showConfirmButton={false}
+        showUpdateButton={false} // Ocultar el botón Actualizar
         onConfirm={handleCreateCliente}
       >
         <DynamicForm formProps={clientesProps} onSubmit={handleCreateCliente} />
