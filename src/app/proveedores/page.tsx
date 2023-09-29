@@ -17,7 +17,7 @@ const columns = (Object.keys(proveedoresColumns) as (keyof Proveedores)[]).map(
   (key) => ({ key, label: proveedoresColumns[key] })
 );
 
-function Facturas() {
+function Proveedores() {
   const {
     proveedores,
     loadProveedores,
@@ -159,4 +159,4 @@ function Facturas() {
   );
 }
 
-export default Facturas;
+export default Proveedores;
