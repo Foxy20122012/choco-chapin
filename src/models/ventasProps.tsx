@@ -20,6 +20,7 @@ const ventasProps = [
       label: "Fecha de Venta",
       name: "fecha_venta",
       type: "date",
+      readonly: true,
     },
     {
       label: "Método de Pago",

@@ -14,6 +14,7 @@ import DynamicForm from "@/components/DynamicForm";
 import ventasProps from "@/models/ventasProps";
 import useHasMounted from '@/hooks/useHasMounted';
 import Loadig from '@/components/Loading';
+import LineChart from "@/components/GraphVentas";
 
 const columns = (Object.keys(ventasColumns) as (keyof Ventas)[]).map(
   (key) => ({ key, label: ventasColumns[key] })
@@ -162,6 +163,7 @@ function VentasPage() {
           
         />
       </Modal>
+      <LineChart />
     </div>
   );
 }
