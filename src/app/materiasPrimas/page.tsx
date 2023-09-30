@@ -9,6 +9,8 @@ import SuccessModal from "@/components/SuccessModal";
 import { transformMateriasPrimasToRows } from "@/models/materiasPrimasModel";
 import DynamicForm from "@/components/DynamicForm";
 import materiasPrimasProps from "@/models/materiasPrimasProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(materiasPrimasColumns) as (keyof MateriasPrimas)[]).map(
   (key) => ({ key, label: materiasPrimasColumns[key] })
@@ -91,7 +93,10 @@ function MateriasPrimasPage() {
 
   const rowsMateriasPrimas = transformMateriasPrimasToRows(materiasPrimas);
 
-  
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
 
   return (
     <div>

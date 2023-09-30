@@ -12,6 +12,8 @@ import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
 import DynamicForm from "@/components/DynamicForm";
 import facturasProps from "@/models/facturasProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(facturasColumns) as (keyof Facturas)[]).map(
   (key) => ({ key, label: facturasColumns[key] })
@@ -95,6 +97,11 @@ function Facturas() {
   };
 
   const rowsFacturas = transformFacturasToRows(facturas);
+
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
   return (
     <div>
       <DataTable

@@ -10,6 +10,8 @@ import { transformProductosTerminadosToRows } from "@/models/productosTerminados
 import DynamicForm from "@/components/DynamicForm";
 import productosTerminadosProps from "@/models/productosTerminadosProps";
 import { useProductosTerminados } from "@/context/ProductosTerminadosContext";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(productosTerminadosColumns) as (keyof ProductosTerminados)[]).map(
   (key) => ({ key, label: productosTerminadosColumns[key] })
@@ -92,7 +94,10 @@ function ProductosTerminadosPage() {
 
   const rowsProductosTerminados = transformProductosTerminadosToRows(productosTerminados);
 
-  
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
 
   return (
     <div>

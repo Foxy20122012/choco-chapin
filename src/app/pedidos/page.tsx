@@ -9,6 +9,8 @@ import SuccessModal from "@/components/SuccessModal";
 import { transformPedidosToRows } from "@/models/pedidosModel";
 import DynamicForm from "@/components/DynamicForm";
 import pedidosProps from "@/models/pedidosProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(pedidosColumns) as (keyof Pedidos)[]).map(
   (key) => ({ key, label: pedidosColumns[key] })
@@ -91,7 +93,10 @@ function PedidosPage() {
 
   const rowsPedidos = transformPedidosToRows(pedidos);
 
-  
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
 
   return (
     <div>

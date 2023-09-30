@@ -9,6 +9,8 @@ import SuccessModal from "@/components/SuccessModal";
 import { transformClientesToRows } from "@/models/clientesModel";
 import DynamicForm from "@/components/DynamicForm";
 import clientesProps from "@/models/clientesProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
   (key) => ({ key, label: clientesColumns[key] })
@@ -92,7 +94,10 @@ function HomePage() {
   const rowsClientes = transformClientesToRows(clientes);
 
   
-
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
   return (
     <div>
       <DataTable

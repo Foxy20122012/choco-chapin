@@ -12,6 +12,8 @@ import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
 import DynamicForm from "@/components/DynamicForm";
 import ventasProps from "@/models/ventasProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
 
 const columns = (Object.keys(ventasColumns) as (keyof Ventas)[]).map(
   (key) => ({ key, label: ventasColumns[key] })
@@ -95,6 +97,11 @@ function VentasPage() {
   };
 
   const rowsVentas = transformVentasToRows(ventas);
+
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
   return (
     <div>
       <DataTable

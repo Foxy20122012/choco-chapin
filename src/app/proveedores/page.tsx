@@ -12,6 +12,9 @@ import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
 import DynamicForm from "@/components/DynamicForm";
 import proveedoresProps from "@/models/proveedoresProps";
+import useHasMounted from '@/hooks/useHasMounted';
+import Loadig from '@/components/Loading';
+
 
 const columns = (Object.keys(proveedoresColumns) as (keyof Proveedores)[]).map(
   (key) => ({ key, label: proveedoresColumns[key] })
@@ -95,6 +98,11 @@ function Proveedores() {
   };
 
   const rowsProveedores = transformProveedoresToRows(proveedores);
+
+  const hasMounted = useHasMounted();
+  if (!hasMounted) {
+    return<Loadig />;
+  }
   return (
     <div>
       <DataTable
