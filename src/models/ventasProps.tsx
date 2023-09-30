@@ -12,12 +12,6 @@ const ventasProps = [
       step: 0.01, // Define el paso para los números decimales, si es aplicable
     },
     {
-      label: "Fecha de Venta",
-      name: "fecha_venta",
-      type: "date",
-      readonly: true,
-    },
-    {
       label: "Método de Pago",
       name: "metodo_pago",
       type: "text",

@@ -40,7 +40,9 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
 
   return (
     
-    <form className={`max-w-md mx-auto grid grid-cols-${columns}`} onSubmit={handleSubmit} >
+    <form className={`max-w-md mx-auto grid grid-cols-${columns}`} onSubmit={handleSubmit}>
+
+
       {formProps.map((field) => (
         <div key={field.name} className="mb-4 ">
           <label className="block text-gray-700 text-sm font-bold mb-2">
