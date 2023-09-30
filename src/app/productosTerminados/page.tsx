@@ -158,7 +158,7 @@ function ProductosTerminadosPage() {
         showUpdateButton={!!selectedProductosTerminados}
         initialFormData={selectedProductosTerminados}
         onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-        columns={2}
+        columns={1}
      
       />
       </Modal>

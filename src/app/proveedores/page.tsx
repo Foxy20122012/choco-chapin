@@ -159,7 +159,7 @@ function Proveedores() {
           showUpdateButton={!!selectedProveedores}
           initialFormData={selectedProveedores}
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-          columns={2}
+          columns={1}
           
         />
       </Modal>

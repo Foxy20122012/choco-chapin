@@ -159,8 +159,7 @@ function VentasPage() {
           showUpdateButton={!!selectedVentas}
           initialFormData={selectedVentas}
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-          columns={2}
-          
+          columns={1}
         />
       </Modal>
       <LineChart />
