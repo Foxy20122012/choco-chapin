@@ -11,8 +11,10 @@
   "dependencies": {
     "@heroicons/react": "^2.0.18",
     "@prisma/client": "^5.3.1",
+    "chart.js": "^4.4.0",
     "next": "latest",
     "react": "latest",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "latest",
     "react-icons": "^4.11.0"
   },

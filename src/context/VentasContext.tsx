@@ -1,6 +1,4 @@
-// VentasContext.tsx
-
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { CreateVentas, UpdateVentas } from "@/interfaces/Ventas";
 import { Ventas } from "@prisma/client";
 
@@ -12,6 +10,7 @@ export const VentasContext = createContext<{
   selectedVentas: Ventas | null;
   setSelectedVentas: (venta: Ventas | null) => void;
   updateVentas: (id: number, venta: UpdateVentas) => Promise<void>;
+  sumaMontoTotalPorUsuario: { [userId: string]: number };
 }>({
   ventas: [],
   loadVentas: async () => {},
@@ -20,6 +19,7 @@ export const VentasContext = createContext<{
   selectedVentas: null,
   setSelectedVentas: (venta: Ventas | null) => {},
   updateVentas: async (id: number, venta: UpdateVentas) => {},
+  sumaMontoTotalPorUsuario: {},
 });
 
 export const useVentas = () => {
@@ -33,9 +33,10 @@ export const useVentas = () => {
 export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
   const [ventas, setVentas] = useState<Ventas[]>([]);
   const [selectedVentas, setSelectedVentas] = useState<Ventas | null>(null);
+  const [sumaMontoTotalPorUsuario, setSumaMontoTotalPorUsuario] = useState<{ [userId: string]: number }>({});
 
   async function loadVentas() {
-    const res = await fetch("/api/ventas"); // Asegúrate de tener un endpoint correcto para cargar las ventas
+    const res = await fetch("/api/ventas");
     const data = await res.json();
     setVentas(data);
   }
@@ -74,6 +75,24 @@ export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
     );
   }
 
+  // Calcula la suma del monto total de ventas por usuario cuando las ventas cambian.
+  useEffect(() => {
+    const sumaPorUsuario: { [userId: string]: number } = {};
+
+    ventas.forEach((venta) => {
+      const userId = venta.cliente_id?.toString() || "Sin Usuario";
+      const total = parseFloat(venta.monto_total || 0);
+
+      if (!sumaPorUsuario[userId]) {
+        sumaPorUsuario[userId] = 0;
+      }
+
+      sumaPorUsuario[userId] += total;
+    });
+
+    setSumaMontoTotalPorUsuario(sumaPorUsuario);
+  }, [ventas]);
+
   return (
     <VentasContext.Provider
       value={{
@@ -84,6 +103,7 @@ export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
         selectedVentas,
         setSelectedVentas,
         updateVentas,
+        sumaMontoTotalPorUsuario,
       }}
     >
       {children}

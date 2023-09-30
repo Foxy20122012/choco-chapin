@@ -1,7 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { PencilIcon, TrashIcon } from "@heroicons/react/solid";
+import React, { useState, useEffect, FC } from "react";
+// import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
+import { BiEdit } from "react-icons/bi";
+import { MdDelete } from "react-icons/md";
+import { Clientes } from "@/models/clientesModel"; // Asegúrate de que la ruta sea correcta
 
-const DataTable = ({
+interface Column {
+  key: string;
+  label: string;
+}
+
+interface Row {
+  [key: string]: string | number | boolean | Date;
+}
+
+interface DataTableProps {
+  data: Clientes[]; // Cambiar 'Row' a 'Clientes[]'
+  title: string;
+  columns: Column[];
+  itemsPerPageOptions?: number[];
+  onEdit: (row: Row) => void;
+  onDelete: (row: Clientes) => void; // Cambiar 'Row' a 'Clientes'
+  onNew: () => void;
+}
+
+const DataTable: FC<DataTableProps> = ({
   data,
   title,
   columns,
@@ -15,7 +37,9 @@ const DataTable = ({
   const [searchTerm, setSearchTerm] = useState("");
   const totalPages = Math.ceil(data.length / itemsPerPage);
 
-  const handleItemsPerPageChange = (e) => {
+  const handleItemsPerPageChange = (
+    e: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     const newItemsPerPage = parseInt(e.target.value, 10);
     setItemsPerPage(newItemsPerPage);
     setCurrentPage(1);
@@ -33,7 +57,7 @@ const DataTable = ({
     }
   };
 
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
   };
 
@@ -47,13 +71,18 @@ const DataTable = ({
   // Filtrar datos por término de búsqueda
   const filteredData = data.filter((row) =>
     columns.some((column) => {
-      const cellValue = row[column.key];
+      const cellValue = getColumnValue(row, column.key);
       if (typeof cellValue === "string") {
         return cellValue.toLowerCase().includes(searchTerm.toLowerCase());
       }
       return false;
     })
   );
+
+  // Función de acceso a las propiedades segura
+  function getColumnValue(obj: any, key: string): any {
+    return key.split(".").reduce((o, k) => (o || {})[k], obj);
+  }
 
   const visibleData = filteredData.slice(startIndex, endIndex);
 
@@ -65,14 +94,13 @@ const DataTable = ({
         </h2>
         <div className="p-4">
           <div className="flex justify-between items-center mb-4 ">
-            
             <div className="flex items-center space-x-96 ml-12">
               <input
                 type="text"
                 value={searchTerm}
                 onChange={handleSearchChange}
                 placeholder="Buscar..."
-                className="px-96 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black"
+                className="px-80 py-2 border border-gray-300 rounded-md text-sm font-medium bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-black"
               />
               <button
                 onClick={onNew}
@@ -111,7 +139,7 @@ const DataTable = ({
                         key={columnIndex}
                         className="px-6 py-4 whitespace-nowrap text-center justify-center"
                       >
-                        {row[column.key]}
+                        {String(getColumnValue(row, column.key))}
                       </td>
                     ))}
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
@@ -119,13 +147,13 @@ const DataTable = ({
                         onClick={() => onEdit(row)}
                         className="text-indigo-600 hover:text-indigo-900 font-medium"
                       >
-                        <PencilIcon className="w-6 h-6" />
+                        <BiEdit className="w-6 h-6" />
                       </button>
                       <button
                         onClick={() => onDelete(row)}
                         className="text-red-600 hover:text-red-900 font-medium ml-2"
                       >
-                        <TrashIcon className="w-6 h-6" />
+                        <MdDelete className="w-6 h-6" />
                       </button>
                     </td>
                   </tr>

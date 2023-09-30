@@ -126,3 +126,7 @@ model Ventas {
   estado_pedido String?   @db.VarChar(50)
   descripcion   String?   @db.Text
 }
+
+model VentaIdSequence {
+  id Int @id @default(autoincrement())
+}
