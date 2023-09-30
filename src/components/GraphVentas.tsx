@@ -27,7 +27,7 @@ const LineChart = () => {
 
   useEffect(() => {
     // Preparar los datos para la gráfica
-    const labels = ventas.map((venta) => venta.fecha_venta); // Usar la fecha de venta como etiquetas
+    const labels = ventas.map((venta) => formatFecha(venta.fecha_venta)); // Formatear la fecha
     const datasets = [
       {
         label: "Monto Total de Ventas",
@@ -60,10 +60,20 @@ const LineChart = () => {
     setChartData(chartConfig);
   }, [ventas]);
 
+  // Función para formatear la fecha en "dd/mm/yyyy"
+  const formatFecha = (fecha) => {
+    if (!fecha) return "";
+    const date = new Date(fecha);
+    const day = date.getDate().toString().padStart(2, "0");
+    const month = (date.getMonth() + 1).toString().padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+  };
+
   return (
-    <div>
-      <h2>Gráfica de Líneas</h2>
-      <div style={{ maxWidth: "800px" }}>
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <h2 className="text-2xl font-semibold mb-4 text-center">Gráfica De Ventas por fechas Historicas</h2>
+      <div className="max-w-screen-md mx-auto">
         {chartData && <Line data={chartData.data} options={chartData.options} />}
       </div>
     </div>

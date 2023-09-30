@@ -6,11 +6,6 @@ const ventasProps = [
       readOnly: true,
     },
     {
-      label: "ID del Cliente",
-      name: "cliente_id",
-      type: "number",
-    },
-    {
       label: "Monto Total",
       name: "monto_total",
       type: "number",
