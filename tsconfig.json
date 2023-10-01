@@ -14,9 +14,9 @@
       "esnext"
     ],
     "skipLibCheck": true,
-    "strict": false,
+    "strict": false, // Desactiva la validación de tipos
     "forceConsistentCasingInFileNames": true,
-    "noEmit": false,
+    "noEmit": false, // Permite la generación de archivos JavaScript
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
