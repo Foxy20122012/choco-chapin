@@ -31,6 +31,7 @@ const LineChart = () => {
     const datasets = [
       {
         label: "Monto Total de Ventas",
+         // @ts-ignore
         data: ventas.map((venta) => parseFloat(venta.monto_total || 0)),
         borderColor: getRandomColor(),
         fill: false,

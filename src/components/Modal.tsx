@@ -21,6 +21,7 @@ const Modal: FC<ModalProps> = ({
   showCancelButton = true,
   showConfirmButton = true,
   showUpdateButton = true, // Valor predeterminado: true (mostrar el botón de Actualizar)
+   // @ts-ignore
   children,
 }) => {
   if (!isOpen) return null;
