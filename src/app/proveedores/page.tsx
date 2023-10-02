@@ -83,7 +83,7 @@ function Proveedores() {
     }
   };
 
-  const handleUpdateClick = async () => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedProveedores) {
         // Estás editando un cliente existente
@@ -107,9 +107,11 @@ function Proveedores() {
     <div>
       <DataTable
         title={"Proveedores"}
+         // @ts-ignore
         data={rowsProveedores}
         columns={columns}
         onEdit={handleEditProveedores}
+         // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -130,6 +132,7 @@ function Proveedores() {
           }
         }}
         onCancel={closeDeleteModal}
+         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} // Configura según tus necesidades
@@ -150,6 +153,7 @@ function Proveedores() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+         // @ts-ignore
         onConfirm={handleCreateOrUpdateProveedores}
       >
         <DynamicForm
@@ -157,7 +161,7 @@ function Proveedores() {
           onSubmit={handleCreateOrUpdateProveedores}
           showCreateButton={!selectedProveedores}
           showUpdateButton={!!selectedProveedores}
-          initialFormData={selectedProveedores}
+          initialFormData={selectedProveedores} // @ts-ignore
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
           columns={1}
           

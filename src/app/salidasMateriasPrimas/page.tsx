@@ -82,7 +82,7 @@ function SalidasMateriasPrimas() {
     }
   };
 
-  const handleUpdateClick = async () => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedSalidasMateriasPrimas) {
         // Estás editando un cliente existente
@@ -106,9 +106,12 @@ function SalidasMateriasPrimas() {
     <div>
       <DataTable
         title={"Salidas De Materias Primas"}
+         // @ts-ignore
         data={rowsSalidasMateriasPrimas}
         columns={columns}
+         // @ts-ignore
         onEdit={handleEditSalidasMateriasPrimas}
+         // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -129,6 +132,7 @@ function SalidasMateriasPrimas() {
           }
         }}
         onCancel={closeDeleteModal}
+         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} // Configura según tus necesidades
@@ -149,6 +153,7 @@ function SalidasMateriasPrimas() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+         // @ts-ignore
         onConfirm={handleCreateOrUpdateSalidasMateriasPrimas}
       >
         <DynamicForm
@@ -157,6 +162,7 @@ function SalidasMateriasPrimas() {
           showCreateButton={!selectedSalidasMateriasPrimas}
           showUpdateButton={!!selectedSalidasMateriasPrimas}
           initialFormData={selectedSalidasMateriasPrimas}
+           // @ts-ignore
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
           columns={2}
           

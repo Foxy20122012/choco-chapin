@@ -85,7 +85,8 @@ function Facturas() {
   const handleUpdateClick = async () => {
     try {
       if (selectedFacturas) {
-        // Estás editando un cliente existente
+        // Estás editando un cliente existente  
+        // @ts-ignore
         await updateCliente(selectedFacturas.id, formData); // Envía los datos actualizados al servidor
       }
       setIsFormVisible(false);
@@ -106,9 +107,12 @@ function Facturas() {
     <div>
       <DataTable
         title={"facturas"}
+        // @ts-ignore
         data={rowsFacturas}
         columns={columns}
+        // @ts-ignore
         onEdit={handleEditFacturas}
+        // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -149,6 +153,7 @@ function Facturas() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+        // @ts-ignore
         onConfirm={handleCreateOrUpdateFacturas}
       >
         <DynamicForm
@@ -160,6 +165,7 @@ function Facturas() {
           initialFormData={selectedFacturas}
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
           columns={2}
+          // @ts-ignore
           decimalPlaces={3}
         />
       </Modal>

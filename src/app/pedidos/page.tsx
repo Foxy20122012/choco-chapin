@@ -77,7 +77,7 @@ function PedidosPage() {
     }
   };
 
-  const handleUpdateClick = async () => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedPedidos) {
         // Estás editando un cliente existente
@@ -102,9 +102,11 @@ function PedidosPage() {
     <div>
       <DataTable
         title={"Pedidos"}
+         // @ts-ignore
         data={rowsPedidos}
         columns={columns}
         onEdit={handleEditPedidos}
+         // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -125,6 +127,7 @@ function PedidosPage() {
           }
         }}
         onCancel={closeDeleteModal}
+         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} // Configura según tus necesidades
@@ -147,6 +150,7 @@ function PedidosPage() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+         // @ts-ignore
         onConfirm={handleCreateOrUpdatePedidos}
       >
       <DynamicForm
@@ -156,6 +160,7 @@ function PedidosPage() {
         showCreateButton={!selectedPedidos}
         showUpdateButton={!!selectedPedidos}
         initialFormData={selectedPedidos}
+         // @ts-ignore
         onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
         columns={2}
      

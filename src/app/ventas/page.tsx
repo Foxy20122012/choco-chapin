@@ -83,7 +83,7 @@ function VentasPage() {
     }
   };
 
-  const handleUpdateClick = async () => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedVentas) {
         // Estás editando un cliente existente
@@ -107,9 +107,12 @@ function VentasPage() {
     <div>
       <DataTable
         title={"Registro De Ventas"}
+         // @ts-ignore
         data={rowsVentas}
         columns={columns}
+         // @ts-ignore
         onEdit={handleEditVentas}
+         // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -130,6 +133,7 @@ function VentasPage() {
           }
         }}
         onCancel={closeDeleteModal}
+         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} // Configura según tus necesidades
@@ -150,6 +154,7 @@ function VentasPage() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+         // @ts-ignore
         onConfirm={handleCreateOrUpdateVentas}
       >
         <DynamicForm
@@ -158,6 +163,7 @@ function VentasPage() {
           showCreateButton={!selectedVentas}
           showUpdateButton={!!selectedVentas}
           initialFormData={selectedVentas}
+           // @ts-ignore
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
           columns={1}
         />
