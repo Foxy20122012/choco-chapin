@@ -9,3 +9,4 @@ export type CreateSalidasMateriasPrimas = Omit<SalidasMateriasPrimas, "id" | "fe
 // Se basa en el tipo 'CreateCliente' para que las actualizaciones sigan la misma estructura que la creación de clientes.
 export type UpdateSalidasMateriasPrimas = Partial<CreateSalidasMateriasPrimas>;
 
+
