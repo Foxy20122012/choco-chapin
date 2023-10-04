@@ -81,6 +81,7 @@ export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
 
     ventas.forEach((venta) => {
       const userId = venta.cliente_id?.toString() || "Sin Usuario";
+      // @ts-ignore
       const total = parseFloat(venta.monto_total || 0);
 
       if (!sumaPorUsuario[userId]) {
