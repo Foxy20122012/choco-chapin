@@ -10,3 +10,4 @@ export type CreateSalidasMateriasPrimas = Omit<SalidasMateriasPrimas, "id" | "fe
 export type UpdateSalidasMateriasPrimas = Partial<CreateSalidasMateriasPrimas>;
 
 
+
