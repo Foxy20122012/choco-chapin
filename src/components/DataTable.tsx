@@ -89,7 +89,7 @@ const DataTable: FC<DataTableProps> = ({
   return (
     <div className="p-8">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <h2 className="text-2xl font-semibold p-4 bg-indigo-500 text-white">
+        <h2 className="text-2xl font-semibold p-4 bg-[#3fa3d1] text-white">
           {title}
         </h2>
         <div className="p-4">
@@ -104,7 +104,7 @@ const DataTable: FC<DataTableProps> = ({
               />
               <button
                 onClick={onNew}
-                className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
+                className="px-4 py-2 bg-[#3fa3d1] hover:bg-[#377c9c] text-white rounded-md"
               >
                 Nuevo
               </button>
@@ -145,7 +145,7 @@ const DataTable: FC<DataTableProps> = ({
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
                       <button
                         onClick={() => onEdit(row)}
-                        className="text-indigo-600 hover:text-indigo-900 font-medium"
+                        className="text-[#3fa3d1] hover:text-[#68c8f4] font-medium"
                       >
                         <BiEdit className="w-6 h-6" />
                       </button>
@@ -184,7 +184,7 @@ const DataTable: FC<DataTableProps> = ({
               className={`${
                 currentPage === 1
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                  : "bg-[#3fa3d1] hover:bg-[#58b8e4] text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
               aria-label="Anterior"
             >
@@ -196,7 +196,7 @@ const DataTable: FC<DataTableProps> = ({
               className={`${
                 currentPage === totalPages
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                  : "bg-[#3fa3d1] hover:bg-[#377c9c] text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
               aria-label="Siguiente"
             >

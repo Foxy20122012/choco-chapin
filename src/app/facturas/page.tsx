@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Facturas } from "@prisma/client";
 import DataTable from "@/components/DataTable";
-import { useFacturas } from "@/context/FacturasContext";
+import { useFacturas, FacturasProvider } from "@/context/FacturasContext";
 import {
   facturasColumns,
   transformFacturasToRows,
@@ -104,7 +104,9 @@ function Facturas() {
     return<Loadig />;
   }
   return (
+    
     <div>
+      
       <DataTable
         title={"facturas"}
         // @ts-ignore
@@ -169,6 +171,7 @@ function Facturas() {
           decimalPlaces={3}
         />
       </Modal>
+     
     </div>
   );
 }
