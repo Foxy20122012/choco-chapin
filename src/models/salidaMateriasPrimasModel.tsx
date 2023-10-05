@@ -18,6 +18,7 @@ export type SalidasMateriasPrimasRow = {
 export const transformSalidasMateriasPrimasToRows = (
   salidasMateriasPrimas: SalidasMateriasPrimas[]
 ): SalidasMateriasPrimasRow[] => {
+  // @ts-ignore
   return salidasMateriasPrimas.map((salida) => ({
     id: salida.id,
     // materia_prima_id: salida.materia_prima_id || null,
