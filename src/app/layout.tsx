@@ -4,7 +4,6 @@
 import React from 'react';
 import '../styles/globals.css';
 import { Inter } from 'next/font/google';
-import Sidebar from '@/components/sidebar'; // Importa tu nuevo Sidebar
 import { NotesProvider } from "@/context/NoteContext";
 import { VentasProvider } from "@/context/VentasContext";
 import { ClientesProvider } from "@/context/ClientesContext";
