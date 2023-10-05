@@ -14,7 +14,8 @@ export type VentasRow = {
 };
 
 // Función para transformar un array de Ventas en un array de VentasRow
-export const transformVentasToRows = (ventas: Ventas[]): VentasRow[] => {
+export const transformVentasToRows = (ventas: Ventas[]) : VentasRow[] => {
+
   //  @ts-ignore
   return ventas.map((venta) => ({
     id: venta.id,
