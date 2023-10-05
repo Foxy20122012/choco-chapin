@@ -1,7 +1,10 @@
+// RootLayout.js
 'use client'
-import '../styles/globals.css'
-
-import { Inter } from "next/font/google";
+// RootLayout.js
+import React from 'react';
+import '../styles/globals.css';
+import { Inter } from 'next/font/google';
+import Sidebar from '@/components/sidebar'; // Importa tu nuevo Sidebar
 import { NotesProvider } from "@/context/NoteContext";
 import { VentasProvider } from "@/context/VentasContext";
 import { ClientesProvider } from "@/context/ClientesContext";
@@ -12,6 +15,7 @@ import { ProductosTerminadosProvider } from "@/context/ProductosTerminadosContex
 import { ProveedoresProvider } from "@/context/ProveedoresContext";
 import { SalidasMateriasPrimasProvider } from "@/context/SalidasMateriasPrimasContext";
 import { TransaccionesFinancierasProvider } from "@/context/TransaccionesFinancierasContext";
+import BtnAppBar from '@/components/appBar';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+      <div className="flex  md:my-12 md:ml-4">
         <NotesProvider>
           <VentasProvider>
             <ClientesProvider>
@@ -33,7 +38,13 @@ export default function RootLayout({
                       <ProveedoresProvider>
                         <SalidasMateriasPrimasProvider>
                           <TransaccionesFinancierasProvider>
-                            {children}
+                           
+                              
+                              
+                              <BtnAppBar  />
+                                {children}
+                            
+                        
                           </TransaccionesFinancierasProvider>
                         </SalidasMateriasPrimasProvider>
                       </ProveedoresProvider>
@@ -44,6 +55,7 @@ export default function RootLayout({
             </ClientesProvider>
           </VentasProvider>
         </NotesProvider>
+        </div>
       </body>
     </html>
   );

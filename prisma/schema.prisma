@@ -8,21 +8,23 @@ datasource db {
 }
 
 model Note {
-  id        Int       @id @default(autoincrement())
+  id        Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   title     String?   @db.VarChar(255)
   content   String?   @db.Text
-  createdAt DateTime? @default(now()) @db.DateTime(0)
+  createdAt DateTime? @db.DateTime(0)
   updatedAt DateTime? @db.DateTime(0)
 }
 
 model Clientes {
-  id                 Int       @id @default(autoincrement())
+  id                 Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre             String?   @db.VarChar(255)
   direccion          String?   @db.VarChar(255)
   telefono           String?   @db.VarChar(15)
   correo_electronico String?   @db.VarChar(100)
   fecha_registro     DateTime? @db.Date
   historial_compras  String?   @db.Text
+  Pedidos            Pedidos[]
+  Ventas             Ventas[]
 }
 
 model Facturas {
@@ -34,19 +36,26 @@ model Facturas {
   impuestos      Decimal?  @db.Decimal(10, 2)
   total          Decimal?  @db.Decimal(10, 2)
   descripcion    String?   @db.Text
+  Ventas         Ventas?   @relation(fields: [venta_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Facturas_Ventas")
+
+  @@index([venta_id], map: "fk_Facturas_Ventas_idx")
 }
 
 model MateriasPrimas {
-  id                Int       @id @default(autoincrement())
-  nombre            String?   @db.VarChar(255)
-  cantidad_inicial  Decimal?  @db.Decimal(10, 2)
-  proveedor_id      Int?
-  fecha_recepcion   DateTime? @db.Date
-  codigo_unidad     String?   @db.VarChar(10)
-  precio_unitario   Decimal?  @db.Decimal(10, 2)
-  fecha_vencimiento DateTime? @db.Date
-  ubicacion_almacen String?   @db.VarChar(100)
-  descripcion       String?   @db.Text
+  id                    Int                     @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre                String?                 @db.VarChar(255)
+  cantidad_inicial      Decimal?                @db.Decimal(10, 2)
+  proveedor_id          Int?
+  fecha_recepcion       DateTime?               @db.Date
+  codigo_unidad         String?                 @db.VarChar(10)
+  precio_unitario       Decimal?                @db.Decimal(10, 2)
+  fecha_vencimiento     DateTime?               @db.Date
+  ubicacion_almacen     String?                 @db.VarChar(100)
+  descripcion           String?                 @db.Text
+  Proveedores           Proveedores?            @relation(fields: [proveedor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_MateriasPrimas_Proveedores")
+  SalidasMateriasPrimas SalidasMateriasPrimas[]
+
+  @@index([proveedor_id], map: "fk_MateriasPrimas_Proveedores_idx")
 }
 
 model Pedidos {
@@ -56,6 +65,9 @@ model Pedidos {
   fecha_entrega   DateTime? @db.Date
   estado_pedido   String?   @db.VarChar(50)
   detalles_pedido String?   @db.Text
+  Clientes        Clientes? @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Pedidos_Clientes")
+
+  @@index([cliente_id], map: "fk_Pedidos_Clientes_idx")
 }
 
 model Permisos {
@@ -63,45 +75,55 @@ model Permisos {
   modulo      String? @db.VarChar(100)
   rol_id      Int?
   descripcion String? @db.Text
+  Roles       Roles?  @relation(fields: [rol_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Permisos_Roles")
+
+  @@index([rol_id], map: "fk_Permisos_Roles_idx")
 }
 
 model ProductosTerminados {
-  id                 Int       @id @default(autoincrement())
-  nombre             String?   @db.VarChar(255)
-  tipo_dulce         String?   @db.VarChar(100)
+  id                 Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre             String?            @db.VarChar(255)
+  tipo_dulce         String?            @db.VarChar(100)
   cantidad_producida Int?
-  fecha_produccion   DateTime? @db.Date
-  precio_venta       Decimal?  @db.Decimal(10, 2)
-  descripcion        String?   @db.Text
+  fecha_produccion   DateTime?          @db.Date
+  precio_venta       Decimal?           @db.Decimal(10, 2)
+  descripcion        String?            @db.Text
+  CostosProduccion   CostosProduccion[]
 }
 
 model Proveedores {
-  id                 Int     @id @default(autoincrement())
-  nombre             String? @db.VarChar(255)
-  direccion          String? @db.VarChar(255)
-  telefono           String? @db.VarChar(15)
-  correo_electronico String? @db.VarChar(100)
-  sitio_web          String? @db.VarChar(255)
+  id                 Int              @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre             String?          @db.VarChar(255)
+  direccion          String?          @db.VarChar(255)
+  telefono           String?          @db.VarChar(15)
+  correo_electronico String?          @db.VarChar(100)
+  sitio_web          String?          @db.VarChar(255)
+  MateriasPrimas     MateriasPrimas[]
 }
 
 model Roles {
-  id          Int     @id @default(autoincrement())
-  nombre_rol  String? @db.VarChar(50)
-  descripcion String? @db.Text
+  id          Int        @id @unique(map: "id_UNIQUE") @default(autoincrement())
+  nombre_rol  String?    @db.VarChar(50)
+  descripcion String?    @db.Text
+  Permisos    Permisos[]
+  Usuarios    Usuarios[]
 }
 
 model SalidasMateriasPrimas {
-  id                 Int       @id @default(autoincrement())
+  id                 Int             @id @default(autoincrement())
   materia_prima_id   Int?
-  cantidad           Decimal?  @db.Decimal(10, 2)
-  fecha_salida       DateTime? @db.Date
-  destino            String?   @db.VarChar(100)
-  responsable_salida String?   @db.VarChar(255)
-  descripcion        String?   @db.Text
+  cantidad           Decimal?        @db.Decimal(10, 2)
+  fecha_salida       DateTime?       @db.Date
+  destino            String?         @db.VarChar(100)
+  responsable_salida String?         @db.VarChar(255)
+  descripcion        String?         @db.Text
+  MateriasPrimas     MateriasPrimas? @relation(fields: [materia_prima_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_SalidasMateriasPrimas_MateriasPrimas")
+
+  @@index([materia_prima_id], map: "fk_SalidasMateriasPrimas_MateriasPrimas_idx")
 }
 
 model TransaccionesFinancieras {
-  id                Int       @id @default(autoincrement())
+  id                Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())
   tipo              String?   @db.VarChar(20)
   monto             Decimal?  @db.Decimal(10, 2)
   fecha_transaccion DateTime? @db.DateTime(0)
@@ -109,24 +131,111 @@ model TransaccionesFinancieras {
 }
 
 model Usuarios {
-  id                 Int     @id @default(autoincrement())
+  id                 Int     @id @unique(map: "id_UNIQUE") @default(autoincrement())
   nombre_usuario     String? @db.VarChar(50)
   contrasena         String? @db.VarChar(255)
   nombre_completo    String? @db.VarChar(255)
   correo_electronico String? @db.VarChar(100)
   rol_id             Int?
+  Roles              Roles?  @relation(fields: [rol_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Usuarios_Roles")
+
+  @@index([rol_id], map: "fk_Usuarios_Roles_idx")
 }
 
 model Ventas {
-  id            Int       @id @default(autoincrement())
+  id            Int        @id @default(autoincrement())
   cliente_id    Int?
-  monto_total   Decimal?  @db.Decimal(10, 2)
-  fecha_venta   DateTime? @db.Date
-  metodo_pago   String?   @db.VarChar(100)
-  estado_pedido String?   @db.VarChar(50)
-  descripcion   String?   @db.Text
+  monto_total   Decimal?   @db.Decimal(10, 2)
+  fecha_venta   DateTime?  @db.Date
+  metodo_pago   String?    @db.VarChar(100)
+  estado_pedido String?    @db.VarChar(50)
+  descripcion   String?    @db.Text
+  Facturas      Facturas[]
+  Clientes      Clientes?  @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes")
+
+  @@index([cliente_id], map: "fk_Ventas_Clientes_idx")
 }
 
-model VentaIdSequence {
-  id Int @id @default(autoincrement())
+model Activos {
+  id                     Int       @id @default(autoincrement())
+  nombre                 String?   @db.VarChar(255)
+  valor_inicial          Decimal?  @db.Decimal(10, 2)
+  fecha_adquisicion      DateTime? @db.Date
+  vida_util              Int?
+  depreciacion_acumulada Decimal?  @db.Decimal(10, 2)
+}
+
+model CategoriasContabilidad {
+  id              Int               @id @default(autoincrement())
+  nombre          String?           @db.VarChar(255)
+  descripcion     String?           @db.Text
+  Gastos          Gastos[]
+  IngresosEgresos IngresosEgresos[]
+}
+
+model CostosProduccion {
+  id                    Int                  @id @default(autoincrement())
+  tipo_dulce_id         Int?
+  costo_materias_primas Decimal?             @db.Decimal(10, 2)
+  costo_mano_de_obra    Decimal?             @db.Decimal(10, 2)
+  fecha                 DateTime?            @db.Date
+  ProductosTerminados   ProductosTerminados? @relation(fields: [tipo_dulce_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "CostosProduccion_ibfk_1")
+
+  @@index([tipo_dulce_id], map: "tipo_dulce_id")
+}
+
+model CuentasBancarias {
+  id            Int      @id @default(autoincrement())
+  nombre        String?  @db.VarChar(255)
+  numero_cuenta String?  @db.VarChar(255)
+  banco         String?  @db.VarChar(255)
+  saldo_actual  Decimal? @db.Decimal(10, 2)
+}
+
+model Gastos {
+  id                     Int                     @id @default(autoincrement())
+  descripcion            String?                 @db.VarChar(255)
+  monto                  Decimal?                @db.Decimal(10, 2)
+  fecha                  DateTime?               @db.Date
+  categoria_gasto        String?                 @db.VarChar(255)
+  categoria_gasto_id     Int?
+  CategoriasContabilidad CategoriasContabilidad? @relation(fields: [categoria_gasto_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "Gastos_ibfk_1")
+
+  @@index([categoria_gasto_id], map: "categoria_gasto_id")
+}
+
+model IngresosEgresos {
+  id                     Int                     @id @default(autoincrement())
+  descripcion            String?                 @db.VarChar(255)
+  monto                  Decimal?                @db.Decimal(10, 2)
+  fecha                  DateTime?               @db.Date
+  categoria_id           Int?
+  es_ingreso             Boolean?
+  CategoriasContabilidad CategoriasContabilidad? @relation(fields: [categoria_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "IngresosEgresos_ibfk_1")
+
+  @@index([categoria_id], map: "categoria_id")
+}
+
+model Presupuestos {
+  id             Int       @id @default(autoincrement())
+  nombre         String?   @db.VarChar(255)
+  monto_asignado Decimal?  @db.Decimal(10, 2)
+  fecha_inicio   DateTime? @db.Date
+  fecha_fin      DateTime? @db.Date
+}
+
+model RegistroImpuestos {
+  id            Int       @id @default(autoincrement())
+  tipo_impuesto String?   @db.VarChar(255)
+  monto_pagado  Decimal?  @db.Decimal(10, 2)
+  fecha_pago    DateTime? @db.Date
+}
+
+model TransaccionesBancarias {
+  id                  Int       @id @default(autoincrement())
+  descripcion         String?   @db.VarChar(255)
+  monto               Decimal?  @db.Decimal(10, 2)
+  fecha               DateTime? @db.Date
+  estado              String?   @db.VarChar(50)
+  referencia_bancaria String?   @db.VarChar(255)
 }
