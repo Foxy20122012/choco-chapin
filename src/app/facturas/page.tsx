@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Facturas } from "@prisma/client";
 import DataTable from "@/components/DataTable";
-import { useFacturas, FacturasProvider } from "@/context/FacturasContext";
+import { useFacturas } from "@/context/FacturasContext";
 import {
   facturasColumns,
   transformFacturasToRows,

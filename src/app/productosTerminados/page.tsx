@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {  ProductosTerminados } from "@prisma/client";
 import DataTable from "@/components/DataTable";
-// import { useClientes } from "@/context/ClientesContext";
+
 import { productosTerminadosColumns } from "@/models/productosTerminadosModel";
 import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
