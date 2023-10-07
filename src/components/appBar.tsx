@@ -8,7 +8,7 @@ import Typography from '@mui/material/Typography'
 import Button from '@mui/material/Button'
 import { BiUserCircle } from 'react-icons/bi'
 import { AiOutlinePicRight } from 'react-icons/ai'
-import Sidebar from './sidebar' // Ajusta la ruta de importación según la estructura de tu proyecto
+import Sidebar from '@/components/Sidebar' // Ajusta la ruta de importación según la estructura de tu proyecto
 
 const MainLayout = () => {
   const [showSidebar, setShowSidebar] = useState(true)
