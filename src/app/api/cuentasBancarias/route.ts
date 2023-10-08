@@ -3,8 +3,8 @@ import { prisma } from "@/libs/prisma";
 
 export async function GET() {
   try {
-    const activos = await prisma.activos.findMany();
-    return NextResponse.json(activos);
+    const cuentasBancarias = await prisma.cuentasBancarias.findMany();
+    return NextResponse.json(cuentasBancarias);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -22,26 +22,24 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const {
-      id,
-      nombre,
-      valor_inicial,
-      fecha_adquisicion,
-      vida_util,
-      depreciacion_acumulada,
+        id,
+        nombre, 
+        numero_cuenta,
+        banco, 
+        saldo_actual,  
     } = await request.json();
 
-    const newActivos = await prisma.activos.create({
+    const cuentasBancarias = await prisma.cuentasBancarias.create({
       data: {
         id,
-        nombre,
-        valor_inicial,
-        fecha_adquisicion,
-        vida_util,
-        depreciacion_acumulada,
+        nombre, 
+        numero_cuenta,
+        banco, 
+        saldo_actual, 
       },
     });
 
-    return NextResponse.json(newActivos);
+    return NextResponse.json(cuentasBancarias);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
