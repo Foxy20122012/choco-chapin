@@ -4,21 +4,20 @@ import { useEffect, useState } from "react";
 import { Proveedores, Ventas } from "@prisma/client";
 import DataTable from "@/components/DataTable";
 import { useVentas } from "@/context/VentasContext";
-import {
-  ventasColumns,
-  transformVentasToRows,
-} from "@/models/ventasModel";
+import { ventasColumns, transformVentasToRows } from "@/models/ventasModel";
 import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
 import DynamicForm from "@/components/DynamicForm";
 import ventasProps from "@/models/ventasProps";
-import useHasMounted from '@/hooks/useHasMounted';
-import Loadig from '@/components/Loading';
-import LineChart from "@/components/GraphVentas";
+import useHasMounted from "@/hooks/useHasMounted";
+import Loadig from "@/components/Loading";
+import LineChart from "@/components/LineChart";
+import tabContent from "@/models/tabsListClientes";
 
-const columns = (Object.keys(ventasColumns) as (keyof Ventas)[]).map(
-  (key) => ({ key, label: ventasColumns[key] })
-);
+const columns = (Object.keys(ventasColumns) as (keyof Ventas)[]).map((key) => ({
+  key,
+  label: ventasColumns[key],
+}));
 
 function VentasPage() {
   const {
@@ -36,11 +35,11 @@ function VentasPage() {
   }, []);
 
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [ventasToDelete, setVentasToDelete] = useState<Ventas | null>(
-    null
-  );
+  const [ventasToDelete, setVentasToDelete] = useState<Ventas | null>(null);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+
+  const rowsVentas = transformVentasToRows(ventas);
 
   const openDeleteModal = (venta: Ventas) => {
     setVentasToDelete(venta);
@@ -97,29 +96,32 @@ function VentasPage() {
     }
   };
 
-  const rowsVentas = transformVentasToRows(ventas);
+  const ventasData = ventas.map((venta) => ({
+    fecha: venta.fecha_venta,
+    montoTotal: parseFloat(venta.monto_total || 0),
+  }));
 
   const hasMounted = useHasMounted();
   if (!hasMounted) {
-    return<Loadig />;
+    return <Loadig />;
   }
   return (
     <div>
       <DataTable
         title={"Registro De Ventas"}
-         // @ts-ignore
+        // @ts-ignore
         data={rowsVentas}
         columns={columns}
-         // @ts-ignore
+        // @ts-ignore
         onEdit={handleEditVentas}
-         // @ts-ignore
+        // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
       <Modal
         isOpen={isDeleteModalOpen}
         title="Confirmar Eliminación"
-        message={`¿Estás seguro de que deseas eliminar al cliente ${ventasToDelete?.cliente_id }?`}
+        message={`¿Estás seguro de que deseas eliminar al cliente ${ventasToDelete?.cliente_id}?`}
         onConfirm={async () => {
           try {
             if (ventasToDelete) {
@@ -133,7 +135,7 @@ function VentasPage() {
           }
         }}
         onCancel={closeDeleteModal}
-         // @ts-ignore
+        // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} // Configura según tus necesidades
@@ -154,7 +156,7 @@ function VentasPage() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
-         // @ts-ignore
+        // @ts-ignore
         onConfirm={handleCreateOrUpdateVentas}
       >
         <DynamicForm
@@ -163,12 +165,29 @@ function VentasPage() {
           showCreateButton={!selectedVentas}
           showUpdateButton={!!selectedVentas}
           initialFormData={selectedVentas}
-           // @ts-ignore
+          // @ts-ignore
           onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
           columns={1}
         />
       </Modal>
-      <LineChart />
+      <LineChart
+        data={{
+          labels: ventasData.map((venta) => {
+            const fechaVenta = new Date(venta.fecha);
+            return fechaVenta.toLocaleDateString();
+          }),
+          datasets: [
+            {
+              label: "Monto Total de Ventas",
+              data: ventasData.map((venta) => venta.montoTotal),
+              borderColor: "#3e95cd",
+              fill: false,
+            },
+          ],
+        }}
+        xLabel="Fecha de Venta"
+        yLabel="Monto Total"
+      />
     </div>
   );
 }

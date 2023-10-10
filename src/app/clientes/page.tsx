@@ -11,6 +11,10 @@ import DynamicForm from "@/components/DynamicForm";
 import clientesProps from "@/models/clientesProps";
 import useHasMounted from "@/hooks/useHasMounted";
 import Loadig from "@/components/Loading";
+import CountTag from "@/components/CountTag";
+import { FaHeart } from "react-icons/fa";
+import CustomTabs from "@/components/CustomTabs";
+import tabContent from "@/models/tabsListClientes"
 
 
 const columns = (Object.keys(clientesColumns) as (keyof Clientes)[]).map(
@@ -32,6 +36,7 @@ function ClientesPage() {
   const [clientToDelete, setClientToDelete] = useState<Clientes | null>(null);
   const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const rowsClientes = transformClientesToRows(clientes);
 
   useEffect(() => {
     loadClientes();
@@ -92,11 +97,11 @@ function ClientesPage() {
     }
   };
 
-  const rowsClientes = transformClientesToRows(clientes);
+  
 
   const hasMounted = useHasMounted();
   if (!hasMounted) {
-    return <Loadig />;
+    return null; //<Loadig />
   }
   return (
     <div>
@@ -162,6 +167,18 @@ function ClientesPage() {
             columns={1}
           />
         </Modal>
+
+        <CountTag
+          datos="Ventas totales"
+          icon={<FaHeart />} // Utiliza el ícono de un corazón de React Icons
+          value={12500}
+          theme="green"
+          title="Resumen de ventas"
+        />
+
+        <div className="flex justify-center items-center">
+          <CustomTabs tabs={tabContent} />
+        </div>
       </div>
     </div>
   );

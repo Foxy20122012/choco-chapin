@@ -77,6 +77,11 @@ export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
 
   // Calcula la suma del monto total de ventas por usuario cuando las ventas cambian.
   useEffect(() => {
+    if (!Array.isArray(ventas)) {
+      // Si ventas no es un array válido, no hagas nada.
+      return;
+    }
+
     const sumaPorUsuario: { [userId: string]: number } = {};
 
     ventas.forEach((venta) => {
@@ -111,3 +116,4 @@ export const VentasProvider = ({ children }: { children: React.ReactNode }) => {
     </VentasContext.Provider>
   );
 };
+
