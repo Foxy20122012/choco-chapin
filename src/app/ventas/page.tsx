@@ -1,7 +1,7 @@
 // En otro archivo donde uses las columnas
 "use client";
 import { useEffect, useState } from "react";
-import { Proveedores, Ventas } from "@prisma/client";
+import { Ventas } from "@prisma/client";
 import DataTable from "@/components/DataTable";
 import { useVentas } from "@/context/VentasContext";
 import { ventasColumns, transformVentasToRows } from "@/models/ventasModel";
@@ -11,8 +11,10 @@ import DynamicForm from "@/components/DynamicForm";
 import ventasProps from "@/models/ventasProps";
 import useHasMounted from "@/hooks/useHasMounted";
 import Loadig from "@/components/Loading";
-import LineChart from "@/components/LineChart";
-import tabContent from "@/models/tabsListClientes";
+import CustomIcon from "@/components/CustomIcons";
+import SalesLineChart from "@/components/SalesLineChart";
+import CustomTabs from "@/components/CustomTabs";
+// import tabListVentas from "@/models/tabsListVentas";
 
 const columns = (Object.keys(ventasColumns) as (keyof Ventas)[]).map((key) => ({
   key,
@@ -98,9 +100,30 @@ function VentasPage() {
 
   const ventasData = ventas.map((venta) => ({
     fecha: venta.fecha_venta,
-    montoTotal: parseFloat(venta.monto_total || 0),
+    montoTotal: parseFloat(venta.monto_total?.toString() || "0"),
   }));
 
+  const tabListVentas = [
+    {
+      label: "Grafico de Ventas",
+      icon: <CustomIcon name="BsGraphUpArrow" size={24} />,
+      content: (
+        <div>
+          <SalesLineChart ventasData={ventasData} />
+        </div>
+      ),
+    },
+    {
+      label: "Perfil",
+      icon: <CustomIcon name="FaUser" size={24} />,
+      content: <div className="">Texto 2 de prueba</div>,
+    },
+    {
+      label: "Configuración",
+      icon: <CustomIcon name="GrConfigure" size={24} />,
+      content: <div>Prueba de texto 3.</div>,
+    },
+  ];
   const hasMounted = useHasMounted();
   if (!hasMounted) {
     return <Loadig />;
@@ -170,24 +193,8 @@ function VentasPage() {
           columns={1}
         />
       </Modal>
-      <LineChart
-        data={{
-          labels: ventasData.map((venta) => {
-            const fechaVenta = new Date(venta.fecha);
-            return fechaVenta.toLocaleDateString();
-          }),
-          datasets: [
-            {
-              label: "Monto Total de Ventas",
-              data: ventasData.map((venta) => venta.montoTotal),
-              borderColor: "#3e95cd",
-              fill: false,
-            },
-          ],
-        }}
-        xLabel="Fecha de Venta"
-        yLabel="Monto Total"
-      />
+
+      <CustomTabs tabs={tabListVentas} />
     </div>
   );
 }
