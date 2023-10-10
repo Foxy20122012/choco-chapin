@@ -16,7 +16,7 @@ export type Row = {
 };
 
 export const transformMateriasPrimasToRows = (materiasPrimas: MateriasPrimas[]): Row[] => {
-  
+  // @ts-ignore
   return materiasPrimas.map((materiaPrima) => ({
     id: materiaPrima.id,
     nombre: materiaPrima.nombre || "",

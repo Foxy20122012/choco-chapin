@@ -104,7 +104,9 @@ function Facturas() {
     return<Loadig />;
   }
   return (
+    
     <div>
+      
       <DataTable
         title={"facturas"}
         // @ts-ignore
@@ -169,6 +171,7 @@ function Facturas() {
           decimalPlaces={3}
         />
       </Modal>
+     
     </div>
   );
 }

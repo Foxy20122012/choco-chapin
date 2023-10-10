@@ -14,6 +14,7 @@ export type Row = {
 };
 
 export const transformFacturasToRows = (facturas: Facturas[]): Row[] => {
+  // @ts-ignore
   return facturas.map((factura) => ({
     id: factura.id,
     venta_id: factura.venta_id || null,

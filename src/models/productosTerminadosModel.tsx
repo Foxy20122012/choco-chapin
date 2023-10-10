@@ -15,6 +15,7 @@ export type Row = {
 export const transformProductosTerminadosToRows = (
   productosTerminados: ProductosTerminados[]
 ): Row[] => {
+  // @ts-ignore
   return productosTerminados.map((producto) => ({
     id: producto.id,
     nombre: producto.nombre || "",
