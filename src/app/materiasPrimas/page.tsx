@@ -106,7 +106,7 @@ function MateriasPrimasPage() {
         columns={columns}
         onEdit={handleEditMateriasPrimas}
         onDelete={handleDelete}
-        onNew={handleNewClick}
+        onNew={handleNewClick} 
       />
       <Modal
         isOpen={isDeleteModalOpen} 
