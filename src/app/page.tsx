@@ -3,7 +3,7 @@ import Colors from './themeApp/page'
 import router from 'next/router'
 
 export default function Home() {
-  return (
+  return ( 
     <main className="flex flex-col items-center justify-between bg-gray-100 p-4 sm:p-8 md:p-16 lg:p-24 xl:p-32">
       <h1 className="mb-3 text-center text-4xl font-bold text-blue-600 md:text-5xl">Bienvenido al proyecto ChocoChapin ERP</h1>
       <p className="mb-5 text-base md:text-lg">Este proyecto consta de varios módulos, a continuación se presenta una descripción de cada uno y los encargados de su desarrollo:</p>
