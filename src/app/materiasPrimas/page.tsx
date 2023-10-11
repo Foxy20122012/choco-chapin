@@ -101,8 +101,8 @@ function MateriasPrimasPage() {
   return (
     <div>
       <DataTable 
-        title={"Materias Primas"}  
-        data={rowsMateriasPrimas} 
+        title={"Materias Primas"}   
+        data={rowsMateriasPrimas}  
         columns={columns}
         onEdit={handleEditMateriasPrimas}
         onDelete={handleDelete}
