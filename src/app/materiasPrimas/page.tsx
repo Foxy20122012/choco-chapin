@@ -99,7 +99,7 @@ function MateriasPrimasPage() {
   }
 
   return (
-    <div>
+    <div> 
       <DataTable  
         title={"Materias Primas"}   
         data={rowsMateriasPrimas}  
