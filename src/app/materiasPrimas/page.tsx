@@ -102,14 +102,14 @@ function MateriasPrimasPage() {
     <div>
       <DataTable 
         title={"Materias Primas"}  
-        data={rowsMateriasPrimas}
+        data={rowsMateriasPrimas} 
         columns={columns}
         onEdit={handleEditMateriasPrimas}
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
       <Modal
-        isOpen={isDeleteModalOpen}
+        isOpen={isDeleteModalOpen} 
         title="Confirmar Eliminación"
         message={`¿Estás seguro de que deseas eliminar la Materia Prima ${MateriasPrimasToDelete?.nombre}?`}
         onConfirm={async () => {
