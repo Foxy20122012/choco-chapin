@@ -1,5 +1,6 @@
-// En otro archivo donde uses las columnas
 "use client";
+
+
 import { useEffect, useState } from "react";
 import { SalidasMateriasPrimas } from "@prisma/client";
 import DataTable from "@/components/DataTable";

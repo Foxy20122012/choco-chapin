@@ -110,14 +110,15 @@ model Roles {
 }
 
 model SalidasMateriasPrimas {
-  id                 Int             @id @default(autoincrement())
-  materia_prima_id   Int?
-  cantidad           Decimal?        @db.Decimal(10, 2)
-  fecha_salida       DateTime?       @db.Date
-  destino            String?         @db.VarChar(100)
-  responsable_salida String?         @db.VarChar(255)
-  descripcion        String?         @db.Text
-  MateriasPrimas     MateriasPrimas? @relation(fields: [materia_prima_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_SalidasMateriasPrimas_MateriasPrimas")
+  id                   Int             @id @default(autoincrement())
+  materia_prima_id     Int?
+  cantidad             Decimal?        @db.Decimal(10, 2)
+  fecha_salida         DateTime?       @db.Date
+  destino              String?         @db.VarChar(100)
+  responsable_salida   String?         @db.VarChar(255)
+  descripcion          String?         @db.Text
+  codigo_materia_prima String?         @db.VarChar(255)
+  MateriasPrimas       MateriasPrimas? @relation(fields: [materia_prima_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_SalidasMateriasPrimas_MateriasPrimas")
 
   @@index([materia_prima_id], map: "fk_SalidasMateriasPrimas_MateriasPrimas_idx")
 }
