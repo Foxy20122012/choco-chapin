@@ -1,3 +1,5 @@
+// ProductosTerminadosContext.tsx
+
 import { createContext, useState, useContext } from "react";
 import { CreateProductosTerminados, UpdateProductosTerminados } from "@/interfaces/ProductosTerminados";
 import { ProductosTerminados } from "@prisma/client";
@@ -13,13 +15,12 @@ export const ProductosTerminadosContext = createContext<{
 }>({
   productosTerminados: [],
   loadProductosTerminados: async () => {},
-  createProductosTerminados: async () => {}, // Elimina el parámetro no utilizado
-  deleteProductosTerminados: async () => {}, // Elimina el parámetro no utilizado
+  createProductosTerminados: async (productoTerminado: CreateProductosTerminados) => {},
+  deleteProductosTerminados: async (id: number) => {},
   selectedProductosTerminados: null,
-  setSelectedProductosTerminados: () => {}, // Elimina el parámetro no utilizado
-  updateProductosTerminados: async () => {}, // Elimina el parámetro no utilizado
+  setSelectedProductosTerminados: (productoTerminado: ProductosTerminados | null) => {},
+  updateProductosTerminados: async (id: number, productoTerminado: UpdateProductosTerminados) => {},
 });
-
 
 export const useProductosTerminados = () => {
   const context = useContext(ProductosTerminadosContext);
@@ -31,10 +32,12 @@ export const useProductosTerminados = () => {
 
 export const ProductosTerminadosProvider = ({ children }: { children: React.ReactNode }) => {
   const [productosTerminados, setProductosTerminados] = useState<ProductosTerminados[]>([]);
-  const [selectedProductosTerminados, setSelectedProductosTerminados] = useState<ProductosTerminados | null>(null);
+  const [selectedProductosTerminados, setSelectedProductosTerminados] = useState<ProductosTerminados | null>(
+    null
+  );
 
   async function loadProductosTerminados() {
-    const res = await fetch("/api/productosTerminados");
+    const res = await fetch("/api/productosTerminados"); // Asegúrate de tener un endpoint correcto para cargar los productosTerminados
     const data = await res.json();
     setProductosTerminados(data);
   }
@@ -52,7 +55,7 @@ export const ProductosTerminadosProvider = ({ children }: { children: React.Reac
   }
 
   async function deleteProductosTerminados(id: number) {
-    const res = await fetch("/api/productosTerminados" + id, {
+    const res = await fetch("/api/productosTerminados/" + id, {
       method: "DELETE",
     });
     const data = await res.json();
@@ -60,26 +63,17 @@ export const ProductosTerminadosProvider = ({ children }: { children: React.Reac
   }
 
   async function updateProductosTerminados(id: number, productoTerminado: UpdateProductosTerminados) {
-    try {
-      const res = await fetch("/api/productosTerminados/" + id, {
-        method: "PUT",
-        body: JSON.stringify(productoTerminado),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-
-      if (res.status === 200) {
-        const data = await res.json();
-        setProductosTerminados((productosTerminados) =>
-          productosTerminados.map((productoTerminado) => (productoTerminado.id === id ? data : productoTerminado))
-        );
-      } else {
-        console.error("Error updating productos terminados");
-      }
-    } catch (error) {
-      console.error("Error updating productos terminados", error);
-    }
+    const res = await fetch("/api/productosTerminados/" + id, {
+      method: "PUT",
+      body: JSON.stringify(productoTerminado),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    setProductosTerminados(
+      productosTerminados.map((productoTerminado) => (productoTerminado.id === id ? data : productoTerminado))
+    );
   }
 
   return (
