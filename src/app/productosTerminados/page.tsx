@@ -10,13 +10,13 @@ import { transformProductosTerminadosToRows } from "@/models/productosTerminados
 import DynamicForm from "@/components/DynamicForm";
 import productosTerminadosProps from "@/models/productosTerminadosProps";
 import useHasMounted from '@/hooks/useHasMounted';
-import Loadig from '@/components/Loading';
+import Loading from '@/components/Loading';
 
 const columns = (Object.keys(productosTerminadosColumns) as (keyof ProductosTerminados)[]).map(
   (key) => ({ key, label: productosTerminadosColumns[key] })
 );
 
-function PedidosPage() {
+function ProductosTerminadosPage() {
   const {
     productosTerminados,
     loadProductosTerminados,
@@ -46,7 +46,7 @@ function PedidosPage() {
     setIsDeleteModalOpen(false);
   };
 
-  const handleEditPedidos = (productoTerminado: ProductosTerminados) => {
+  const handleEditProductosTerminados = (productoTerminado: ProductosTerminados) => {
     setSelectedProductosTerminados(productoTerminado);
     setIsFormVisible(true);
   };
@@ -60,60 +60,55 @@ function PedidosPage() {
     setIsFormVisible(true);
   };
 
-  const handleCreateOrUpdatePedidos = async (formData: any) => {
+  const handleCreateOrUpdateProductosTerminados = async (formData: any) => {
     try {
       if (selectedProductosTerminados) {
-        // Estás editando un cliente existente
         await updateProductosTerminados(selectedProductosTerminados.id, formData);
       } else {
-        // Estás creando un nuevo cliente
         await createProductosTerminados(formData);
       }
       setIsFormVisible(false);
       setSelectedProductosTerminados(null);
       loadProductosTerminados();
     } catch (error) {
-      console.error("Error al crear o actualizar el Pedido:", error);
+      console.error("Error al crear o actualizar el producto terminado:", error);
     }
   };
 
   const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedProductosTerminados) {
-        // Estás editando un cliente existente
-        await updateProductosTerminados(selectedProductosTerminados.id, formData); // Envía los datos actualizados al servidor
+        await updateProductosTerminados(selectedProductosTerminados.id, formData);
       }
       setIsFormVisible(false);
       setSelectedProductosTerminados(null);
       loadProductosTerminados();
     } catch (error) {
-      console.error("Error al actualizar el cliente:", error);
+      console.error("Error al actualizar el producto terminado:", error);
     }
   };
 
-  const rowsPedidos = transformProductosTerminadosToRows(productosTerminados);
+  const rowsProductosTerminados = transformProductosTerminadosToRows(productosTerminados);
 
   const hasMounted = useHasMounted();
   if (!hasMounted) {
-    return<Loadig />;
+    return <Loading />;
   }
 
   return (
     <div>
       <DataTable
-        title={"Productos terminados"}
-         // @ts-ignore
-        data={rowsPedidos}
+        title={"Productos Terminados"}
+        data={rowsProductosTerminados}
         columns={columns}
-        onEdit={handleEditPedidos}
-         // @ts-ignore
+        onEdit={handleEditProductosTerminados}
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
       <Modal
         isOpen={isDeleteModalOpen}
         title="Confirmar Eliminación"
-        message={`¿Estás seguro de que deseas eliminar la Materia Prima ${productosTerminadosToDelete?.id}?`}
+        message={`¿Estás seguro de que deseas eliminar el producto terminado ${productosTerminadosToDelete?.nombre}?`}
         onConfirm={async () => {
           try {
             if (productosTerminadosToDelete) {
@@ -123,51 +118,44 @@ function PedidosPage() {
               loadProductosTerminados();
             }
           } catch (error) {
-            console.error("Error al eliminar el Pedido:", error);
+            console.error("Error al eliminar el producto terminado:", error);
           }
         }}
         onCancel={closeDeleteModal}
-         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
-        showConfirmButton={true} // Configura según tus necesidades
-        
+        showConfirmButton={true}
       />
       <SuccessModal
         isOpen={isDeleteSuccess}
         onClose={() => setIsDeleteSuccess(false)}
-        message="El pedido se ha eliminado correctamente."
+        message="El producto terminado se ha eliminado correctamente."
         buttonText="Aceptar"
       />
-
-<Modal
+      <Modal
         isOpen={isFormVisible}
-        title={selectedProductosTerminados ? "Editar Pedido" : "Nueva Pedido"}
+        title={selectedProductosTerminados ? "Editar Producto Terminado" : "Nuevo Producto Terminado"}
         onCancel={() => {
           setIsFormVisible(false);
-          setSelectedProductosTerminados(null); 
+          setSelectedProductosTerminados(null);
         }}
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
-         // @ts-ignore
-        onConfirm={handleCreateOrUpdatePedidos}
+        onConfirm={handleCreateOrUpdateProductosTerminados}
       >
-      <DynamicForm
-        
-        formProps={productosTerminadosProps}
-        onSubmit={handleCreateOrUpdatePedidos}
-        showCreateButton={!selectedProductosTerminados}
-        showUpdateButton={!!selectedProductosTerminados}
-        initialFormData={selectedProductosTerminados}
-         // @ts-ignore
-        onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-        columns={2}
-     
-      />
+        <DynamicForm
+          formProps={productosTerminadosProps}
+          onSubmit={handleCreateOrUpdateProductosTerminados}
+          showCreateButton={!selectedProductosTerminados}
+          showUpdateButton={!!selectedProductosTerminados}
+          initialFormData={selectedProductosTerminados}
+          onUpdateClick={handleUpdateClick}
+          columns={2}
+        />
       </Modal>
     </div>
   );
 }
 
-export default PedidosPage;
+export default ProductosTerminadosPage;
