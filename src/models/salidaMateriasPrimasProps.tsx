@@ -18,11 +18,6 @@ const salidasMateriasPrimasProps = [
     step: 0.01,
   },
   {
-    label: "Fecha de Salida",
-    name: "fecha_salida",
-    type: "date", // Cambiado el tipo a "date" para fechas
-  },
-  {
     label: "Destino",
     name: "destino",
     type: "text",
