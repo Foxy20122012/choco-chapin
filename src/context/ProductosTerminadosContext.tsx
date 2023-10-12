@@ -1,5 +1,5 @@
 // ProductosTerminadosContext.tsx
-
+'use client'
 import { createContext, useState, useContext } from "react";
 import { CreateProductosTerminados, UpdateProductosTerminados } from "@/interfaces/ProductosTerminados";
 import { ProductosTerminados } from "@prisma/client";
@@ -7,19 +7,19 @@ import { ProductosTerminados } from "@prisma/client";
 export const ProductosTerminadosContext = createContext<{
   productosTerminados: ProductosTerminados[];
   loadProductosTerminados: () => Promise<void>;
-  createProductosTerminados: (productoTerminado: CreateProductosTerminados) => Promise<void>;
+  createProductosTerminados: (productosTerminados: CreateProductosTerminados) => Promise<void>;
   deleteProductosTerminados: (id: number) => Promise<void>;
   selectedProductosTerminados: ProductosTerminados | null;
-  setSelectedProductosTerminados: (productoTerminado: ProductosTerminados | null) => void;
-  updateProductosTerminados: (id: number, productoTerminado: UpdateProductosTerminados) => Promise<void>;
+  setSelectedProductosTerminados: (productosTerminados: ProductosTerminados | null) => void;
+  updateProductosTerminados: (id: number, productosTerminados: UpdateProductosTerminados) => Promise<void>;
 }>({
   productosTerminados: [],
   loadProductosTerminados: async () => {},
-  createProductosTerminados: async (productoTerminado: CreateProductosTerminados) => {},
+  createProductosTerminados: async (productosTerminados: CreateProductosTerminados) => {},
   deleteProductosTerminados: async (id: number) => {},
   selectedProductosTerminados: null,
-  setSelectedProductosTerminados: (productoTerminado: ProductosTerminados | null) => {},
-  updateProductosTerminados: async (id: number, productoTerminado: UpdateProductosTerminados) => {},
+  setSelectedProductosTerminados: (productosTerminados: ProductosTerminados | null) => {},
+  updateProductosTerminados: async (id: number, productosTerminados: UpdateProductosTerminados) => {},
 });
 
 export const useProductosTerminados = () => {
@@ -32,49 +32,77 @@ export const useProductosTerminados = () => {
 
 export const ProductosTerminadosProvider = ({ children }: { children: React.ReactNode }) => {
   const [productosTerminados, setProductosTerminados] = useState<ProductosTerminados[]>([]);
-  const [selectedProductosTerminados, setSelectedProductosTerminados] = useState<ProductosTerminados | null>(
-    null
-  );
+  const [selectedProductosTerminados, setSelectedProductosTerminados] = useState<ProductosTerminados | null>(null);
 
   async function loadProductosTerminados() {
-    const res = await fetch("/api/productosTerminados"); // Asegúrate de tener un endpoint correcto para cargar los productosTerminados
-    const data = await res.json();
-    setProductosTerminados(data);
+    try {
+      const res = await fetch("/api/productosTerminados"); // Reemplaza con la ruta correcta de tu API
+      const data = await res.json();
+      setProductosTerminados(data);
+    } catch (error) {
+      console.error("Error loading productos terminados", error);
+    }
   }
 
-  async function createProductosTerminados(productoTerminado: CreateProductosTerminados) {
-    const res = await fetch("/api/productosTerminados", {
-      method: "POST",
-      body: JSON.stringify(productoTerminado),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const newProductoTerminado = await res.json();
-    setProductosTerminados([...productosTerminados, newProductoTerminado]);
+  async function createProductosTerminados(productosTerminados: CreateProductosTerminados) {
+    try {
+      const res = await fetch("/api/productosTerminados", {
+        method: "POST",
+        body: JSON.stringify(productosTerminados),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+  
+      if (res.status === 200) {
+        const newProductosTerminados = await res.json();
+        setProductosTerminados((productos) => [...productos, newProductosTerminados]);
+      } else {
+        console.error("Error creating productos terminados");
+      }
+    } catch (error) {
+      console.error("Error creating productos terminados", error);
+    }
   }
+  
 
   async function deleteProductosTerminados(id: number) {
-    const res = await fetch("/api/productosTerminados/" + id, {
-      method: "DELETE",
-    });
-    const data = await res.json();
-    setProductosTerminados(productosTerminados.filter((productoTerminado) => productoTerminado.id !== id));
+    try {
+      const res = await fetch(`/api/productosTerminados/${id}`, {
+        method: "DELETE",
+      });
+      if (res.status === 200) {
+        setProductosTerminados(productosTerminados.filter((productosTerminados) => productosTerminados.id !== id));
+      } else {
+        console.error("Error deleting productos terminados");
+      }
+    } catch (error) {
+      console.error("Error deleting productos terminados", error);
+    }
   }
 
-  async function updateProductosTerminados(id: number, productoTerminado: UpdateProductosTerminados) {
-    const res = await fetch("/api/productosTerminados/" + id, {
-      method: "PUT",
-      body: JSON.stringify(productoTerminado),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const data = await res.json();
-    setProductosTerminados(
-      productosTerminados.map((productoTerminado) => (productoTerminado.id === id ? data : productoTerminado))
-    );
+  async function updateProductosTerminados(id: number, productosTerminados: UpdateProductosTerminados) {
+    try {
+      const res = await fetch(`/api/productosTerminados/${id}`, {
+        method: "PUT",
+        body: JSON.stringify(productosTerminados),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (res.status === 200) {
+        const updatedProductosTerminados = await res.json();
+        setProductosTerminados((productos) =>
+          productos.map((producto) => (producto.id === id ? updatedProductosTerminados : producto))
+        );
+      } else {
+        console.error("Error updating productos terminados");
+      }
+    } catch (error) {
+      console.error("Error updating productos terminados", error);
+    }
   }
+  
 
   return (
     <ProductosTerminadosContext.Provider

@@ -29,6 +29,7 @@ export async function POST(request: Request) {
         destino,
         responsable_salida,
         descripcion,
+        codigo_materia_prima
     } = await request.json();
 
     const salidasMateriasPrimas = await prisma.salidasMateriasPrimas.create({
@@ -40,6 +41,7 @@ export async function POST(request: Request) {
         destino,
         responsable_salida,
         descripcion,
+        codigo_materia_prima // Asegúrate de incluir el nuevo campo en la creación del registro
       },
     });
 

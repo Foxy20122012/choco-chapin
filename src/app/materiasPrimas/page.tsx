@@ -99,14 +99,14 @@ function MateriasPrimasPage() {
   }
 
   return (
-    <div>
-      <DataTable 
+    <div> 
+      <DataTable  
         title={"Materias Primas"}   
         data={rowsMateriasPrimas}  
         columns={columns}
         onEdit={handleEditMateriasPrimas}
         onDelete={handleDelete}
-        onNew={handleNewClick}
+        onNew={handleNewClick} 
       />
       <Modal
         isOpen={isDeleteModalOpen} 

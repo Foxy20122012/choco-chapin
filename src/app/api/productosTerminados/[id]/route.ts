@@ -70,6 +70,7 @@ export async function DELETE(request: Request, { params }: Params) {
   }
 }
 
+
 export async function PUT(request: Request, { params }: Params) {
   try {
     const {   
@@ -110,10 +111,20 @@ export async function PUT(request: Request, { params }: Params) {
           }
         );
       }
-
       return NextResponse.json(
         {
           message: error.message,
+        },
+        {
+          status: 500,
+        }
+      );
+    } else {
+      // En este caso, si no se cumple ninguna de las condiciones anteriores,
+      // devolvemos una respuesta de error genérica.
+      return NextResponse.json(
+        {
+          message: "Error inesperado",
         },
         {
           status: 500,

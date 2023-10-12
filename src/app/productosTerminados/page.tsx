@@ -1,15 +1,14 @@
 'use client'
 import React, { useEffect, useState } from "react";
-import {  ProductosTerminados } from "@prisma/client";
+import { ProductosTerminados } from "@prisma/client";
 import DataTable from "@/components/DataTable";
-
+import { useProductosTerminados } from "@/context/ProductosTerminadosContext";
 import { productosTerminadosColumns } from "@/models/productosTerminadosModel";
 import Modal from "@/components/Modal";
 import SuccessModal from "@/components/SuccessModal";
 import { transformProductosTerminadosToRows } from "@/models/productosTerminadosModel";
 import DynamicForm from "@/components/DynamicForm";
 import productosTerminadosProps from "@/models/productosTerminadosProps";
-import { useProductosTerminados } from "@/context/ProductosTerminadosContext";
 import useHasMounted from '@/hooks/useHasMounted';
 import Loadig from '@/components/Loading';
 
@@ -17,7 +16,7 @@ const columns = (Object.keys(productosTerminadosColumns) as (keyof ProductosTerm
   (key) => ({ key, label: productosTerminadosColumns[key] })
 );
 
-function ProductosTerminadosPage() {
+function PedidosPage() {
   const {
     productosTerminados,
     loadProductosTerminados,
@@ -37,8 +36,8 @@ function ProductosTerminadosPage() {
     loadProductosTerminados();
   }, []);
 
-  const openDeleteModal = (ProductoTerminado: ProductosTerminados) => {
-    setProductosTerminadosToDelete(ProductoTerminado);
+  const openDeleteModal = (productoTerminado: ProductosTerminados) => {
+    setProductosTerminadosToDelete(productoTerminado);
     setIsDeleteModalOpen(true);
   };
 
@@ -47,13 +46,13 @@ function ProductosTerminadosPage() {
     setIsDeleteModalOpen(false);
   };
 
-  const handleEditProductosTerminados = (ProductoTerminado: ProductosTerminados) => {
-    setSelectedProductosTerminados(ProductoTerminado);
+  const handleEditPedidos = (productoTerminado: ProductosTerminados) => {
+    setSelectedProductosTerminados(productoTerminado);
     setIsFormVisible(true);
   };
 
-  const handleDelete = (ProductoTerminado: ProductosTerminados) => {
-    openDeleteModal(ProductoTerminado);
+  const handleDelete = (productoTerminado: ProductosTerminados) => {
+    openDeleteModal(productoTerminado);
   };
 
   const handleNewClick = () => {
@@ -61,7 +60,7 @@ function ProductosTerminadosPage() {
     setIsFormVisible(true);
   };
 
-  const handleCreateOrUpdateProductosTerminados = async (formData: any) => {
+  const handleCreateOrUpdatePedidos = async (formData: any) => {
     try {
       if (selectedProductosTerminados) {
         // Estás editando un cliente existente
@@ -74,7 +73,7 @@ function ProductosTerminadosPage() {
       setSelectedProductosTerminados(null);
       loadProductosTerminados();
     } catch (error) {
-      console.error("Error al crear o actualizar el cliente:", error);
+      console.error("Error al crear o actualizar el Pedido:", error);
     }
   };
 
@@ -92,7 +91,7 @@ function ProductosTerminadosPage() {
     }
   };
 
-  const rowsProductosTerminados = transformProductosTerminadosToRows(productosTerminados);
+  const rowsPedidos = transformProductosTerminadosToRows(productosTerminados);
 
   const hasMounted = useHasMounted();
   if (!hasMounted) {
@@ -102,12 +101,11 @@ function ProductosTerminadosPage() {
   return (
     <div>
       <DataTable
-        title={"Productos Terminados"}
+        title={"Productos terminados"}
          // @ts-ignore
-        data={rowsProductosTerminados}
+        data={rowsPedidos}
         columns={columns}
-         // @ts-ignore
-        onEdit={handleEditProductosTerminados}
+        onEdit={handleEditPedidos}
          // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick}
@@ -115,7 +113,7 @@ function ProductosTerminadosPage() {
       <Modal
         isOpen={isDeleteModalOpen}
         title="Confirmar Eliminación"
-        message={`¿Estás seguro de que deseas eliminar al cliente ${productosTerminadosToDelete?.nombre}?`}
+        message={`¿Estás seguro de que deseas eliminar la Materia Prima ${productosTerminadosToDelete?.id}?`}
         onConfirm={async () => {
           try {
             if (productosTerminadosToDelete) {
@@ -125,7 +123,7 @@ function ProductosTerminadosPage() {
               loadProductosTerminados();
             }
           } catch (error) {
-            console.error("Error al eliminar el Productos Terminados:", error);
+            console.error("Error al eliminar el Pedido:", error);
           }
         }}
         onCancel={closeDeleteModal}
@@ -138,13 +136,13 @@ function ProductosTerminadosPage() {
       <SuccessModal
         isOpen={isDeleteSuccess}
         onClose={() => setIsDeleteSuccess(false)}
-        message="El Producto Terminado se ha eliminado correctamente."
+        message="El pedido se ha eliminado correctamente."
         buttonText="Aceptar"
       />
 
 <Modal
         isOpen={isFormVisible}
-        title={selectedProductosTerminados ? "Editar Producto Terminado" : "Nuevo Producto Terminado"}
+        title={selectedProductosTerminados ? "Editar Pedido" : "Nueva Pedido"}
         onCancel={() => {
           setIsFormVisible(false);
           setSelectedProductosTerminados(null); 
@@ -153,18 +151,18 @@ function ProductosTerminadosPage() {
         showConfirmButton={false}
         showUpdateButton={false}
          // @ts-ignore
-        onConfirm={handleCreateOrUpdateProductosTerminados}
+        onConfirm={handleCreateOrUpdatePedidos}
       >
       <DynamicForm
         
         formProps={productosTerminadosProps}
-        onSubmit={handleCreateOrUpdateProductosTerminados}
+        onSubmit={handleCreateOrUpdatePedidos}
         showCreateButton={!selectedProductosTerminados}
         showUpdateButton={!!selectedProductosTerminados}
         initialFormData={selectedProductosTerminados}
          // @ts-ignore
         onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-        columns={1}
+        columns={2}
      
       />
       </Modal>
@@ -172,4 +170,4 @@ function ProductosTerminadosPage() {
   );
 }
 
-export default ProductosTerminadosPage;
+export default PedidosPage;
