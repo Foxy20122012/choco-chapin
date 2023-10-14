@@ -105,6 +105,7 @@ function PedidosPage() {
          // @ts-ignore
         data={rowsPedidos}
         columns={columns}
+        // @ts-ignore
         onEdit={handleEditPedidos}
          // @ts-ignore
         onDelete={handleDelete}
