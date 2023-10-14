@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     const newcostosProduccion = await prisma.costosProduccion.create({
       data: {
         id,
+        //@ts-ignore
         tipo_dulce_id,     
         costo_materias_primas,
         costo_mano_de_obra,

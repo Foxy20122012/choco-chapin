@@ -85,6 +85,7 @@ export async function PUT(request: Request, { params }: Params) {
       },
       data: {
         id,
+        // @ts-ignore
         tipo_dulce_id,     
         costo_materias_primas,
         costo_mano_de_obra,
