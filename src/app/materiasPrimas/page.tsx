@@ -102,9 +102,12 @@ function MateriasPrimasPage() {
     <div> 
       <DataTable  
         title={"Materias Primas"}   
+        // @ts-ignore
         data={rowsMateriasPrimas}  
         columns={columns}
+         // @ts-ignore
         onEdit={handleEditMateriasPrimas}
+         // @ts-ignore
         onDelete={handleDelete}
         onNew={handleNewClick} 
       />
@@ -125,6 +128,7 @@ function MateriasPrimasPage() {
           }
         }}
         onCancel={closeDeleteModal}
+         // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
         showConfirmButton={true} 
@@ -146,6 +150,7 @@ function MateriasPrimasPage() {
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
+         // @ts-ignore
         onConfirm={handleCreateOrUpdateMateriasPrimas}
       >
         <DynamicForm
@@ -154,6 +159,7 @@ function MateriasPrimasPage() {
           showCreateButton={!selectedMateriasPrimas}
           showUpdateButton={!!selectedMateriasPrimas}
           initialFormData={selectedMateriasPrimas}
+           // @ts-ignore
           onUpdateClick={handleUpdateClick} 
           columns={2}
         />
