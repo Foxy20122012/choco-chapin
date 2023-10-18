@@ -237,3 +237,14 @@ model CostosProduccion {
   costo_mano_de_obra    Decimal?  @db.Decimal(10, 2)
   fecha                 DateTime? @db.Date
 }
+
+model Empleados {
+  id                 Int      @id @default(autoincrement())
+  nombre             String?  @db.VarChar(255)
+  apellido           String?  @db.VarChar(255)
+  direccion          String?  @db.VarChar(255)
+  telefono           String?  @db.VarChar(15)
+  correo_electronico String?  @db.VarChar(100)
+  puesto             String?  @db.VarChar(255)
+  salario            Decimal? @db.Decimal(10, 2)
+}
