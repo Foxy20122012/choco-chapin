@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { Prisma } from "@prisma/client";
+import { Prisma, SalidasMateriasPrimas } from "@prisma/client";
 import { prisma } from "@/libs/prisma";
 
 interface Params {
@@ -7,7 +7,6 @@ interface Params {
 }
 
 export async function GET(request: Request, { params }: Params) {
-  console.log(params.id);
   try {
     const salidasMateriasPrimas = await prisma.salidasMateriasPrimas.findFirst({
       where: {
@@ -15,13 +14,14 @@ export async function GET(request: Request, { params }: Params) {
       },
     });
 
-    if (!salidasMateriasPrimas)
-      return NextResponse.json({ message: "Product output not found" }, { status: 404 });
+    if (!salidasMateriasPrimas) {
+      return NextResponse.json({ message: "Salida de materias primas no encontrada" }, { status: 404 });
+    }
 
     return NextResponse.json(salidasMateriasPrimas);
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json( 
+      return NextResponse.json(
         {
           message: error.message,
         },
@@ -35,22 +35,23 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
   try {
-    const deletedsalidasMateriasPrimas = await prisma.salidasMateriasPrimas.delete({
+    const deletedSalidasMateriasPrimas = await prisma.salidasMateriasPrimas.delete({
       where: {
         id: Number(params.id),
       },
     });
-    if (!deletedsalidasMateriasPrimas)
-      return NextResponse.json({ message: "Product output not found" }, { status: 404 });
 
-    return NextResponse.json(deletedsalidasMateriasPrimas);
+    if (!deletedSalidasMateriasPrimas) {
+      return NextResponse.json({ message: "Salida de materias primas no encontrada" }, { status: 404 });
+    }
+
+    return NextResponse.json(deletedSalidasMateriasPrimas);
   } catch (error) {
-    console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Product output not found",
+            message: "Salida de materias primas no encontrada",
           },
           {
             status: 404,
@@ -72,17 +73,18 @@ export async function DELETE(request: Request, { params }: Params) {
 
 export async function PUT(request: Request, { params }: Params) {
   try {
-    const {   
-        id,
-        materia_prima_id,
-        cantidad,
-        fecha_salida,
-        destino,
-        responsable_salida,
-        descripcion,
-     } = await request.json();
+    const {
+      id,
+      materia_prima_id,
+      cantidad,
+      fecha_salida,
+      destino,
+      responsable_salida,
+      descripcion,
+      codigo_materia_prima
+    } = await request.json();
 
-    const updatedsalidasMateriasPrimas = await prisma.salidasMateriasPrimas.update({
+    const updatedSalidasMateriasPrimas = await prisma.salidasMateriasPrimas.update({
       where: {
         id: Number(params.id),
       },
@@ -94,16 +96,17 @@ export async function PUT(request: Request, { params }: Params) {
         destino,
         responsable_salida,
         descripcion,
+        codigo_materia_prima // Añadir el campo código de materia prima
       },
     });
 
-    return NextResponse.json(updatedsalidasMateriasPrimas);
+    return NextResponse.json(updatedSalidasMateriasPrimas);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Product output not found",
+            message: "Salida de materias primas no encontrada",
           },
           {
             status: 404,

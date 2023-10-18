@@ -1,5 +1,3 @@
-// MateriasPrimasContext.tsx
-
 import { createContext, useState, useContext } from "react";
 import { CreateMateriasPrimas, UpdateMateriasPrimas } from "@/interfaces/MateriasPrimas";
 import { MateriasPrimas } from "@prisma/client";
@@ -36,12 +34,10 @@ export const MateriasPrimasProvider = ({
   children: React.ReactNode;
 }) => {
   const [materiasPrimas, setMateriasPrimas] = useState<MateriasPrimas[]>([]);
-  const [selectedMateriasPrimas, setSelectedMateriasPrimas] = useState<MateriasPrimas | null>(
-    null
-  );
+  const [selectedMateriasPrimas, setSelectedMateriasPrimas] = useState<MateriasPrimas | null>(null);
 
   async function loadMateriasPrimas() {
-    const res = await fetch("/api/materiasPrimas"); // Asegúrate de tener un endpoint correcto para cargar las materias primas
+    const res = await fetch("/api/materiasPrimas");
     const data = await res.json();
     setMateriasPrimas(data);
   }

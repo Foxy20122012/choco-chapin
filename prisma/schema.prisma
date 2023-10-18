@@ -81,14 +81,13 @@ model Permisos {
 }
 
 model ProductosTerminados {
-  id                 Int                @id @unique(map: "id_UNIQUE") @default(autoincrement())
-  nombre             String?            @db.VarChar(255)
-  tipo_dulce         String?            @db.VarChar(100)
-  cantidad_producida Int?
-  fecha_produccion   DateTime?          @db.Date
-  precio_venta       Decimal?           @db.Decimal(10, 2)
-  descripcion        String?            @db.Text
-  CostosProduccion   CostosProduccion[]
+  id                 Int       @id @default(autoincrement())
+  nombre             String?   @db.VarChar(255)
+  tipo_dulce         String?   @db.VarChar(100)
+  cantidad_producida String?   @db.VarChar(255)
+  fecha_produccion   DateTime? @db.Date
+  precio_venta       String?   @db.VarChar(255)
+  descripcion        String?   @db.Text
 }
 
 model Proveedores {
@@ -110,14 +109,15 @@ model Roles {
 }
 
 model SalidasMateriasPrimas {
-  id                 Int             @id @default(autoincrement())
-  materia_prima_id   Int?
-  cantidad           Decimal?        @db.Decimal(10, 2)
-  fecha_salida       DateTime?       @db.Date
-  destino            String?         @db.VarChar(100)
-  responsable_salida String?         @db.VarChar(255)
-  descripcion        String?         @db.Text
-  MateriasPrimas     MateriasPrimas? @relation(fields: [materia_prima_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_SalidasMateriasPrimas_MateriasPrimas")
+  id                   Int             @id @default(autoincrement())
+  materia_prima_id     Int?
+  cantidad             Decimal?        @db.Decimal(10, 2)
+  fecha_salida         DateTime?       @db.Date
+  destino              String?         @db.VarChar(100)
+  responsable_salida   String?         @db.VarChar(255)
+  descripcion          String?         @db.Text
+  codigo_materia_prima String?         @db.VarChar(255)
+  MateriasPrimas       MateriasPrimas? @relation(fields: [materia_prima_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_SalidasMateriasPrimas_MateriasPrimas")
 
   @@index([materia_prima_id], map: "fk_SalidasMateriasPrimas_MateriasPrimas_idx")
 }
@@ -171,17 +171,6 @@ model CategoriasContabilidad {
   descripcion     String?           @db.Text
   Gastos          Gastos[]
   IngresosEgresos IngresosEgresos[]
-}
-
-model CostosProduccion {
-  id                    Int                  @id @default(autoincrement())
-  tipo_dulce_id         Int?
-  costo_materias_primas Decimal?             @db.Decimal(10, 2)
-  costo_mano_de_obra    Decimal?             @db.Decimal(10, 2)
-  fecha                 DateTime?            @db.Date
-  ProductosTerminados   ProductosTerminados? @relation(fields: [tipo_dulce_id], references: [id], onDelete: Restrict, onUpdate: Restrict, map: "CostosProduccion_ibfk_1")
-
-  @@index([tipo_dulce_id], map: "tipo_dulce_id")
 }
 
 model CuentasBancarias {
@@ -238,4 +227,13 @@ model TransaccionesBancarias {
   fecha               DateTime? @db.Date
   estado              String?   @db.VarChar(50)
   referencia_bancaria String?   @db.VarChar(255)
+}
+
+model CostosProduccion {
+  id                    Int       @id @default(autoincrement())
+  nombre_producto       String?   @db.VarChar(255)
+  codigo                String?   @db.VarChar(255)
+  costo_materias_primas Decimal?  @db.Decimal(10, 2)
+  costo_mano_de_obra    Decimal?  @db.Decimal(10, 2)
+  fecha                 DateTime? @db.Date
 }

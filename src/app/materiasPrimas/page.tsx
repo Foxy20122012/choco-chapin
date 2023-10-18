@@ -9,8 +9,8 @@ import SuccessModal from "@/components/SuccessModal";
 import { transformMateriasPrimasToRows } from "@/models/materiasPrimasModel";
 import DynamicForm from "@/components/DynamicForm";
 import materiasPrimasProps from "@/models/materiasPrimasProps";
-import useHasMounted from '@/hooks/useHasMounted';
-import Loadig from '@/components/Loading';
+import useHasMounted from "@/hooks/useHasMounted";
+import Loading from "@/components/Loading";
 
 const columns = (Object.keys(materiasPrimasColumns) as (keyof MateriasPrimas)[]).map(
   (key) => ({ key, label: materiasPrimasColumns[key] })
@@ -63,31 +63,31 @@ function MateriasPrimasPage() {
   const handleCreateOrUpdateMateriasPrimas = async (formData: any) => {
     try {
       if (selectedMateriasPrimas) {
-        // Estás editando un cliente existente
+        // Estás editando una materia prima existente
         await updateMateriasPrimas(selectedMateriasPrimas.id, formData);
       } else {
-        // Estás creando un nuevo cliente
+        // Estás creando una nueva materia prima
         await createMateriasPrimas(formData);
       }
       setIsFormVisible(false);
       setSelectedMateriasPrimas(null);
       loadMateriasPrimas();
     } catch (error) {
-      console.error("Error al crear o actualizar el cliente:", error);
+      console.error("Error al crear o actualizar la materia prima:", error);
     }
   };
 
-  const handleUpdateClick = async ( formData: any) => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedMateriasPrimas) {
-        // Estás editando un cliente existente
+        // Estás editando una materia prima existente
         await updateMateriasPrimas(selectedMateriasPrimas.id, formData); // Envía los datos actualizados al servidor
       }
       setIsFormVisible(false);
       setSelectedMateriasPrimas(null);
       loadMateriasPrimas();
     } catch (error) {
-      console.error("Error al actualizar el cliente:", error);
+      console.error("Error al actualizar la materia prima:", error);
     }
   };
 
@@ -95,24 +95,21 @@ function MateriasPrimasPage() {
 
   const hasMounted = useHasMounted();
   if (!hasMounted) {
-    return<Loadig />;
+    return <Loading />;
   }
 
   return (
-    <div>
-      <DataTable
-        title={"Materias Primas"}
-        // @ts-ignore
-        data={rowsMateriasPrimas}
+    <div> 
+      <DataTable  
+        title={"Materias Primas"}   
+        data={rowsMateriasPrimas}  
         columns={columns}
-          // @ts-ignore
         onEdit={handleEditMateriasPrimas}
-          // @ts-ignore
         onDelete={handleDelete}
-        onNew={handleNewClick}
+        onNew={handleNewClick} 
       />
       <Modal
-        isOpen={isDeleteModalOpen}
+        isOpen={isDeleteModalOpen} 
         title="Confirmar Eliminación"
         message={`¿Estás seguro de que deseas eliminar la Materia Prima ${MateriasPrimasToDelete?.nombre}?`}
         onConfirm={async () => {
@@ -124,15 +121,13 @@ function MateriasPrimasPage() {
               loadMateriasPrimas();
             }
           } catch (error) {
-            console.error("Error al eliminar el cliente:", error);
+            console.error("Error al eliminar la materia prima:", error);
           }
         }}
         onCancel={closeDeleteModal}
-          // @ts-ignore
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
-        showConfirmButton={true} // Configura según tus necesidades
-        
+        showConfirmButton={true} 
       />
       <SuccessModal
         isOpen={isDeleteSuccess}
@@ -141,31 +136,27 @@ function MateriasPrimasPage() {
         buttonText="Aceptar"
       />
 
-<Modal
+      <Modal
         isOpen={isFormVisible}
         title={selectedMateriasPrimas ? "Editar Materia Prima" : "Nueva Materia Prima"}
         onCancel={() => {
           setIsFormVisible(false);
-          setSelectedMateriasPrimas(null); 
+          setSelectedMateriasPrimas(null);
         }}
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
-          // @ts-ignore
         onConfirm={handleCreateOrUpdateMateriasPrimas}
       >
-      <DynamicForm
-        
-        formProps={materiasPrimasProps}
-        onSubmit={handleCreateOrUpdateMateriasPrimas}
-        showCreateButton={!selectedMateriasPrimas}
-        showUpdateButton={!!selectedMateriasPrimas}
-        initialFormData={selectedMateriasPrimas}
-          // @ts-ignore
-        onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-        columns={2}
-     
-      />
+        <DynamicForm
+          formProps={materiasPrimasProps}
+          onSubmit={handleCreateOrUpdateMateriasPrimas}
+          showCreateButton={!selectedMateriasPrimas}
+          showUpdateButton={!!selectedMateriasPrimas}
+          initialFormData={selectedMateriasPrimas}
+          onUpdateClick={handleUpdateClick} 
+          columns={2}
+        />
       </Modal>
     </div>
   );
