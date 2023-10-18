@@ -8,4 +8,3 @@ export type CreateProductosTerminados = Omit<ProductosTerminados, "id" | "fecha_
 // Es parcialmente opcional y solo se necesitan proporcionar los campos que se desean cambiar al actualizar un cliente.
 // Se basa en el tipo 'CreateCliente' para que las actualizaciones sigan la misma estructura que la creación de clientes.
 export type UpdateProductosTerminados = Partial<CreateProductosTerminados>;
-
