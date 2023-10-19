@@ -1,8 +1,7 @@
 import React, { useState, useEffect, FC } from "react";
-// import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
-import { Clientes } from "@/models/clientesModel"; // Asegúrate de que la ruta sea correcta
+import { Clientes } from "@/models/clientesModel";
 
 interface Column {
   key: string;
@@ -14,12 +13,12 @@ interface Row {
 }
 
 interface DataTableProps {
-  data: Clientes[]; // Cambiar 'Row' a 'Clientes[]'
+  data: Clientes[];
   title: string;
   columns: Column[];
   itemsPerPageOptions?: number[];
   onEdit: (row: Row) => void;
-  onDelete: (row: Clientes) => void; // Cambiar 'Row' a 'Clientes'
+  onDelete: (row: Clientes) => void;
   onNew: () => void;
 }
 
@@ -84,6 +83,14 @@ const DataTable: FC<DataTableProps> = ({
     return key.split(".").reduce((o, k) => (o || {})[k], obj);
   }
 
+  // Función para truncar el texto y agregar puntos suspensivos
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  }
+
   const visibleData = filteredData.slice(startIndex, endIndex);
 
   return (
@@ -139,7 +146,7 @@ const DataTable: FC<DataTableProps> = ({
                         key={columnIndex}
                         className="px-6 py-4 whitespace-nowrap text-center justify-center"
                       >
-                        {String(getColumnValue(row, column.key))}
+                        {truncateText(String(getColumnValue(row, column.key)), 50)}
                       </td>
                     ))}
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">

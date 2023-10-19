@@ -1,11 +1,5 @@
 const productosTerminadosProps = [
   {
-    label: "ID",
-    name: "id",
-    type: "number",
-    readOnly: true,
-  },
-  {
     label: "Nombre",
     name: "nombre",
     type: "text",
