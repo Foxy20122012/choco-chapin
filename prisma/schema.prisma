@@ -65,6 +65,11 @@ model Pedidos {
   fecha_entrega   DateTime? @db.Date
   estado_pedido   String?   @db.VarChar(50)
   detalles_pedido String?   @db.Text
+  tipo_pago       String?   @db.VarChar(50)
+  direccion_envio String?   @db.Text
+  notas           String?   @db.Text
+  codigo_venta    String?   @db.VarChar(255)
+  codigo_pedido   String?   @db.VarChar(255)
   Clientes        Clientes? @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Pedidos_Clientes")
 
   @@index([cliente_id], map: "fk_Pedidos_Clientes_idx")
@@ -143,15 +148,16 @@ model Usuarios {
 }
 
 model Ventas {
-  id            Int        @id @default(autoincrement())
-  cliente_id    Int?
-  monto_total   Decimal?   @db.Decimal(10, 2)
-  fecha_venta   DateTime?  @db.Date
-  metodo_pago   String?    @db.VarChar(100)
-  estado_pedido String?    @db.VarChar(50)
-  descripcion   String?    @db.Text
-  Facturas      Facturas[]
-  Clientes      Clientes?  @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes")
+  id             Int        @id @default(autoincrement())
+  cliente_id     Int?
+  monto_total    Decimal?   @db.Decimal(10, 2)
+  fecha_venta    DateTime?  @db.Date
+  metodo_pago    String?    @db.VarChar(100)
+  estado_pedido  String?    @db.VarChar(50)
+  descripcion    String?    @db.Text
+  codigo_materia String?    @db.VarChar(255)
+  Facturas       Facturas[]
+  Clientes       Clientes?  @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes")
 
   @@index([cliente_id], map: "fk_Ventas_Clientes_idx")
 }
