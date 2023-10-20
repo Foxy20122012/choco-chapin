@@ -93,6 +93,7 @@ model ProductosTerminados {
   fecha_produccion   DateTime? @db.Date
   precio_venta       String?   @db.VarChar(255)
   descripcion        String?   @db.Text
+  codigo             String?   @db.VarChar(255)
 }
 
 model Proveedores {
@@ -239,9 +240,13 @@ model CostosProduccion {
   id                    Int       @id @default(autoincrement())
   nombre_producto       String?   @db.VarChar(255)
   codigo                String?   @db.VarChar(255)
-  costo_materias_primas Decimal?  @db.Decimal(10, 2)
-  costo_mano_de_obra    Decimal?  @db.Decimal(10, 2)
+  costo_materias_primas String?   @db.VarChar(255)
+  costo_mano_de_obra    String?   @db.VarChar(255)
   fecha                 DateTime? @db.Date
+  otros_costos          String?   @db.VarChar(255)
+  cantidad_producida    String?   @db.VarChar(255)
+  costo_total           String?   @db.VarChar(255)
+  codigo_producto       String?   @db.VarChar(255)
 }
 
 model Empleados {

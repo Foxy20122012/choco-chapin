@@ -159,7 +159,6 @@ function Facturas() {
         onConfirm={handleCreateOrUpdateFacturas}
       >
         <DynamicForm
-        
           formProps={facturasProps}
           onSubmit={handleCreateOrUpdateFacturas}
           showCreateButton={!selectedFacturas}

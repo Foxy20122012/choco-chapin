@@ -29,6 +29,7 @@ export async function POST(request: Request) {
         fecha_produccion,
         precio_venta,
         descripcion,
+        codigo,    
     } = await request.json();
 
     const newproductosTerminados = await prisma.productosTerminados.create({
@@ -40,6 +41,8 @@ export async function POST(request: Request) {
         fecha_produccion,
         precio_venta,
         descripcion,
+        codigo, 
+        
       },
     });
 

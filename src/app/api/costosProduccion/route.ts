@@ -22,20 +22,26 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const {
-        id,
-        tipo_dulce_id,     
+        id,    
         costo_materias_primas,
         costo_mano_de_obra,
         fecha,   
+        otros_costos,       
+        cantidad_producida,  
+        costo_total,
+        codigo_producto,
     } = await request.json();
 
     const newcostosProduccion = await prisma.costosProduccion.create({
       data: {
-        id,
-        tipo_dulce_id,     
+        id,  
         costo_materias_primas,
         costo_mano_de_obra,
         fecha,  
+        otros_costos,       
+        cantidad_producida,  
+        costo_total,
+        codigo_producto,
       },
     });
 

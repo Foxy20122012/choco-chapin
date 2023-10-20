@@ -1,5 +1,5 @@
 // AllContexts.js
-import React from 'react';
+import React from "react";
 import { NotesProvider } from "@/context/NoteContext";
 import { VentasProvider } from "@/context/VentasContext";
 import { ClientesProvider } from "@/context/ClientesContext";
@@ -10,8 +10,8 @@ import { ProductosTerminadosProvider } from "@/context/ProductosTerminadosContex
 import { ProveedoresProvider } from "@/context/ProveedoresContext";
 import { SalidasMateriasPrimasProvider } from "@/context/SalidasMateriasPrimasContext";
 import { TransaccionesFinancierasProvider } from "@/context/TransaccionesFinancierasContext";
-import { EmpleadosProvider } from './EmpleadosContext';
-
+import { EmpleadosProvider } from "./EmpleadosContext";
+import { CostosProduccionProvider } from "@/context/CostosProduccionContext";
 
 const AllContexts = ({ children }) => (
   <NotesProvider>
@@ -24,8 +24,10 @@ const AllContexts = ({ children }) => (
                 <ProveedoresProvider>
                   <SalidasMateriasPrimasProvider>
                     <TransaccionesFinancierasProvider>
-                    <EmpleadosProvider>
-                      {children}
+                      <EmpleadosProvider>
+                        <CostosProduccionProvider>
+                          {children}
+                        </CostosProduccionProvider>
                       </EmpleadosProvider>
                     </TransaccionesFinancierasProvider>
                   </SalidasMateriasPrimasProvider>

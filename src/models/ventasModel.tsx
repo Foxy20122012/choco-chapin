@@ -39,6 +39,6 @@ export const ventasColumns: Record<VentasModel, string> = {
   metodo_pago: "Método de Pago",
   estado_pedido: "Estado del Pedido",
   descripcion: "Descripción",
-  codigo_materia: "Código de Materia",
+  codigo_materia: "Código de Venta",
 };
 

@@ -14,6 +14,7 @@ import { IoIosArrowForward } from "react-icons/io";
 import { GiPayMoney, GiMoneyStack } from "react-icons/gi";
 import { FiBox, FiArrowLeft } from "react-icons/fi";
 import { PiNotePencilFill } from "react-icons/pi";
+import { LiaMoneyBillSolid } from "react-icons/lia";
 import Collapse from "@mui/material/Collapse";
 
 const Sidebar = () => {
@@ -58,6 +59,11 @@ const Sidebar = () => {
       text: "Planilla",
       link: "/planilla",
       icon: <BsFileEarmarkSpreadsheet className="m-3 text-xl font-bold" />,
+    },
+    {
+      text: "Gestion Finaciera",
+      link: "/facturas",
+      icon: <LiaMoneyBillSolid  className="m-3 text-xl font-bold" />,
     },
     {
       text: "Cerrar Sesión",

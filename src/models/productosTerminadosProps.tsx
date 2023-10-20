@@ -17,12 +17,6 @@ const productosTerminadosProps = [
     type: "number",
   },
   {
-    label: "Fecha de Producción",
-    name: "fecha_produccion",
-    type: "date",
-    readOnly: true,
-  },
-  {
     label: "Precio de Venta",
     name: "precio_venta",
     type: "number",

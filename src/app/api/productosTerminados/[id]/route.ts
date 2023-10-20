@@ -80,6 +80,7 @@ export async function PUT(request: Request, { params }: Params) {
         fecha_produccion,
         precio_venta,
         descripcion,
+        codigo, 
      } = await request.json();
 
     const updatedproductosTerminados = await prisma.productosTerminados.update({
@@ -94,6 +95,7 @@ export async function PUT(request: Request, { params }: Params) {
         fecha_produccion,
         precio_venta,
         descripcion,
+        codigo, 
       },
     });
 

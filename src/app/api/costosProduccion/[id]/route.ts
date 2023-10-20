@@ -73,22 +73,28 @@ export async function DELETE(request: Request, { params }: Params) {
 export async function PUT(request: Request, { params }: Params) {
   try {
     const {       
-        id,
-        tipo_dulce_id,     
+        id,     
         costo_materias_primas,
         costo_mano_de_obra,
-        fecha,   } = await request.json();
+        fecha,
+        otros_costos,       
+        cantidad_producida,  
+        costo_total,
+        codigo_producto,   } = await request.json();
 
     const updatedcostosProduccion = await prisma.costosProduccion.update({
       where: {
         id: Number(params.id),
       },
       data: {
-        id,
-        tipo_dulce_id,     
+        id,   
         costo_materias_primas,
         costo_mano_de_obra,
         fecha,  
+        otros_costos,       
+        cantidad_producida,  
+        costo_total,
+        codigo_producto,
       },
     });
 
