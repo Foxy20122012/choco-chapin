@@ -84,9 +84,9 @@ model ProductosTerminados {
   id                 Int       @id @default(autoincrement())
   nombre             String?   @db.VarChar(255)
   tipo_dulce         String?   @db.VarChar(100)
-  cantidad_producida Int?
+  cantidad_producida String?   @db.VarChar(255)
   fecha_produccion   DateTime? @db.Date
-  precio_venta       Decimal?  @db.Decimal(10, 2)
+  precio_venta       String?   @db.VarChar(255)
   descripcion        String?   @db.Text
 }
 
