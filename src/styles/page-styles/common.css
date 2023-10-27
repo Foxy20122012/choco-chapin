@@ -1,0 +1,165 @@
+.via-card {
+  @apply block rounded-md shadow-md w-full border-gray-300 border drop-shadow-lg bg-white dark:bg-[#4E4E4E] shadow-[#D1D1D1] hover:shadow-[#00000033];
+}
+
+.via-label {
+  @apply block sm:text-sm md:text-sm lg:text-base xl:text-base text-gray-500 dark:text-gray-300 font-medium mb-1 pl-0;
+}
+
+.via-input {
+  @apply w-full sm:text-base md:text-base lg:text-sm xl:text-sm text-gray-900 dark:text-neutral-900 rounded-lg border border-gray-300 focus:ring-stone-500 focus:border-stone-500 dark:border-stone-600 dark:placeholder-gray-400  dark:focus:border-stone-500 !important;
+}
+
+.via-input-focus {
+  @apply border-stone-500 border-[2px] !important;
+}
+
+.via-input-prepend {
+  @apply w-full text-sm text-gray-900 dark:text-neutral-900 rounded-l-lg border-l-gray-100 border border-gray-300 focus:ring-stone-500 focus:border-stone-500 dark:border-stone-600 dark:placeholder-gray-400  dark:focus:border-stone-500 !important;
+}
+
+.via-append-input {
+  @apply absolute top-0 -right-1 h-full p-1 text-sm font-medium text-white bg-theme-app-500 dark:bg-theme-app-900 rounded-r-lg border border-theme-app-900 hover:bg-theme-app-600 focus:ring-4 focus:outline-none focus:ring-theme-app-300 dark:hover:bg-theme-app-900 dark:focus:ring-theme-app-800;
+}    
+
+.via-append-input-extra {
+  @apply absolute top-0 right-0 h-full p-1 mr-6 text-sm font-medium text-white bg-theme-app-500 dark:bg-theme-app-900 border border-theme-app-900 hover:bg-theme-app-800 focus:ring-4 focus:outline-none focus:ring-theme-app-300 dark:hover:bg-theme-app-900 dark:focus:ring-theme-app-800;
+}
+
+.via-button {
+  @apply cursor-pointer inline-flex items-center h-8 px-2 m-1 text-white ease-linear transition-colors duration-150 rounded-md border border-gray-300 dark:border-gray-700;
+}
+.via-div-actions {
+  @apply flex w-full justify-center flex-wrap;
+}
+
+.via-no {
+  @apply text-red-700 dark:text-red-600;
+}
+
+.via-yes {
+  @apply text-green-700 dark:text-green-600;
+}
+
+.via-default {
+  @apply text-theme-app-700 dark:text-theme-app-300;
+}
+
+.via-default-bg {
+  @apply bg-theme-app-700 dark:bg-theme-app-300;
+}
+
+.via-default-active {
+  @apply text-theme-app-500 dark:text-theme-app-500;
+}
+
+.via-yellow {
+  @apply text-amber-400 dark:text-amber-300 ;
+}
+
+.via-yellow-bg {
+  @apply bg-amber-500 dark:bg-amber-600 ;
+}
+
+.via-yellow-active {
+  @apply text-amber-500 dark:text-amber-600 ;
+}
+
+.via-green {
+  @apply text-green-400  dark:text-green-300;
+}
+
+.via-green-bg {
+  @apply bg-green-500  dark:bg-green-600;
+}
+
+.via-green-active {
+  @apply text-green-600  dark:text-green-600;
+}
+
+.via-red {
+  @apply text-red-400  dark:text-red-300;
+}
+
+.via-red-bg {
+  @apply bg-red-500  dark:bg-red-600;
+}
+
+.via-red-active {
+  @apply text-red-600  dark:text-red-600;
+}
+
+.via-blue {
+  @apply text-blue-400  dark:text-blue-300;
+}
+
+.via-blue-bg {
+  @apply bg-blue-500  dark:bg-blue-600;
+}
+
+.via-blue-active {
+  @apply text-blue-600  dark:text-blue-600;
+}
+
+.via-translate {
+  @apply -translate-x-1/2;
+}
+
+.via-opacity {
+  @apply bg-opacity-25;
+}
+
+.via-img-preview {
+  @apply h-16 max-h-16 !important; 
+}
+
+.responsive-container {
+  @apply w-full h-auto min-h-[calc(100vh-60px)] mx-auto bg-[#F6F6F6] dark:bg-[#0f0f0f] items-center p-2 pb-10
+}
+
+.via-title {
+  @apply font-semibold text-[#0F0F0F] dark:text-[#F1F1F1]
+}
+
+.via-subtitle {
+  @apply text-[#606060] dark:text-[#AAAAAA]
+}
+
+.via-text {
+  @apply text-[#131313] dark:text-[#FFFFFF]
+}
+
+/* Clase para el color warning (azul) */
+.via-warning {
+  @apply bg-blue-500 hover:bg-blue-600 dark:bg-warning-dark dark:hover:bg-warning-hover-dark text-white !important;
+}
+
+/* Clase para el color danger (rojo) */
+.via-danger {
+  @apply bg-danger hover:bg-danger-hover dark:bg-danger-dark dark:hover:bg-danger-hover-dark text-white !important;
+}
+
+/* Clase para el color success (verde) */
+.via-success {
+  @apply bg-success hover:bg-success-hover dark:bg-success-dark dark:hover:bg-success-hover-dark text-white !important;
+}
+
+/* Clase para el color disabled (gris) */
+.via-disabled {
+  @apply bg-gray-400 dark:bg-gray-500 text-white cursor-not-allowed !important;
+}
+
+.via-title-cards {
+  @apply text-slate-500 dark:text-white
+}
+
+.via-content-cards {
+  @apply truncate text-slate-800 dark:text-slate-300
+}
+
+.via-badge-counter{
+  @apply absolute -right-3 -top-3 inline-flex h-6 w-6 items-center justify-center rounded-full border-2 border-white bg-red-500 text-xs font-bold text-white dark:border-gray-900
+}
+.via-badge-count {
+  @apply text-white bg-red-500 border-white dark:border-gray-900 rounded-full border-2 w-6 h-6 text-xs flex items-center justify-center top-0 right-0 -mt-1 -mr-1;
+}

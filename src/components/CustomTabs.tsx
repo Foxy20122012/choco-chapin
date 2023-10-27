@@ -1,13 +1,13 @@
 // components/Tabs.js
-import React, { useState } from 'react';
-import { Tabs, Tab, Paper } from '@mui/material';
+import React, { useState } from 'react'
+import { Tabs, Tab, Paper } from '@mui/material'
 
 const CustomTabs = ({ tabs }) => {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState(0)
 
   const handleChange = (event, newValue) => {
-    setActiveTab(newValue);
-  };
+    setActiveTab(newValue)
+  }
 
   return (
     <div className="w-full max-w-7xl mx-auto mt-8 h-[300px]"> {/* Establece la altura deseada aquí */}
@@ -33,7 +33,7 @@ const CustomTabs = ({ tabs }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default CustomTabs;
+export default CustomTabs
