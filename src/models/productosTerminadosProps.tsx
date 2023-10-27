@@ -41,5 +41,3 @@ const productosTerminadosProps = [
 ];
 
 export default productosTerminadosProps;
-
-
