@@ -31,6 +31,11 @@ const materiasPrimasProps = [
     maxLength: 100,
   },
   {
+    label: "cuenta",
+    name: "cuenta",
+    type: "text",
+  },
+  {
     label: "Descripción",
     name: "descripcion",
     type: "text",

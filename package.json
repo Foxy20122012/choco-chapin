@@ -18,6 +18,7 @@
     "chart.js": "^4.4.0",
     "date-fns": "^2.30.0",
     "next": "latest",
+    "next-auth": "^4.24.3",
     "prop-types": "^15.8.1",
     "react": "latest",
     "react-chartjs-2": "^5.2.0",

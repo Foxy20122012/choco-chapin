@@ -174,3 +174,193 @@ DELIMITER ;
 
 
 
+# Triggers para poner manejar la parte financiera con con el apartado de materias primas
+
+DELIMITER //
+
+-- Trigger para actualizar la cuenta en CuentasBancarias cuando se modifica una fila en MateriasPrimas
+CREATE TRIGGER actualizarCuenta
+BEFORE UPDATE ON MateriasPrimas
+FOR EACH ROW
+BEGIN
+  DECLARE saldo_retirado Decimal(10, 2);
+  
+  -- Calcula el saldo retirado
+  SET saldo_retirado = OLD.cantidad_inicial * OLD.precio_unitario;
+
+  -- Actualiza la cuenta en CuentasBancarias
+  UPDATE CuentasBancarias
+  SET saldo_actual = saldo_actual - saldo_retirado
+  WHERE numero_cuenta = NEW.cuenta;
+END;
+//
+
+-- Trigger para agregar una nueva fila en CuentasBancarias cuando se inserta una nueva fila en MateriasPrimas
+CREATE TRIGGER insertarCuenta
+AFTER INSERT ON MateriasPrimas
+FOR EACH ROW
+BEGIN
+  -- Calcula el saldo a agregar
+  DECLARE saldo_agregar Decimal(10, 2);
+  SET saldo_agregar = NEW.cantidad_inicial * NEW.precio_unitario;
+
+  -- Verifica si ya existe una cuenta en CuentasBancarias para la cuenta en MateriasPrimas
+  IF (SELECT COUNT(*) FROM CuentasBancarias WHERE numero_cuenta = NEW.cuenta) = 0 THEN
+    -- Si no existe, agrega una nueva cuenta
+    INSERT INTO CuentasBancarias (numero_cuenta, saldo_actual)
+    VALUES (NEW.cuenta, saldo_agregar);
+  ELSE
+    -- Si existe, actualiza el saldo
+    UPDATE CuentasBancarias
+    SET saldo_actual = saldo_actual + saldo_agregar
+    WHERE numero_cuenta = NEW.cuenta;
+  END IF;
+END;
+//
+
+DELIMITER ;
+
+## Triger para meter al campo de retiros el saldo debitado de la cuenta 
+
+DELIMITER //
+
+-- Trigger para actualizar la cuenta en CuentasBancarias y registrar retiros
+CREATE TRIGGER actualizarCuentaYRetiros
+BEFORE UPDATE ON MateriasPrimas
+FOR EACH ROW
+BEGIN
+  DECLARE saldo_retirado Decimal(10, 2);
+  
+  -- Calcula el saldo retirado
+  SET saldo_retirado = OLD.cantidad_inicial * OLD.precio_unitario;
+
+  -- Actualiza el cuenta en CuentasBancarias
+  UPDATE CuentasBancarias
+  SET saldo_actual = saldo_actual - saldo_retirado,
+      retiros = retiros + saldo_retirado
+  WHERE numero_cuenta = NEW.cuenta;
+END;
+//
+
+DELIMITER ;
+
+
+## Triger para manejar el apartado financiero y el apartado de ventas 
+
+DELIMITER //
+
+-- Trigger para insertar ventas y actualizar la cuenta
+CREATE TRIGGER actualizarCuentaVenta
+AFTER INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+  -- Obtiene el monto total de la venta
+  DECLARE monto_venta Decimal(10, 2);
+  SET monto_venta = NEW.monto_total;
+
+  -- Actualiza la cuenta en CuentasBancarias si coincide con el número de cuenta de la venta
+  UPDATE CuentasBancarias
+  SET depositos = depositos + CONCAT(IF(depositos IS NOT NULL, ', ', ''), monto_venta),
+      saldo_actual = saldo_actual + monto_venta
+  WHERE numero_cuenta = NEW.numero_de_cuenta;
+END;
+//
+
+DELIMITER ;
+
+### Triger para la actualización de la venta de la cuenta de la venta de la cuenta Bancaria.
+
+DELIMITER //
+
+-- Trigger para manejar actualizaciones en las ventas y la cuenta
+CREATE TRIGGER actualizarCuentaVenta
+BEFORE UPDATE ON Ventas
+FOR EACH ROW
+BEGIN
+  -- Obtiene el monto total original y el nuevo monto total
+  DECLARE monto_original Decimal(10, 2);
+  DECLARE monto_nuevo Decimal(10, 2);
+  SET monto_original = OLD.monto_total;
+  SET monto_nuevo = NEW.monto_total;
+
+  -- Calcula la diferencia entre el monto original y el nuevo monto
+  DECLARE diferencia_monto Decimal(10, 2);
+  SET diferencia_monto = monto_nuevo - monto_original;
+
+  -- Actualiza la cuenta en CuentasBancarias si coincide con el número de cuenta de la venta
+  UPDATE CuentasBancarias
+  SET depositos = IF(depositos IS NOT NULL, REPLACE(depositos, monto_original, monto_nuevo), depositos),
+      saldo_actual = saldo_actual + diferencia_monto
+  WHERE numero_cuenta = NEW.numero_de_cuenta;
+END;
+//
+
+DELIMITER ;
+
+
+### Triger para manejar la venta de material 
+
+DELIMITER //
+
+-- Trigger para actualizar cantidad_producida en ProductosTerminados
+CREATE TRIGGER preActualizarCantidadProducida
+BEFORE INSERT ON Ventas
+FOR EACH ROW
+BEGIN
+  -- Verifica si el código coincide en Ventas y ProductosTerminados
+  IF (EXISTS (SELECT 1 FROM ProductosTerminados WHERE codigo = NEW.codigo)) THEN
+    -- Obtiene la cantidad de la venta
+    SET @cantidad_venta = NEW.cantidad;
+
+    -- Resta la cantidad de la venta a cantidad_producida en ProductosTerminados
+    UPDATE ProductosTerminados
+    SET cantidad_producida = cantidad_producida - @cantidad_venta
+    WHERE codigo = NEW.codigo;
+  END IF;
+END;
+//
+
+DELIMITER ;
+
+
+### Triger para manejar el descuento de productosTerminados en el area de ventas.
+
+DELIMITER //
+
+-- Trigger para manejar actualizaciones en Ventas y ProductosTerminados
+CREATE TRIGGER actualizarCantidadProducida
+BEFORE UPDATE ON Ventas
+FOR EACH ROW
+BEGIN
+  -- Obtiene el número de cuenta original
+  SET @codigo_original = (SELECT codigo FROM Ventas WHERE id = NEW.id);
+
+  -- Obtiene la cantidad original y la nueva cantidad
+  SET @cantidad_original = (SELECT cantidad FROM Ventas WHERE id = NEW.id);
+  SET @cantidad_nueva = NEW.cantidad;
+
+  -- Calcula la diferencia entre la cantidad original y la nueva cantidad
+  SET @diferencia_cantidad = @cantidad_nueva - @cantidad_original;
+
+  -- Actualiza cantidad_producida en ProductosTerminados si el código coincide
+  IF (EXISTS (SELECT 1 FROM ProductosTerminados WHERE codigo = @codigo_original)) THEN
+    UPDATE ProductosTerminados
+    SET cantidad_producida = cantidad_producida - @diferencia_cantidad
+    WHERE codigo = @codigo_original;
+  END IF;
+  
+  -- Actualiza la cantidad en Ventas
+  UPDATE Ventas
+  SET cantidad = @cantidad_nueva
+  WHERE id = NEW.id;
+END;
+//
+
+DELIMITER ;
+
+
+
+
+
+
+

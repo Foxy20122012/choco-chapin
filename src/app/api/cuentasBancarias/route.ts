@@ -27,6 +27,8 @@ export async function POST(request: Request) {
         numero_cuenta,
         banco, 
         saldo_actual,  
+        retiros,
+        depositos, 
     } = await request.json();
 
     const cuentasBancarias = await prisma.cuentasBancarias.create({
@@ -35,7 +37,9 @@ export async function POST(request: Request) {
         nombre, 
         numero_cuenta,
         banco, 
-        saldo_actual, 
+        saldo_actual,
+        retiros,
+        depositos,
       },
     });
 

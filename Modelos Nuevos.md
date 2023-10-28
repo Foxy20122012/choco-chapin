@@ -1,6 +1,18 @@
-### Estos son los modelos nuevos que se han creado para el proyecto de la Base de Datos 
+# Estos son los modelos nuevos que se han creado para el proyecto de la Base de Datos 
 
+### Nuevos campos agg para la tabla ventas 
 
+ALTER TABLE Ventas
+ADD codigo VARCHAR(255) NULL,
+ADD numero_de_cuenta VARCHAR(255) NULL,
+ADD cantidad VARCHAR(255) NULL;
+
+### Se agrego nuevo campo a la tabla materia para poder registrar el consumo de saldo de materias primas 
+
+ALTER TABLE MateriasPrimas
+ADD cuenta VARCHAR(255);
+
+## Todos los modelo generados de Prisma de la base de datos.
 
 model Note {
   id        Int       @id @unique(map: "id_UNIQUE") @default(autoincrement())

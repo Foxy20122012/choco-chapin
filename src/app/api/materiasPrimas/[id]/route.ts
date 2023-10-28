@@ -91,6 +91,7 @@ export async function PUT(request: Request, { params }: Params) {
       fecha_vencimiento,
       ubicacion_almacen,
       descripcion,
+      cuenta,
     } = await request.json();
 
     const updatedMateriaPrima = await prisma.materiasPrimas.update({
@@ -107,6 +108,7 @@ export async function PUT(request: Request, { params }: Params) {
         fecha_vencimiento,
         ubicacion_almacen,
         descripcion,
+        cuenta,
       },
     });
 

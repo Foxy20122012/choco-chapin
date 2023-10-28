@@ -78,6 +78,8 @@ export async function PUT(request: Request, { params }: Params) {
         numero_cuenta,
         banco, 
         saldo_actual, 
+        retiros,
+        depositos,
     } = await request.json();
 
     const updatedcuentasBancarias = await prisma.cuentasBancarias.update({
@@ -89,7 +91,9 @@ export async function PUT(request: Request, { params }: Params) {
         nombre, 
         numero_cuenta,
         banco, 
-        saldo_actual,  
+        saldo_actual,
+        retiros,
+        depositos,  
       },
     });
 

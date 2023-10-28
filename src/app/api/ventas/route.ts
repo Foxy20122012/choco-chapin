@@ -30,6 +30,9 @@ export async function POST(request: Request) {
         estado_pedido,
         descripcion,
         codigo_materia,
+        codigo,
+        numero_de_cuenta,
+        cantidad,
     } = await request.json();
 
     const ventas = await prisma.ventas.create({
@@ -42,6 +45,9 @@ export async function POST(request: Request) {
         estado_pedido,
         descripcion,
         codigo_materia,
+        codigo,
+        numero_de_cuenta,
+        cantidad,
       },
     });
 

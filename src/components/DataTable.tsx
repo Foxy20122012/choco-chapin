@@ -146,7 +146,7 @@ const DataTable: FC<DataTableProps> = ({
                         key={columnIndex}
                         className="px-6 py-4 whitespace-nowrap text-center justify-center"
                       >
-                        {truncateText(String(getColumnValue(row, column.key)), 50)}
+                        {truncateText(String(getColumnValue(row, column.key)), 32)}
                       </td>
                     ))}
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">

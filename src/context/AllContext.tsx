@@ -12,6 +12,7 @@ import { SalidasMateriasPrimasProvider } from "@/context/SalidasMateriasPrimasCo
 import { TransaccionesFinancierasProvider } from "@/context/TransaccionesFinancierasContext";
 import { EmpleadosProvider } from "./EmpleadosContext";
 import { CostosProduccionProvider } from "@/context/CostosProduccionContext";
+import { CuentasBancariasProvider } from "@/context/CuentasBancariasContext";
 
 const AllContexts = ({ children }) => (
   <NotesProvider>
@@ -26,7 +27,9 @@ const AllContexts = ({ children }) => (
                     <TransaccionesFinancierasProvider>
                       <EmpleadosProvider>
                         <CostosProduccionProvider>
-                          {children}
+                          <CuentasBancariasProvider>
+                            {children}
+                          </CuentasBancariasProvider>
                         </CostosProduccionProvider>
                       </EmpleadosProvider>
                     </TransaccionesFinancierasProvider>

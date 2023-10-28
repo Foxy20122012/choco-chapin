@@ -4,12 +4,14 @@ export type Ventas = VentasPrisma; // Exporta el tipo Ventas
 
 export type Row = {
   id: number;
-  // cliente_id: number | null;
   monto_total: number | null;
   metodo_pago: string | null;
   estado_pedido: string | null;
   descripcion: string | null;
-  codigo_materia: string | null; // Añadido el campo "codigo_materia"
+  codigo_materia: string | null;
+  codigo: string | null;
+  numero_de_cuenta: string | null;
+  cantidad: string | null;
 };
 
 export const transformVentasToRows = (ventas: Ventas[] | undefined): Row[] => {
@@ -20,25 +22,27 @@ export const transformVentasToRows = (ventas: Ventas[] | undefined): Row[] => {
   // @ts-ignore
   return ventas.map((venta) => ({
     id: venta.id,
-    // cliente_id: venta.cliente_id || null,
     monto_total: venta.monto_total || null,
     metodo_pago: venta.metodo_pago || null,
     estado_pedido: venta.estado_pedido || null,
     descripcion: venta.descripcion || null,
     codigo_materia: venta.codigo_materia || null,
+    codigo: venta.codigo || null,
+    numero_de_cuenta: venta.numero_de_cuenta || null,
+    cantidad: venta.cantidad || null,
   }));
 };
-
 
 export type VentasModel = keyof Row;
 
 export const ventasColumns: Record<VentasModel, string> = {
   id: "ID",
-  // cliente_id: "Cliente ID",
   monto_total: "Monto Total",
   metodo_pago: "Método de Pago",
   estado_pedido: "Estado del Pedido",
   descripcion: "Descripción",
-  codigo_materia: "Código de Venta",
+  codigo_materia: "Código de Materia",
+  codigo: "Código",
+  numero_de_cuenta: "Número de Cuenta",
+  cantidad: "Cantidad de Producto",
 };
-

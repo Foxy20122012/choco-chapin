@@ -1,11 +1,5 @@
 const ventasProps = [
   {
-    label: "ID",
-    name: "id",
-    type: "number",
-    readOnly: true,
-  },
-  {
     label: "Monto Total",
     name: "monto_total",
     type: "number",
@@ -16,18 +10,18 @@ const ventasProps = [
     name: "metodo_pago",
     type: "select",
     options: [
-      { value: "Sin Informacion", label: "  " }, 
+      { value: "", label: "Sin Información" },
       { value: "Efectivo", label: "Efectivo" },
       { value: "Tarjeta", label: "Tarjeta" },
     ],
     maxLength: 100,
   },
   {
-    label: "Estado de la Venta",
+    label: "Estado del Pedido",
     name: "estado_pedido",
     type: "select",
     options: [
-      { value: "Sin Informacion", label: "  " }, 
+      { value: "", label: "Sin Información" },
       { value: "Pendiente", label: "Pendiente" },
       { value: "EnProgreso", label: "En Progreso" },
       { value: "Completado", label: "Completado" },
@@ -38,24 +32,29 @@ const ventasProps = [
   {
     label: "Descripción",
     name: "descripcion",
-    type: "select", // Debes ajustar esto a "text" si se trata de un campo de texto
-    options: [
-      { value: "SinInformacion", label: "Sin Información" },
-      { value: "VentaMayoreo", label: "Venta al Mayoreo"  },
-      { value: "VentaSimple", label: "Venta Simple" },
-      { value: "PrestacionServicios", label: "Prestación de Servicios" },
-      { value: "VentaMateriales", label: "Venta de Materiales" },
-      { value: "AlquilerServicios", label: "Alquiler de Servicios" },
-      { value: "OtraTransaccion", label: "Otra Transacción" },
-    ],
+    type: "text",
+    maxLength: 255,
   },
   {
-    label: "Código de Materia",
-    name: "codigo_materia",
+    label: "Código",
+    name: "codigo",
+    type: "text",
+    maxLength: 255,
+  },
+  {
+    label: "Número de Cuenta",
+    name: "numero_de_cuenta",
+    type: "text",
+    maxLength: 255,
+  },
+  {
+    label: "Cantidad",
+    name: "cantidad",
     type: "text",
     maxLength: 255,
   },
 ];
 
 export default ventasProps;
+
 

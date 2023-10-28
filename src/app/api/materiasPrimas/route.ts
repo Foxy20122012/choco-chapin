@@ -33,6 +33,7 @@ export async function POST(request: Request) {
       fecha_vencimiento,
       ubicacion_almacen,
       descripcion,
+      cuenta,
     } = await request.json();
 
     // Genera un código único para la materia prima (puedes personalizar la generación de códigos)
@@ -50,6 +51,7 @@ export async function POST(request: Request) {
         fecha_vencimiento,
         ubicacion_almacen,
         descripcion,
+        cuenta  
       },
     });
 
