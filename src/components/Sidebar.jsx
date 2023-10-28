@@ -25,20 +25,22 @@ const Sidebar = () => {
     setInventoryOpen(!inventoryOpen)
   }
 
+  const doLogout = async () => {
+    const redirectPath = await environment.logout()
+    setEnv(null)
+    localStorage.clear()
+    router.push(redirectPath)
+  }
+
   const handleVentasClick = () => {
     setVentasOpen(!ventasOpen);
   };
 
   const sidebarItems = [
     {
-      text: 'Usuarios',
-      link: '/usuarios',
-      icon: <HiOutlineUserGroup className="m-3 text-xl font-bold" />
-    },
-    {
-      text: 'Documentación',
-      link: '/',
-      icon: <LuFiles className="m-3 text-xl font-bold" />
+      text: "Documentación",
+      link: "/",
+      icon: <LuFiles className="m-3 text-xl font-bold" />,
     },
     {
       text: "Pendientes",
@@ -46,7 +48,7 @@ const Sidebar = () => {
       icon: <PiNotePencilFill className="m-3 text-xl font-bold" />,
     },
     {
-      text: "Inventario",
+      text: 'Inventario',
       icon: <BsBoxSeam className="m-3 text-xl font-bold" />,
       onClick: handleInventoryClick
     },

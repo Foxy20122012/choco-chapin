@@ -1,38 +1,30 @@
-import React, { useState, useEffect } from 'react'
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, type ReactNode } from 'react'
 
 interface FormFieldOption {
-  value: string;
-  label: string;
-  icon?: ReactNode;
+  value: string
+  label: string
+  icon?: ReactNode
 }
 
 interface FormField {
-  label: string;
-  name: string;
-  type: "text" | "number" | "select";
-  options?: FormFieldOption[];
-  required?: boolean;
-  readOnly?: boolean;
-  maxLength?: number;
-  minLength?: number;
+  label: string
+  name: string
+  type: 'text' | 'number' | 'select'
+  options?: FormFieldOption[]
+  required?: boolean
+  readOnly?: boolean
+  maxLength?: number
+  minLength?: number
 }
 
 interface DynamicFormProps {
-  formProps: any[] // Puedes definir un tipo más específico si lo deseas
-  onSubmit: (data: any) => void // Agrega un tipo para la función de envío
-  showCreateButton: boolean // Propiedad para controlar la visibilidad del botón "Crear"
-  showUpdateButton: boolean // Propiedad para controlar la visibilidad del botón "Actualizar"
+  formProps: FormField[]
+  onSubmit: (data: any) => void
+  showCreateButton: boolean
+  showUpdateButton: boolean
   initialFormData?: any
-  onUpdateClick?: () => void // Nuevo prop para el evento de actualización
-  columns?: number // Propiedad para definir el número de columnas (valor predeterminado 1)
-  formProps: FormField[];
-  onSubmit: (data: any) => void;
-  showCreateButton: boolean;
-  showUpdateButton: boolean;
-  initialFormData?: any;
-  onUpdateClick?: () => void;
-  columns?: number;
+  onUpdateClick?: () => void
+  columns?: number
 }
 
 const DynamicForm: React.FC<DynamicFormProps> = ({
@@ -41,10 +33,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   showCreateButton,
   showUpdateButton,
   initialFormData,
-  onUpdateClick, // Nuevo prop para el evento de actualización
-  columns = 1
   onUpdateClick,
-  columns = 1,
+  columns = 1
 }) => {
   const [formData, setFormData] = useState<any>({})
 
@@ -60,21 +50,21 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault()
 
     // Transforma los valores de campos de selección a texto
-    const transformedData = { ...formData };
+    const transformedData = { ...formData }
     formProps.forEach((field) => {
-      if (field.type === "select") {
+      if (field.type === 'select') {
         const selectedOption = field.options?.find(
           (option) => option.value === transformedData[field.name]
-        );
-        transformedData[field.name] = selectedOption ? selectedOption.label : "";
+        )
+        transformedData[field.name] = selectedOption ? selectedOption.label : ''
       }
-    });
+    })
 
-    onSubmit(transformedData);
-  };
+    onSubmit(transformedData)
+  }
 
   return (
     <form className={`max-w-md mx-auto grid grid-cols-${columns}`} onSubmit={handleSubmit}>
@@ -82,14 +72,14 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         <div key={field.name} className="mb-4">
           <label className="block text-gray-700 text-sm font-bold mb-2">{field.label}</label>
           <div className="mx-2">
-            {field.type === "select" ? (
+            {field.type === 'select' ? (
               <select
                 className="border rounded w-full py-2 px-3 text-gray-900 leading-tight focus:outline-none focus:shadow-outline"
                 name={field.name}
                 required={field.required}
-                // @ts-ignore
+                // @ts-expect-error
                 onChange={handleChange}
-                value={formData[field.name] || ""}
+                value={formData[field.name] || ''}
               >
                 {field.options?.map((option) => (
                   <option key={option.value} value={option.value}>
@@ -107,7 +97,7 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
                 name={field.name}
                 required={field.required}
                 onChange={handleChange}
-                value={formData[field.name] || ""}
+                value={formData[field.name] || ''}
                 readOnly={field.readOnly}
                 maxLength={field.maxLength}
                 minLength={field.minLength}
@@ -137,5 +127,6 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   )
 }
 
-export default DynamicForm;
+export default DynamicForm
 
+export default DynamicForm
