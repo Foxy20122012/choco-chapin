@@ -15,22 +15,13 @@ import { FiBox, FiArrowLeft } from 'react-icons/fi'
 import { PiNotePencilFill } from 'react-icons/pi'
 import { LiaMoneyBillSolid } from 'react-icons/lia'
 import Collapse from '@mui/material/Collapse'
-import { useStore } from '@/hooks/useStore'
 
 const Sidebar = () => {
   const [inventoryOpen, setInventoryOpen] = useState(false) // Estado para controlar la apertura del submenú
   const [ventasOpen, setVentasOpen] = useState(false) // Estado para controlar la apertura del submenú de Ventas
-  const [_env, setEnv] = useStore(s => s.env, a => a.setEnv)
 
   const handleInventoryClick = () => {
     setInventoryOpen(!inventoryOpen)
-  }
-
-  const doLogout = async () => {
-    // const redirectPath = await environment.logout()
-    // router.push(redirectPath)
-    // setEnv(null)
-    localStorage.clear()
   }
 
   const handleVentasClick = () => {
@@ -75,9 +66,8 @@ const Sidebar = () => {
     },
     {
       text: 'Cerrar Sesión',
-      link: '',
-      icon: <FiArrowLeft className="m-3  text-xl font-bold" />,
-      onClick: doLogout
+      link: '/api/auth/signout',
+      icon: <FiArrowLeft className="m-3  text-xl font-bold" />
     }
   ]
 
