@@ -52,7 +52,7 @@ const RegisterForm = () => {
 
   return (
     <>
-      <div className={'flex flex-wrap w-screen h-screen bg-gray-200'}>
+      <div className={'flex flex-wrap w-screen h-screen overflow-x-hidden bg-gray-200'}>
         <div className={'flex flex-shrink w-full h-full  md:w-1/2 lg:w-1/3 bg-white'}>
           {/* <!-- Tarjeta de Login --> */}
           <div className={'rounded-lg w-full border-[#E9ECEF] border'}>

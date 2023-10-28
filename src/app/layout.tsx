@@ -1,6 +1,5 @@
-// RootLayout.js
 'use client'
-// RootLayout.js
+
 import React, { useEffect, useState } from 'react'
 import '../styles/globals.css'
 import { Inter } from 'next/font/google'
@@ -63,7 +62,7 @@ export default function RootLayout ({ children }: { children: React.ReactNode })
         </div>
         }
         { !userObj &&
-        <div>
+        <div className='overflow-x-hidden'>
           {children}
         </div>
         }
