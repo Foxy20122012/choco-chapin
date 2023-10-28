@@ -9,16 +9,16 @@ interface Params {
 export async function GET(request: Request, { params }: Params) {
   console.log(params.id);
   try {
-    const clientes = await prisma.clientes.findFirst({
+    const usuarios = await prisma.usuarios.findFirst({
       where: {
         id: Number(params.id),
       },
     });
 
-    if (!clientes)
-      return NextResponse.json({ message: "Clients not found" }, { status: 404 });
+    if (!usuarios)
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
 
-    return NextResponse.json(clientes);
+    return NextResponse.json(usuarios);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -35,22 +35,25 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
   try {
-    const deletedclientes = await prisma.clientes.delete({
+    const deletedusuarios = await prisma.usuarios.delete({
       where: {
         id: Number(params.id),
       },
     });
-    if (!deletedclientes)
-      return NextResponse.json({ message: "Clients not found" }, { status: 404 });
+    if (!deletedusuarios)
+      return NextResponse.json(
+        { message: "Usuarios not found" },
+        { status: 404 }
+      );
 
-    return NextResponse.json(deletedclientes);
+    return NextResponse.json(deletedusuarios);
   } catch (error) {
     console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Client not found",
+            message: "Usuarios not found",
           },
           {
             status: 404,
@@ -72,29 +75,34 @@ export async function DELETE(request: Request, { params }: Params) {
 
 export async function PUT(request: Request, { params }: Params) {
   try {
-    const { nombre, direccion, telefono, correo_electronico, fecha_registro, historial_compras } = await request.json();
+    const {
+      id,
+      nombre_usuario,
+      contrasena,
+      nombre_completo,
+      correo_electronico,
+    } = await request.json();
 
-    const updatedclientes = await prisma.clientes.update({
+    const updatedusuarios = await prisma.usuarios.update({
       where: {
         id: Number(params.id),
       },
       data: {
-        nombre,          
-        direccion,         
-        telefono,        
+        id,
+        nombre_usuario,
+        contrasena,
+        nombre_completo,
         correo_electronico,
-        fecha_registro, 
-        historial_compras,
       },
     });
 
-    return NextResponse.json(updatedclientes);
+    return NextResponse.json(updatedusuarios);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Clients not found",
+            message: "Usuarios not found",
           },
           {
             status: 404,
@@ -113,5 +121,3 @@ export async function PUT(request: Request, { params }: Params) {
     }
   }
 }
-
-
