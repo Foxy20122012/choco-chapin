@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react'
 import React, { useState, useEffect, ReactNode } from "react";
 
 interface FormFieldOption {
@@ -18,6 +19,13 @@ interface FormField {
 }
 
 interface DynamicFormProps {
+  formProps: any[] // Puedes definir un tipo más específico si lo deseas
+  onSubmit: (data: any) => void // Agrega un tipo para la función de envío
+  showCreateButton: boolean // Propiedad para controlar la visibilidad del botón "Crear"
+  showUpdateButton: boolean // Propiedad para controlar la visibilidad del botón "Actualizar"
+  initialFormData?: any
+  onUpdateClick?: () => void // Nuevo prop para el evento de actualización
+  columns?: number // Propiedad para definir el número de columnas (valor predeterminado 1)
   formProps: FormField[];
   onSubmit: (data: any) => void;
   showCreateButton: boolean;
@@ -33,21 +41,23 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
   showCreateButton,
   showUpdateButton,
   initialFormData,
+  onUpdateClick, // Nuevo prop para el evento de actualización
+  columns = 1
   onUpdateClick,
   columns = 1,
 }) => {
-  const [formData, setFormData] = useState<any>({});
+  const [formData, setFormData] = useState<any>({})
 
   useEffect(() => {
     if (initialFormData) {
-      setFormData(initialFormData);
+      setFormData(initialFormData)
     }
-  }, [initialFormData]);
+  }, [initialFormData])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
+    const { name, value } = e.target
+    setFormData({ ...formData, [name]: value })
+  }
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -124,8 +134,8 @@ const DynamicForm: React.FC<DynamicFormProps> = ({
         </button>
       )}
     </form>
-  );
-};
+  )
+}
 
 export default DynamicForm;
 

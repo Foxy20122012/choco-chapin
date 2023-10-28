@@ -15,7 +15,7 @@ import { CostosProduccionProvider } from "@/context/CostosProduccionContext";
 import { CuentasBancariasProvider } from "@/context/CuentasBancariasContext";
 import { UsuariosProvider } from "@/context/UsuariosContext";
 
-const AllContexts = ({ children }) => (
+const AllContexts = ({ children }: { children: React.ReactNode }) => (
   <NotesProvider>
     <VentasProvider>
       <ClientesProvider>
@@ -43,6 +43,6 @@ const AllContexts = ({ children }) => (
       </ClientesProvider>
     </VentasProvider>
   </NotesProvider>
-);
+)
 
-export default AllContexts;
+export default AllContexts

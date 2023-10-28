@@ -22,8 +22,8 @@ const Sidebar = () => {
   const [ventasOpen, setVentasOpen] = useState(false); // Estado para controlar la apertura del submenú de Ventas
 
   const handleInventoryClick = () => {
-    setInventoryOpen(!inventoryOpen);
-  };
+    setInventoryOpen(!inventoryOpen)
+  }
 
   const handleVentasClick = () => {
     setVentasOpen(!ventasOpen);
@@ -31,9 +31,14 @@ const Sidebar = () => {
 
   const sidebarItems = [
     {
-      text: "Documentación",
-      link: "/",
-      icon: <LuFiles className="m-3 text-xl font-bold" />,
+      text: 'Usuarios',
+      link: '/usuarios',
+      icon: <HiOutlineUserGroup className="m-3 text-xl font-bold" />
+    },
+    {
+      text: 'Documentación',
+      link: '/',
+      icon: <LuFiles className="m-3 text-xl font-bold" />
     },
     {
       text: "Pendientes",
@@ -43,12 +48,12 @@ const Sidebar = () => {
     {
       text: "Inventario",
       icon: <BsBoxSeam className="m-3 text-xl font-bold" />,
-      onClick: handleInventoryClick,
+      onClick: handleInventoryClick
     },
     {
-      text: "Clientes",
-      link: "/clientes",
-      icon: <HiOutlineUserGroup className="m-3 text-xl font-bold" />,
+      text: 'Clientes',
+      link: '/clientes',
+      icon: <HiOutlineUserGroup className="m-3 text-xl font-bold" />
     },
     {
       text: "Ventas",
@@ -66,27 +71,28 @@ const Sidebar = () => {
       icon: <LiaMoneyBillSolid  className="m-3 text-xl font-bold" />,
     },
     {
-      text: "Cerrar Sesión",
-      link: "",
+      text: 'Cerrar Sesión',
+      link: '',
       icon: <FiArrowLeft className="m-3  text-xl font-bold" />,
-    },
-  ];
+      onClick: doLogout
+    }
+  ]
 
   return (
     <div className="fixed left-0 top-0 z-10 flex h-screen w-60 flex-col items-center bg-white py-6 shadow-md">
       <Typography
         variant="h6"
         sx={{
-          mt: "1rem",
-          mb: "2rem",
-          fontWeight: "bold",
-          whiteSpace: "nowrap",
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          maxWidth: "80%",
+          mt: '1rem',
+          mb: '2rem',
+          fontWeight: 'bold',
+          whiteSpace: 'nowrap',
+          overflow: 'hidden',
+          textOverflow: 'ellipsis',
+          maxWidth: '80%'
         }}
       />
-      <List sx={{ width: "100%" }}>
+      <List sx={{ width: '100%' }}>
         {sidebarItems.map((item) => (
           <div key={item.text}>
             <ListItem disablePadding>
@@ -99,16 +105,16 @@ const Sidebar = () => {
                 <ListItemText
                   primary={item.text}
                   sx={{
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    maxWidth: "100%",
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                    maxWidth: '100%'
                   }}
                 />
               </ListItemButton>
             </ListItem>
             {/* Renderizar el submenú si el botón de Inventario se ha hecho clic */}
-            {item.text === "Inventario" && (
+            {item.text === 'Inventario' && (
               <Collapse in={inventoryOpen}>
                 {/* Agrega tus opciones de submenú aquí */}
                 <List>
@@ -160,7 +166,7 @@ const Sidebar = () => {
         ))}
       </List>
     </div>
-  );
-};
+  )
+}
 
 export default Sidebar;

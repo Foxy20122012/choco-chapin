@@ -2,4 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 
+.password-strength-bar {
+  width: 100%;
+  height: 5px;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+}
 
+.password-strength-text {
+  margin-top: 5px;
+  font-size: 14px;
+  text-align: left;
+}
+
+@layer utilities {
+  /* ===== Scrollbar CSS ===== */
+  /* Firefox */
+  * {
+    scrollbar-width: auto;
+    scrollbar-color: #29C5A2 #e1e1e1;
+  }
+
+  /* Chrome, Edge, and Safari */
+  *::-webkit-scrollbar {
+    @apply w-2 h-2 bg-gray-200 dark:bg-gray-800 rounded-lg;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply bg-theme-app-400 rounded-lg border-theme-app-400 dark:bg-theme-app-600 dark:border-theme-app-600;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-theme-app-700 border-theme-app-700 dark:bg-theme-app-900 dark:border-theme-app-900;
+    transition: 0s;
+  }
+}
+
+@import 'page-styles/common.css';
