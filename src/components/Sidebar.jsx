@@ -14,11 +14,17 @@ import { GiPayMoney, GiMoneyStack } from 'react-icons/gi'
 import { FiBox, FiArrowLeft } from 'react-icons/fi'
 import { PiNotePencilFill } from 'react-icons/pi'
 import { LiaMoneyBillSolid } from 'react-icons/lia'
+import { BiMoney } from 'react-icons/bi'
 import Collapse from '@mui/material/Collapse'
 
 const Sidebar = () => {
   const [inventoryOpen, setInventoryOpen] = useState(false) // Estado para controlar la apertura del submenú
   const [ventasOpen, setVentasOpen] = useState(false) // Estado para controlar la apertura del submenú de Ventas
+  const [finanzasOpen, setFinanzasOpen] = useState(false) // Estado para controlar la apertura del submenú de Ventas
+
+  const handleFinanzasClick = () => {
+    setFinanzasOpen(!finanzasOpen)
+  }
 
   const handleInventoryClick = () => {
     setInventoryOpen(!inventoryOpen)
@@ -60,9 +66,9 @@ const Sidebar = () => {
       icon: <BsFileEarmarkSpreadsheet className="m-3 text-xl font-bold" />
     },
     {
-      text: 'Gestion Finaciera',
-      link: '/facturas',
-      icon: <LiaMoneyBillSolid className="m-3 text-xl font-bold" />
+      text: 'Finanzas',
+      icon: <LiaMoneyBillSolid className="m-3 text-xl font-bold" />,
+      onClick: handleFinanzasClick
     },
     {
       text: 'Cerrar Sesión',
@@ -134,6 +140,26 @@ const Sidebar = () => {
               </Collapse>
             )}
 
+            {item.text === 'Finanzas' && (
+              <Collapse in={finanzasOpen}>
+                {/* Agrega tus opciones de submenú aquí */}
+                <List>
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="/costosProduccion">
+                      <BiMoney className="m-3 text-xl font-bold" />
+                      Costos Producción
+                    </ListItemButton>
+                  </ListItem>
+                  <ListItem disablePadding>
+                    <ListItemButton component="a" href="/cuentasBancarias">
+                      <BiMoney className="m-3 text-xl font-bold" />
+                      Cuentas Bancarias
+                    </ListItemButton>
+                  </ListItem>
+                  {/* Puedes agregar más opciones de submenú según sea necesario */}
+                </List>
+              </Collapse>
+            )}
             {/* Renderizar el submenú de Ventas si el botón de Ventas se ha hecho clic */}
             {item.text === 'Ventas' && (
               <Collapse in={ventasOpen}>
