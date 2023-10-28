@@ -8,7 +8,7 @@ export type SalidasMateriasPrimasRow = {
   id: number;
   // materia_prima_id: number | null;
   cantidad: number | null;
-  fecha_salida: Date | null;
+  // fecha_salida: Date | null;
   destino: string | null;
   responsable_salida: string | null;
   descripcion: string | null;
@@ -24,7 +24,7 @@ export const transformSalidasMateriasPrimasToRows = (
     id: salida.id,
     // materia_prima_id: salida.materia_prima_id || null,
     cantidad: salida.cantidad || null,
-    fecha_salida: salida.fecha_salida ? new Date(salida.fecha_salida) : null,
+    // fecha_salida: salida.fecha_salida ? new Date(salida.fecha_salida) : null,
     destino: salida.destino || null,
     responsable_salida: salida.responsable_salida || null,
     descripcion: salida.descripcion || null,
@@ -40,7 +40,7 @@ export const salidasMateriasPrimasColumns: Record<SalidasMateriasPrimasModel, st
   id: "ID",
   // materia_prima_id: "Materia Prima ID",
   cantidad: "Cantidad",
-  fecha_salida: "Fecha de Salida",
+  // fecha_salida: "Fecha de Salida",
   destino: "Destino",
   responsable_salida: "Responsable de Salida",
   descripcion: "Descripción",

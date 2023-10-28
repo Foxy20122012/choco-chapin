@@ -65,6 +65,11 @@ model Pedidos {
   fecha_entrega   DateTime? @db.Date
   estado_pedido   String?   @db.VarChar(50)
   detalles_pedido String?   @db.Text
+  tipo_pago       String?   @db.VarChar(50)
+  direccion_envio String?   @db.Text
+  notas           String?   @db.Text
+  codigo_venta    String?   @db.VarChar(255)
+  codigo_pedido   String?   @db.VarChar(255)
   Clientes        Clientes? @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Pedidos_Clientes")
 
   @@index([cliente_id], map: "fk_Pedidos_Clientes_idx")
@@ -88,6 +93,7 @@ model ProductosTerminados {
   fecha_produccion   DateTime? @db.Date
   precio_venta       String?   @db.VarChar(255)
   descripcion        String?   @db.Text
+  codigo             String?   @db.VarChar(255)
 }
 
 model Proveedores {
@@ -143,15 +149,16 @@ model Usuarios {
 }
 
 model Ventas {
-  id            Int        @id @default(autoincrement())
-  cliente_id    Int?
-  monto_total   Decimal?   @db.Decimal(10, 2)
-  fecha_venta   DateTime?  @db.Date
-  metodo_pago   String?    @db.VarChar(100)
-  estado_pedido String?    @db.VarChar(50)
-  descripcion   String?    @db.Text
-  Facturas      Facturas[]
-  Clientes      Clientes?  @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes")
+  id             Int        @id @default(autoincrement())
+  cliente_id     Int?
+  monto_total    Decimal?   @db.Decimal(10, 2)
+  fecha_venta    DateTime?  @db.Date
+  metodo_pago    String?    @db.VarChar(100)
+  estado_pedido  String?    @db.VarChar(50)
+  descripcion    String?    @db.Text
+  codigo_materia String?    @db.VarChar(255)
+  Facturas       Facturas[]
+  Clientes       Clientes?  @relation(fields: [cliente_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "fk_Ventas_Clientes")
 
   @@index([cliente_id], map: "fk_Ventas_Clientes_idx")
 }
@@ -233,7 +240,22 @@ model CostosProduccion {
   id                    Int       @id @default(autoincrement())
   nombre_producto       String?   @db.VarChar(255)
   codigo                String?   @db.VarChar(255)
-  costo_materias_primas Decimal?  @db.Decimal(10, 2)
-  costo_mano_de_obra    Decimal?  @db.Decimal(10, 2)
+  costo_materias_primas String?   @db.VarChar(255)
+  costo_mano_de_obra    String?   @db.VarChar(255)
   fecha                 DateTime? @db.Date
+  otros_costos          String?   @db.VarChar(255)
+  cantidad_producida    String?   @db.VarChar(255)
+  costo_total           String?   @db.VarChar(255)
+  codigo_producto       String?   @db.VarChar(255)
+}
+
+model Empleados {
+  id                 Int      @id @default(autoincrement())
+  nombre             String?  @db.VarChar(255)
+  apellido           String?  @db.VarChar(255)
+  direccion          String?  @db.VarChar(255)
+  telefono           String?  @db.VarChar(15)
+  correo_electronico String?  @db.VarChar(100)
+  puesto             String?  @db.VarChar(255)
+  salario            Decimal? @db.Decimal(10, 2)
 }

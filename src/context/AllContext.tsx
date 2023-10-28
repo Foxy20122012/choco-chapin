@@ -10,6 +10,8 @@ import { ProductosTerminadosProvider } from '@/context/ProductosTerminadosContex
 import { ProveedoresProvider } from '@/context/ProveedoresContext'
 import { SalidasMateriasPrimasProvider } from '@/context/SalidasMateriasPrimasContext'
 import { TransaccionesFinancierasProvider } from '@/context/TransaccionesFinancierasContext'
+import { EmpleadosProvider } from './EmpleadosContext'
+import { CostosProduccionProvider } from '@/context/CostosProduccionContext'
 
 const AllContexts = ({ children }: { children: React.ReactNode }) => (
   <NotesProvider>
@@ -22,7 +24,11 @@ const AllContexts = ({ children }: { children: React.ReactNode }) => (
                 <ProveedoresProvider>
                   <SalidasMateriasPrimasProvider>
                     <TransaccionesFinancierasProvider>
-                      {children}
+                      <EmpleadosProvider>
+                        <CostosProduccionProvider>
+                          {children}
+                        </CostosProduccionProvider>
+                      </EmpleadosProvider>
                     </TransaccionesFinancierasProvider>
                   </SalidasMateriasPrimasProvider>
                 </ProveedoresProvider>

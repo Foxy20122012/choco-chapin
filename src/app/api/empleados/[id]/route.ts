@@ -7,18 +7,17 @@ interface Params {
 }
 
 export async function GET(request: Request, { params }: Params) {
-  console.log(params.id);
   try {
-    const productosTerminados = await prisma.productosTerminados.findFirst({
+    const empleado = await prisma.empleados.findFirst({
       where: {
         id: Number(params.id),
       },
     });
 
-    if (!productosTerminados)
-      return NextResponse.json({ message: "Product not found" }, { status: 404 });
+    if (!empleado)
+      return NextResponse.json({ message: "Empleado not found" }, { status: 404 });
 
-    return NextResponse.json(productosTerminados);
+    return NextResponse.json(empleado);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
@@ -35,22 +34,22 @@ export async function GET(request: Request, { params }: Params) {
 
 export async function DELETE(request: Request, { params }: Params) {
   try {
-    const deletedproductosTerminados = await prisma.productosTerminados.delete({
+    const deletedEmpleado = await prisma.empleados.delete({
       where: {
         id: Number(params.id),
       },
     });
-    if (!deletedproductosTerminados)
-      return NextResponse.json({ message: "Product not found" }, { status: 404 });
 
-    return NextResponse.json(deletedproductosTerminados);
+    if (!deletedEmpleado)
+      return NextResponse.json({ message: "Empleado not found" }, { status: 404 });
+
+    return NextResponse.json(deletedEmpleado);
   } catch (error) {
-    console.log(error);
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Product not found",
+            message: "Empleado not found",
           },
           {
             status: 404,
@@ -72,40 +71,30 @@ export async function DELETE(request: Request, { params }: Params) {
 
 export async function PUT(request: Request, { params }: Params) {
   try {
-    const {   
-        id,
-        nombre,   
-        tipo_dulce, 
-        cantidad_producida,
-        fecha_produccion,
-        precio_venta,
-        descripcion,
-        codigo, 
-     } = await request.json();
+    const { nombre, apellido, direccion, telefono, correo_electronico, puesto, salario } = await request.json();
 
-    const updatedproductosTerminados = await prisma.productosTerminados.update({
+    const updatedEmpleado = await prisma.empleados.update({
       where: {
         id: Number(params.id),
       },
       data: {
-        id,
-        nombre,   
-        tipo_dulce, 
-        cantidad_producida,
-        fecha_produccion,
-        precio_venta,
-        descripcion,
-        codigo, 
+        nombre,
+        apellido,
+        direccion,
+        telefono,
+        correo_electronico,
+        puesto,
+        salario,
       },
     });
 
-    return NextResponse.json(updatedproductosTerminados);
+    return NextResponse.json(updatedEmpleado);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Product material not found",
+            message: "Empleado not found",
           },
           {
             status: 404,
@@ -124,3 +113,5 @@ export async function PUT(request: Request, { params }: Params) {
     }
   }
 }
+
+

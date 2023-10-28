@@ -80,6 +80,7 @@ export async function PUT(request: Request, { params }: Params) {
         metodo_pago,
         estado_pedido,
         descripcion,
+        codigo_materia,
      } = await request.json();
 
     const updatedventas = await prisma.ventas.update({
@@ -94,6 +95,7 @@ export async function PUT(request: Request, { params }: Params) {
         metodo_pago,
         estado_pedido,
         descripcion,
+        codigo_materia,
       },
     });
 
@@ -122,3 +124,4 @@ export async function PUT(request: Request, { params }: Params) {
     }
   }
 }
+

@@ -1,11 +1,5 @@
 const productosTerminadosProps = [
   {
-    label: "ID",
-    name: "id",
-    type: "number",
-    readOnly: true,
-  },
-  {
     label: "Nombre",
     name: "nombre",
     type: "text",
@@ -21,12 +15,6 @@ const productosTerminadosProps = [
     label: "Cantidad Producida",
     name: "cantidad_producida",
     type: "number",
-  },
-  {
-    label: "Fecha de Producción",
-    name: "fecha_produccion",
-    type: "date",
-    readOnly: true,
   },
   {
     label: "Precio de Venta",
