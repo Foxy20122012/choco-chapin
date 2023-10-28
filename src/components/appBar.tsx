@@ -9,15 +9,20 @@ import Button from '@mui/material/Button'
 import { BiUserCircle } from 'react-icons/bi'
 import { AiOutlinePicRight } from 'react-icons/ai'
 import Sidebar from '@/components/Sidebar'
+import { useSession } from 'next-auth/react'
 
 const MainLayout = () => {
   const [showSidebar, setShowSidebar] = useState(true)
+  const { data: session, status } = useSession()
 
   const handleToggleSidebar = () => {
     setShowSidebar(!showSidebar)
   }
 
   return (
+    <>
+      {
+        status === 'authenticated' &&
     <Box sx={{ display: 'flex' }}>
       {/* Sidebar */}
       {showSidebar && <Sidebar />}
@@ -41,6 +46,8 @@ const MainLayout = () => {
         </AppBar>
       </Box>
     </Box>
+      }
+    </>
   )
 }
 

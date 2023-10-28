@@ -1,13 +1,13 @@
 'use client'
 
-import { useStore } from '@/hooks/useStore'
-import environment from '@/utils/environment'
+// import environment from '@/utils/environment'
 import presets from '@/utils/globalPresets'
 import { EyeSlashIcon, EyeIcon, KeyIcon } from '@heroicons/react/20/solid'
 import { UserIcon } from '@heroicons/react/24/solid'
 import Image from 'next/image'
 import React from 'react'
 import { useForm } from 'react-hook-form'
+import { signIn } from 'next-auth/react'
 
 interface FormData {
   email: string
@@ -16,38 +16,31 @@ interface FormData {
 
 const RegisterForm = () => {
   const [passwordShown, setPasswordShown] = React.useState(false)
-  const [, setEnv] = useStore(s => s.env, a => a.setEnv)
 
   const { register, handleSubmit, formState: { errors, isValid } } = useForm({
     mode: 'onChange'
   })
 
-  async function hashPassword (password) {
-    const encoder = new TextEncoder()
-    const data = encoder.encode(password)
-    const hash = await window.crypto.subtle.digest('SHA-256', data)
-    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('')
-  }
+  // async function hashPassword (password) {
+  //   const encoder = new TextEncoder()
+  //   const data = encoder.encode(password)
+  //   const hash = await window.crypto.subtle.digest('SHA-256', data)
+  //   return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('')
+  // }
 
   const onSubmit = async (data: FormData) => {
-    data.password = await hashPassword(data.password)
-    // interface IEnv {
-    //   token?: string
-    //   user?: any
-    //   constante?: any
-    //   redirectPath?: string
-    // }
-    const env = {
-      token: '',
-      user: {
-        id: 1,
-        nombre: 'Admin',
-        apellido: 'Admin',
-        email: data.email
-      }
+    // data.password = await hashPassword(data.password)
+    const result = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false
+    })
+
+    if (result.error) {
+      console.error('Error de inicio de sesión:', result.error)
+    } else {
+      window.location.href = '/' // Redirige al usuario a la ruta raíz después del inicio de sesión exitoso
     }
-    await environment.setEnvUser(env)
-    setEnv(env)
   }
 
   return (
@@ -119,7 +112,8 @@ const RegisterForm = () => {
                         <button
                           type="submit"
                           className={`inline-flex w-full justify-center items-center h-9 px-2 m-1 text-white ease-linear transition-colors duration-150 rounded-md border ${isValid ? 'bg-red-500 hover:bg-red-600' : 'bg-red-300 cursor-not-allowed'}`}
-                          disabled={!isValid}>
+                          disabled={!isValid}
+                        >
                           <KeyIcon className="h-5 w-5 pr-2" />
                           Iniciar Sesión
                         </button>
