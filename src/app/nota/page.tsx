@@ -14,8 +14,8 @@ function HomePage() {
 
   return (
     <div>
-      <div className="flex items-center justify-center h-screen">
-        <div>
+      <div className="flex items-center justify-center h-screen ml-96">
+        <div >
           <NoteForm />
           {notes.map((note) => (
             <NoteCard note={note} key={note.id} />

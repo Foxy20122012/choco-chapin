@@ -1,9 +1,9 @@
-import { Note } from "@prisma/client";
-import { useNotes } from "@/context/NoteContext";
-import {HiTrash, HiPencil} from 'react-icons/hi'
+import { type Note } from '@prisma/client'
+import { useNotes } from '@/context/NoteContext'
+import { HiTrash, HiPencil } from 'react-icons/hi'
 
-function NoteCard({ note }: { note: Note }) {
-  const { deleteNote, setSelectedNote } = useNotes();
+function NoteCard ({ note }: { note: Note }) {
+  const { deleteNote, setSelectedNote } = useNotes()
 
   return (
     <div key={note.id} className="bg-slate-300 p-4 my-2 flex justify-between">
@@ -15,8 +15,8 @@ function NoteCard({ note }: { note: Note }) {
       <div className="flex gap-x-2">
         <button
           onClick={async () => {
-            if (confirm("Are you sure you want to delete this note?")) {
-              await deleteNote(Number(note.id));
+            if (confirm('Are you sure you want to delete this note?')) {
+              await deleteNote(Number(note.id))
             }
           }}
         >
@@ -24,14 +24,14 @@ function NoteCard({ note }: { note: Note }) {
         </button>
         <button
           onClick={() => {
-            setSelectedNote(note);
+            setSelectedNote(note)
           }}
         >
           <HiPencil className="text-2xl" />
         </button>
       </div>
     </div>
-  );
+  )
 }
 
-export default NoteCard;
+export default NoteCard

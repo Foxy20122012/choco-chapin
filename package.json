@@ -4,25 +4,46 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "prisma generate && next build", 
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
+    "@headlessui/react": "1.7.15",
+    "@heroicons/react": "^2.0.18",
+    "@mui/material": "5.14.1",
     "@prisma/client": "^5.3.1",
+    "bcrypt": "^5.1.1",
+    "chart.js": "^4.4.0",
+    "date-fns": "^2.30.0",
     "next": "latest",
+    "next-auth": "^4.24.4",
+    "prop-types": "^15.8.1",
     "react": "latest",
+    "react-chartjs-2": "^5.2.0",
     "react-dom": "latest",
-    "react-icons": "^4.11.0"
+    "react-hook-form": "^7.47.0",
+    "react-icons": "^4.11.0",
+    "react-simple-hook-store": "^0.0.6",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@types/node": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
     "autoprefixer": "latest",
+    "eslint": "^8.0.1",
+    "eslint-config-standard-with-typescript": "^39.1.1",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-n": "^15.0.0 || ^16.0.0 ",
+    "eslint-plugin-promise": "^6.0.0",
+    "eslint-plugin-react": "^7.33.2",
     "postcss": "latest",
     "prisma": "^5.3.1",
     "tailwindcss": "latest",
-    "typescript": "latest"
+    "typescript": "*"
   }
 }
