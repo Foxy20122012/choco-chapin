@@ -104,7 +104,9 @@ function Facturas() {
     return<Loadig />;
   }
   return (
+    
     <div>
+      
       <DataTable
         title={"facturas"}
         // @ts-ignore
@@ -157,7 +159,6 @@ function Facturas() {
         onConfirm={handleCreateOrUpdateFacturas}
       >
         <DynamicForm
-        
           formProps={facturasProps}
           onSubmit={handleCreateOrUpdateFacturas}
           showCreateButton={!selectedFacturas}
@@ -169,6 +170,7 @@ function Facturas() {
           decimalPlaces={3}
         />
       </Modal>
+     
     </div>
   );
 }

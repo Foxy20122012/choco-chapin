@@ -1,8 +1,7 @@
 import React, { useState, useEffect, FC } from "react";
-// import { PencilIcon, TrashIcon } from "@heroicons/react/outline";
 import { BiEdit } from "react-icons/bi";
 import { MdDelete } from "react-icons/md";
-import { Clientes } from "@/models/clientesModel"; // Asegúrate de que la ruta sea correcta
+import { Clientes } from "@/models/clientesModel";
 
 interface Column {
   key: string;
@@ -14,12 +13,12 @@ interface Row {
 }
 
 interface DataTableProps {
-  data: Clientes[]; // Cambiar 'Row' a 'Clientes[]'
+  data: Clientes[];
   title: string;
   columns: Column[];
   itemsPerPageOptions?: number[];
   onEdit: (row: Row) => void;
-  onDelete: (row: Clientes) => void; // Cambiar 'Row' a 'Clientes'
+  onDelete: (row: Clientes) => void;
   onNew: () => void;
 }
 
@@ -84,12 +83,20 @@ const DataTable: FC<DataTableProps> = ({
     return key.split(".").reduce((o, k) => (o || {})[k], obj);
   }
 
+  // Función para truncar el texto y agregar puntos suspensivos
+  function truncateText(text, maxLength) {
+    if (text.length > maxLength) {
+      return text.slice(0, maxLength) + "...";
+    }
+    return text;
+  }
+
   const visibleData = filteredData.slice(startIndex, endIndex);
 
   return (
     <div className="p-8">
       <div className="bg-white shadow-md rounded-lg overflow-hidden">
-        <h2 className="text-2xl font-semibold p-4 bg-indigo-500 text-white">
+        <h2 className="text-2xl font-semibold p-4 bg-[#3fa3d1] text-white">
           {title}
         </h2>
         <div className="p-4">
@@ -104,7 +111,7 @@ const DataTable: FC<DataTableProps> = ({
               />
               <button
                 onClick={onNew}
-                className="px-4 py-2 bg-indigo-500 hover:bg-indigo-600 text-white rounded-md"
+                className="px-4 py-2 bg-[#3fa3d1] hover:bg-[#377c9c] text-white rounded-md"
               >
                 Nuevo
               </button>
@@ -139,13 +146,13 @@ const DataTable: FC<DataTableProps> = ({
                         key={columnIndex}
                         className="px-6 py-4 whitespace-nowrap text-center justify-center"
                       >
-                        {String(getColumnValue(row, column.key))}
+                        {truncateText(String(getColumnValue(row, column.key)), 32)}
                       </td>
                     ))}
                     <td className="px-6 py-4 whitespace-nowrap text-center justify-center">
                       <button
                         onClick={() => onEdit(row)}
-                        className="text-indigo-600 hover:text-indigo-900 font-medium"
+                        className="text-[#3fa3d1] hover:text-[#68c8f4] font-medium"
                       >
                         <BiEdit className="w-6 h-6" />
                       </button>
@@ -184,7 +191,7 @@ const DataTable: FC<DataTableProps> = ({
               className={`${
                 currentPage === 1
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                  : "bg-[#3fa3d1] hover:bg-[#58b8e4] text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
               aria-label="Anterior"
             >
@@ -196,7 +203,7 @@ const DataTable: FC<DataTableProps> = ({
               className={`${
                 currentPage === totalPages
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-indigo-500 hover:bg-indigo-600 text-white"
+                  : "bg-[#3fa3d1] hover:bg-[#377c9c] text-white"
               } px-4 py-2 rounded-md disabled:opacity-50`}
               aria-label="Siguiente"
             >

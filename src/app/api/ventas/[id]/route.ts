@@ -16,12 +16,12 @@ export async function GET(request: Request, { params }: Params) {
     });
 
     if (!ventas)
-      return NextResponse.json({ message: "Financial transaction not found" }, { status: 404 });
+      return NextResponse.json({ message: "Sale not found" }, { status: 404 });
 
     return NextResponse.json(ventas);
   } catch (error) {
     if (error instanceof Error) {
-      return NextResponse.json( 
+      return NextResponse.json(
         {
           message: error.message,
         },
@@ -41,7 +41,7 @@ export async function DELETE(request: Request, { params }: Params) {
       },
     });
     if (!deletedventas)
-      return NextResponse.json({ message: "Financial transaction not found" }, { status: 404 });
+      return NextResponse.json({ message: "Sale not found" }, { status: 404 });
 
     return NextResponse.json(deletedventas);
   } catch (error) {
@@ -50,7 +50,7 @@ export async function DELETE(request: Request, { params }: Params) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Financial transaction not found",
+            message: "Sale not found",
           },
           {
             status: 404,
@@ -72,17 +72,20 @@ export async function DELETE(request: Request, { params }: Params) {
 
 export async function PUT(request: Request, { params }: Params) {
   try {
-    const {   
-        id,
-        cliente_id,
-        monto_total,
-        fecha_venta,
-        metodo_pago,
-        estado_pedido,
-        descripcion,
-     } = await request.json();
+    const {         
+      id,
+      cliente_id,
+      monto_total,
+      fecha_venta,
+      metodo_pago,
+      estado_pedido,
+      descripcion,
+      codigo_materia,
+      codigo,
+      numero_de_cuenta,
+      cantidad, } = await request.json();
 
-    const updatedventas = await prisma.ventas.update({
+    const updatedclientes = await prisma.ventas.update({
       where: {
         id: Number(params.id),
       },
@@ -94,16 +97,20 @@ export async function PUT(request: Request, { params }: Params) {
         metodo_pago,
         estado_pedido,
         descripcion,
+        codigo_materia,
+        codigo,
+        numero_de_cuenta,
+        cantidad,
       },
     });
 
-    return NextResponse.json(updatedventas);
+    return NextResponse.json(updatedclientes);
   } catch (error) {
     if (error instanceof Prisma.PrismaClientKnownRequestError) {
       if (error.code === "P2025") {
         return NextResponse.json(
           {
-            message: "Financial transaction not found",
+            message: "Sale not found",
           },
           {
             status: 404,

@@ -5,7 +5,7 @@
     "allowJs": true,
     "skipLibCheck": false,
     "strict": false,
-    "noEmit": false,
+    "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "bundler",
@@ -22,6 +22,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Modal.tsx", "src/app/page.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/Modal.tsx", "src/app/clientes/page.tsx", "src/components/CustomIcons.jsx"],
   "exclude": ["node_modules"]
 }

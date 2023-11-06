@@ -7,22 +7,26 @@ export type Row = {
   nombre?: string;
   tipo_dulce?: string;
   cantidad_producida?: number;
-  fecha_produccion?: Date;
+  // fecha_produccion?: Date;
   precio_venta?: number;
   descripcion?: string;
+  codigo?: string;
 };
 
 export const transformProductosTerminadosToRows = (
   productosTerminados: ProductosTerminados[]
 ): Row[] => {
+  // @ts-ignore
   return productosTerminados.map((producto) => ({
     id: producto.id,
     nombre: producto.nombre || "",
     tipo_dulce: producto.tipo_dulce || "",
     cantidad_producida: producto.cantidad_producida || 0,
-    fecha_produccion: producto.fecha_produccion || new Date(0),
+    // fecha_produccion: producto.fecha_produccion || new Date(0),
     precio_venta:producto.precio_venta || null,
     descripcion: producto.descripcion || "",
+    codigo: producto.codigo || "",
+
   }));
 };
 
@@ -36,7 +40,8 @@ export const productosTerminadosColumns: Record<
   nombre: "Nombre",
   tipo_dulce: "Tipo de Dulce",
   cantidad_producida: "Cantidad Producida",
-  fecha_produccion: "Fecha de Producción",
+  // fecha_produccion: "Fecha de Producción",
   precio_venta: "Precio de Venta",
   descripcion: "Descripción",
+  codigo: "Codigo",
 };

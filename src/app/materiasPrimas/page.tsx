@@ -1,22 +1,22 @@
 'use client'
-import React, { useEffect, useState } from "react";
-import { MateriasPrimas } from "@prisma/client";
-import DataTable from "@/components/DataTable";
-import { useMateriasPrimas } from "@/context/MateriasPrimasContext";
-import { materiasPrimasColumns } from "@/models/materiasPrimasModel";
-import Modal from "@/components/Modal";
-import SuccessModal from "@/components/SuccessModal";
-import { transformMateriasPrimasToRows } from "@/models/materiasPrimasModel";
-import DynamicForm from "@/components/DynamicForm";
-import materiasPrimasProps from "@/models/materiasPrimasProps";
-import useHasMounted from '@/hooks/useHasMounted';
-import Loadig from '@/components/Loading';
+import React, { useEffect, useState } from 'react'
+import { type MateriasPrimas } from '@prisma/client'
+import DataTable from '@/components/DataTable'
+import { useMateriasPrimas } from '@/context/MateriasPrimasContext'
+import { materiasPrimasColumns, transformMateriasPrimasToRows } from '@/models/materiasPrimasModel'
+import Modal from '@/components/Modal'
+import SuccessModal from '@/components/SuccessModal'
 
-const columns = (Object.keys(materiasPrimasColumns) as (keyof MateriasPrimas)[]).map(
+import DynamicForm from '@/components/DynamicForm'
+import materiasPrimasProps from '@/models/materiasPrimasProps'
+import useHasMounted from '@/hooks/useHasMounted'
+import Loading from '@/components/Loading'
+
+const columns = (Object.keys(materiasPrimasColumns) as Array<keyof MateriasPrimas>).map(
   (key) => ({ key, label: materiasPrimasColumns[key] })
-);
+)
 
-function MateriasPrimasPage() {
+function MateriasPrimasPage () {
   const {
     materiasPrimas,
     loadMateriasPrimas,
@@ -24,90 +24,90 @@ function MateriasPrimasPage() {
     deleteMateriasPrimas,
     selectedMateriasPrimas,
     setSelectedMateriasPrimas,
-    updateMateriasPrimas,
-  } = useMateriasPrimas();
+    updateMateriasPrimas
+  } = useMateriasPrimas()
 
-  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
-  const [MateriasPrimasToDelete, setMateriasPrimasToDelete] = useState<MateriasPrimas | null>(null);
-  const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false);
-  const [isFormVisible, setIsFormVisible] = useState(false);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false)
+  const [MateriasPrimasToDelete, setMateriasPrimasToDelete] = useState<MateriasPrimas | null>(null)
+  const [isDeleteSuccess, setIsDeleteSuccess] = useState<boolean>(false)
+  const [isFormVisible, setIsFormVisible] = useState(false)
 
   useEffect(() => {
-    loadMateriasPrimas();
-  }, []);
+    loadMateriasPrimas()
+  }, [])
 
   const openDeleteModal = (materiaPrima: MateriasPrimas) => {
-    setMateriasPrimasToDelete(materiaPrima);
-    setIsDeleteModalOpen(true);
-  };
+    setMateriasPrimasToDelete(materiaPrima)
+    setIsDeleteModalOpen(true)
+  }
 
   const closeDeleteModal = () => {
-    setMateriasPrimasToDelete(null);
-    setIsDeleteModalOpen(false);
-  };
+    setMateriasPrimasToDelete(null)
+    setIsDeleteModalOpen(false)
+  }
 
   const handleEditMateriasPrimas = (materiaPrima: MateriasPrimas) => {
-    setSelectedMateriasPrimas(materiaPrima);
-    setIsFormVisible(true);
-  };
+    setSelectedMateriasPrimas(materiaPrima)
+    setIsFormVisible(true)
+  }
 
   const handleDelete = (materiaPrima: MateriasPrimas) => {
-    openDeleteModal(materiaPrima);
-  };
+    openDeleteModal(materiaPrima)
+  }
 
   const handleNewClick = () => {
-    setSelectedMateriasPrimas(null);
-    setIsFormVisible(true);
-  };
+    setSelectedMateriasPrimas(null)
+    setIsFormVisible(true)
+  }
 
   const handleCreateOrUpdateMateriasPrimas = async (formData: any) => {
     try {
       if (selectedMateriasPrimas) {
-        // Estás editando un cliente existente
-        await updateMateriasPrimas(selectedMateriasPrimas.id, formData);
+        // Estás editando una materia prima existente
+        await updateMateriasPrimas(selectedMateriasPrimas.id, formData)
       } else {
-        // Estás creando un nuevo cliente
-        await createMateriasPrimas(formData);
+        // Estás creando una nueva materia prima
+        await createMateriasPrimas(formData)
       }
-      setIsFormVisible(false);
-      setSelectedMateriasPrimas(null);
-      loadMateriasPrimas();
+      setIsFormVisible(false)
+      setSelectedMateriasPrimas(null)
+      loadMateriasPrimas()
     } catch (error) {
-      console.error("Error al crear o actualizar el cliente:", error);
+      console.error('Error al crear o actualizar la materia prima:', error)
     }
-  };
+  }
 
-  const handleUpdateClick = async ( formData: any) => {
+  const handleUpdateClick = async (formData: any) => {
     try {
       if (selectedMateriasPrimas) {
-        // Estás editando un cliente existente
-        await updateMateriasPrimas(selectedMateriasPrimas.id, formData); // Envía los datos actualizados al servidor
+        // Estás editando una materia prima existente
+        await updateMateriasPrimas(selectedMateriasPrimas.id, formData) // Envía los datos actualizados al servidor
       }
-      setIsFormVisible(false);
-      setSelectedMateriasPrimas(null);
-      loadMateriasPrimas();
+      setIsFormVisible(false)
+      setSelectedMateriasPrimas(null)
+      loadMateriasPrimas()
     } catch (error) {
-      console.error("Error al actualizar el cliente:", error);
+      console.error('Error al actualizar la materia prima:', error)
     }
-  };
+  }
 
-  const rowsMateriasPrimas = transformMateriasPrimasToRows(materiasPrimas);
+  const rowsMateriasPrimas = transformMateriasPrimasToRows(materiasPrimas)
 
-  const hasMounted = useHasMounted();
+  const hasMounted = useHasMounted()
   if (!hasMounted) {
-    return<Loadig />;
+    return <Loading />
   }
 
   return (
     <div>
       <DataTable
-        title={"Materias Primas"}
-        // @ts-ignore
+        title={'Materias Primas'}
+        // @ts-expect-error
         data={rowsMateriasPrimas}
         columns={columns}
-          // @ts-ignore
+        // @ts-expect-error
         onEdit={handleEditMateriasPrimas}
-          // @ts-ignore
+        // @ts-expect-error
         onDelete={handleDelete}
         onNew={handleNewClick}
       />
@@ -118,57 +118,54 @@ function MateriasPrimasPage() {
         onConfirm={async () => {
           try {
             if (MateriasPrimasToDelete) {
-              await deleteMateriasPrimas(MateriasPrimasToDelete.id);
-              closeDeleteModal();
-              setIsDeleteSuccess(true);
-              loadMateriasPrimas();
+              await deleteMateriasPrimas(MateriasPrimasToDelete.id)
+              closeDeleteModal()
+              setIsDeleteSuccess(true)
+              loadMateriasPrimas()
             }
           } catch (error) {
-            console.error("Error al eliminar el cliente:", error);
+            console.error('Error al eliminar la materia prima:', error)
           }
         }}
         onCancel={closeDeleteModal}
-          // @ts-ignore
+        // @ts-expect-error
         onUpdate={handleUpdateClick}
         showUpdateButton={false}
-        showConfirmButton={true} // Configura según tus necesidades
-        
+        showConfirmButton={true}
       />
       <SuccessModal
         isOpen={isDeleteSuccess}
-        onClose={() => setIsDeleteSuccess(false)}
+        onClose={() => { setIsDeleteSuccess(false) }}
         message="La Materia Prima se ha eliminado correctamente."
         buttonText="Aceptar"
       />
 
-<Modal
+      <Modal
         isOpen={isFormVisible}
-        title={selectedMateriasPrimas ? "Editar Materia Prima" : "Nueva Materia Prima"}
+        title={selectedMateriasPrimas ? 'Editar Materia Prima' : 'Nueva Materia Prima'}
         onCancel={() => {
-          setIsFormVisible(false);
-          setSelectedMateriasPrimas(null); 
+          setIsFormVisible(false)
+          setSelectedMateriasPrimas(null)
         }}
         showCancelButton={true}
         showConfirmButton={false}
         showUpdateButton={false}
-          // @ts-ignore
+        // @ts-expect-error
         onConfirm={handleCreateOrUpdateMateriasPrimas}
       >
-      <DynamicForm
-        
-        formProps={materiasPrimasProps}
-        onSubmit={handleCreateOrUpdateMateriasPrimas}
-        showCreateButton={!selectedMateriasPrimas}
-        showUpdateButton={!!selectedMateriasPrimas}
-        initialFormData={selectedMateriasPrimas}
-          // @ts-ignore
-        onUpdateClick={handleUpdateClick} // Pasa la función handleUpdateClick al DynamicForm
-        columns={2}
-     
-      />
+        <DynamicForm
+          formProps={materiasPrimasProps}
+          onSubmit={handleCreateOrUpdateMateriasPrimas}
+          showCreateButton={!selectedMateriasPrimas}
+          showUpdateButton={!!selectedMateriasPrimas}
+          initialFormData={selectedMateriasPrimas}
+          // @ts-expect-error
+          onUpdateClick={handleUpdateClick}
+          columns={2}
+        />
       </Modal>
     </div>
-  );
+  )
 }
 
-export default MateriasPrimasPage;
+export default MateriasPrimasPage
